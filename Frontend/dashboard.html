@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GovSeva - Advanced Government Services Chatbot</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+ 
+</head>
+
+<body>
+  <div class="lang-toggle" id="lang-toggle">
+    <i class="fas fa-globe"></i>
+    <span>English</span>
+  </div>
+
+  <div class="chat-app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="app-title">
+        <i class="fas fa-robot"></i>
+        <h1>GovSeva Assistant</h1>
+      </div>
+
+      <div class="section-title">Departments</div>
+      <div class="dept-buttons">
+        <button class="dept-btn health-btn active" data-dept="health">
+          <i class="fas fa-heartbeat"></i>
+          <span>Health Services</span>
+        </button>
+        <button class="dept-btn agriculture-btn" data-dept="agriculture">
+          <i class="fas fa-tractor"></i>
+          <span>Agriculture</span>
+        </button>
+        <button class="dept-btn finance-btn" data-dept="finance">
+          <i class="fas fa-rupee-sign"></i>
+          <span>Finance & Schemes</span>
+        </button>
+        <button class="dept-btn education-btn" data-dept="education">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Education</span>
+        </button>
+      </div>
+
+      <div class="section-title">Quick Services</div>
+      <div class="quick-services">
+        <button class="service-btn grievance-btn" id="grievance-btn">
+          <i class="fas fa-file-alt"></i>
+          <span>Grievance</span>
+        </button>
+        <button class="service-btn emergency-btn" id="emergency-btn">
+          <i class="fas fa-ambulance"></i>
+          <span>Emergency</span>
+        </button>
+        <button class="service-btn" id="schemes-btn">
+          <i class="fas fa-hand-holding-usd"></i>
+          <span>Apply Schemes</span>
+        </button>
+        <button class="service-btn" id="documents-btn">
+          <i class="fas fa-id-card"></i>
+          <span>My Documents</span>
+        </button>
+        <button class="service-btn" id="folder-btn">
+          <i class="fas fa-folder"></i>
+          <span>My Folders</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Chat Area -->
+    <div class="chat-container">
+      <div class="chat-header">
+        <div class="dept-info">
+          <div class="dept-icon health-icon">
+            <i class="fas fa-heartbeat"></i>
+          </div>
+          <div>
+            <h2>Health Department</h2>
+            <p>Online assistance for health services</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="action-btn" id="language-btn" title="Change Language">
+            <i class="fas fa-language"></i>
+          </button>
+          <button class="action-btn" id="voice-btn" title="Voice Input">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <button class="action-btn" id="camera-btn" title="Camera">
+            <i class="fas fa-camera"></i>
+          </button>
+          <button class="action-btn" id="upload-btn" title="Upload ID">
+            <i class="fas fa-file-upload"></i>
+          </button>
+          <button class="action-btn" id="reader-btn" title="Screen Reader">
+            <i class="fas fa-assistive-listening-systems"></i>
+          </button>
+          <button class="action-btn" id="download-chat-btn" title="Download Chat">
+            <i class="fas fa-download"></i>
+          </button>
+          <button class="action-btn" id="clear-chat-btn" title="Clear Chat">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button class="action-btn" id="offline-mode-btn" title="Offline Mode">
+            <i class="fas fa-wifi"></i>
+        </div>
+      </div>
+
+      <div id="chat-box">
+        <div class="message bot-message">
+          <div class="message-header">
+            <i class="fas fa-robot"></i>
+            <span>GovSeva Assistant</span>
+          </div>
+          <p>Namaste! Welcome to Government Services Assistant. I'm here to help you with health, agriculture, finance,
+            and education services. How can I assist you today?</p>
+          <div class="message-time">10:00 AM</div>
+          <div class="message-actions">
+            <button class="msg-action-btn"><i class="fas fa-volume-up"></i></button>
+            <button class="msg-action-btn"><i class="fas fa-copy"></i></button>
+          </div>
+
+          <div class="service-card">
+            <div class="service-title">Quick Services Available</div>
+            <div class="service-desc">You can directly access government services using the buttons below</div>
+            <div class="service-actions">
+              <button class="service-action-btn">Apply Scheme</button>
+              <button class="service-action-btn">Check Eligibility</button>
+              <button class="service-action-btn">Find Centers</button>
+              <button class="service-action-btn">Download Forms</button>
+              <button class="service-action-btn">Track Application</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <div class="input-tools">
+          <button class="tool-btn" id="attach-btn" title="Attach File">
+            <i class="fas fa-paperclip"></i>
+          </button>
+        </div>
+
+        <form id="chat-form">
+          <input type="text" id="user-input" placeholder="Type your message..." required>
+          <button type="submit" id="send-btn">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Panels -->
+  <div class="feature-panel" id="language-panel">
+    <div class="panel-header">
+      <div class="panel-title">Select Language</div>
+      <button class="close-panel">&times;</button>
+    </div>
+    <div class="language-options">
+      <div class="lang-option active" data-lang="en">
+        <div>English</div>
+      </div>
+      <div class="lang-option" data-lang="hi">
+        <div>हिंदी (Hindi)</div>
+      </div>
+      <div class="lang-option" data-lang="or">
+        <div>ଓଡ଼ିଆ (Odia)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-panel" id="upload-panel">
+    <div class="panel-header">
+      <div class="panel-title">Upload Documents</div>
+      <button class="close-panel">&times;</button>
+    </div>
+    <div class="upload-area" id="upload-area">
+      <div class="upload-icon">
+        <i class="fas fa-cloud-upload-alt"></i>
+      </div>
+      <div class="upload-text">Click to upload ID documents</div>
+      <div class="upload-hint">Supports: Aadhaar, PAN, Voter ID, Driving License</div>
+    </div>
+    <button class="dept-btn" style="width:100%" id="camera-upload-btn">
+      <i class="fas fa-camera"></i>
+      <span>Capture using Camera</span>
+    </button>
+  </div>
+
+  <div class="feature-panel" id="camera-panel">
+    <div class="panel-header">
+      <div class="panel-title">Capture Document</div>
+      <button class="close-panel">&times;</button>
+    </div>
+    <div class="camera-preview" id="camera-preview">
+      <i class="fas fa-camera"></i>
+      <video id="camera-feed" style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
+      <canvas id="camera-canvas" style="display: none;"></canvas>
+      <div class="scan-animation" style="display: none;"></div>
+    </div>
+    <div class="camera-actions">
+      <button class="camera-btn cancel-btn" id="camera-cancel">
+        <i class="fas fa-times"></i>
+      </button>
+      <button class="camera-btn" id="camera-capture">
+        <i class="fas fa-camera"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="feature-panel" id="emergency-panel">
+    <div class="panel-header">
+      <div class="panel-title">Emergency Services</div>
+      <button class="close-panel">&times;</button>
+    </div>
+    <div class="emergency-options">
+      <div class="emergency-option" data-type="medical">
+        <i class="fas fa-ambulance"></i>
+        Medical Emergency
+      </div>
+      <div class="emergency-option" data-type="police">
+        <i class="fas fa-shield-alt"></i>
+        Police Assistance
+      </div>
+      <div class="emergency-option" data-type="fire">
+        <i class="fas fa-fire-extinguisher"></i>
+        Fire Department
+      </div>
+      <div class="emergency-option" data-type="women">
+        <i class="fas fa-female"></i>
+        Women Safety
+      </div>
+    </div>
+    <div class="location-display">
+      <div class="location-title">Your Location:</div>
+      <div id="location-text">Locating... (Ensure location services are enabled)</div>
+    </div>
+    <div class="service-results" id="emergency-results">
+      <!-- Results will appear here -->
+    </div>
+    <button class="dept-btn emergency-btn" style="width:100%; margin-top:15px;">
+      <i class="fas fa-phone-alt"></i>
+      <span>Call Emergency Services</span>
+    </button>
+  </div>
+
+  <div class="feature-panel" id="grievance-panel">
+    <div class="panel-header">
+      <div class="panel-title">Register Grievance</div>
+      <button class="close-panel">&times;</button>
+    </div>
+    <div class="grievance-form">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-input" id="grievance-name" placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contact Number</label>
+        <input type="tel" class="form-input" id="grievance-phone" placeholder="Enter your phone number">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Department</label>
+        <select class="form-input" id="grievance-dept">
+          <option>Health Department</option>
+          <option>Agriculture Department</option>
+          <option>Finance Department</option>
+          <option>Education Department</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Grievance Details</label>
+        <textarea class="form-textarea" id="grievance-details" placeholder="Describe your issue in detail"></textarea>
+      </div>
+      <button class="submit-btn" id="submit-grievance">Submit Grievance</button>
+    </div>
+  </div>
+
+  <div class="feature-panel" id="schemes-panel">
+    <div class="panel-header">
+      <div class="panel-title">Apply for Government Schemes</div>
+      <button class="close-panel">&times;</button>
+    </div>
+
+    <div class="scheme-progress" id="scheme-progress" style="display: none;">
+      <h3>Application Progress</h3>
+      <div class="progress-steps" id="progress-steps">
+        <!-- Progress steps will be added here -->
+      </div>
+    </div>
+
+    <div id="schemes-list">
+      <div class="scheme-card">
+        <div class="scheme-title">
+          <i class="fas fa-heartbeat"></i>
+          <span>Ayushman Bharat Health Scheme</span>
+        </div>
+        <div class="scheme-details">
+          Health coverage up to ₹5 lakh per family per year for secondary and tertiary care hospitalization
+        </div>
+        <div class="scheme-eligibility">
+          <i class="fas fa-check-circle"></i>
+          Eligibility: Families listed in SECC database
+        </div>
+        <div class="scheme-benefits">
+          <div class="benefit-item"><i class="fas fa-check"></i> Covers pre-existing conditions</div>
+          <div class="benefit-item"><i class="fas fa-check"></i> Cashless treatment</div>
+          <div class="benefit-item"><i class="fas fa-check"></i> No restrictions on family size or age</div>
+        </div>
+        <button class="service-action-btn apply-scheme-btn" data-scheme="ayushman">Apply Now</button>
+      </div>
+
+      <div class="scheme-card">
+        <div class="scheme-title">
+          <i class="fas fa-tractor"></i>
+          <span>PM Kisan Samman Nidhi</span>
+        </div>
+        <div class="scheme-details">
+          Financial assistance of ₹6,000 per year to small and marginal farmers
+        </div>
+        <div class="scheme-eligibility">
+          <i class="fas fa-check-circle"></i>
+          Eligibility: Landholding farmers with cultivable land
+        </div>
+        <div class="scheme-benefits">
+          <div class="benefit-item"><i class="fas fa-check"></i> ₹2,000 every 4 months</div>
+          <div class="benefit-item"><i class="fas fa-check"></i> Direct bank transfer</div>
+          <div class="benefit-item"><i class="fas fa-check"></i> No intermediaries</div>
+        </div>
+        <button class="service-action-btn apply-scheme-btn" data-scheme="pmkisan">Apply Now</button>
+      </div>
+
+      <div class="scheme-card">
+        <div class="scheme-title">
+          <i class="fas fa-graduation-cap"></i>
+          <span>National Scholarship Portal</span>
+        </div>
+        <div class="scheme-details">
+          Financial support for students from pre-matric to post-doctoral levels
+        </div>
+        <div class="scheme-eligibility">
+          <i class="fas fa-check-circle"></i>
+          Eligibility: Based on merit and family income
+        </div>
+        <div class="scheme-benefits">
+          <div class="benefit-item"><i class="fas fa-check"></i> Covers tuition fees</div>
+          <div class="benefit-item"><i class="fas fa-check"></i> Maintenance allowance</div>
+          <div class="benefit-item"><i class="fas fa-check"></i> Single application for multiple scholarships</div>
+        </div>
+        <button class="service-action-btn apply-scheme-btn" data-scheme="scholarship">Apply Now</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-panel" id="documents-panel">
+    <div class="panel-header">
+      <div class="panel-title">My Documents</div>
+      <button class="close-panel">&times;</button>
+    </div>
+
+    <div class="document-status">
+      <div class="status-item status-complete">
+        <div class="status-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <div class="status-details">
+          <div class="status-title">Aadhaar Card</div>
+          <div class="status-desc">Verified on 15 Jun 2024</div>
+        </div>
+        <button class="service-action-btn">Download</button>
+      </div>
+
+      <div class="status-item">
+        <div class="status-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="status-details">
+          <div class="status-title">PAN Card</div>
+          <div class="status-desc">Verification pending</div>
+        </div>
+        <button class="service-action-btn">Upload</button>
+      </div>
+
+      <div class="status-item status-complete">
+        <div class="status-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <div class="status-details">
+          <div class="status-title">Voter ID</div>
+          <div class="status-desc">Verified on 10 May 2024</div>
+        </div>
+        <button class="service-action-btn">Download</button>
+      </div>
+
+      <div class="status-item">
+        <div class="status-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <div class="status-details">
+          <div class="status-title">Driving License</div>
+          <div class="status-desc">Expired on 30 Apr 2024</div>
+        </div>
+        <button class="service-action-btn">Renew</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-panel" id="folder-panel">
+    <div class="panel-header">
+      <div class="panel-title">My Folders</div>
+      <button class="close-panel">&times;</button>
+    </div>
+
+    <div class="folder-view">
+      <div class="folder-grid" id="folder-grid">
+        <div class="folder-item" data-folder="id">
+          <div class="folder-icon">
+            <i class="fas fa-id-card"></i>
+          </div>
+          <div class="folder-name">ID Documents</div>
+        </div>
+        <div class="folder-item" data-folder="finance">
+          <div class="folder-icon">
+            <i class="fas fa-rupee-sign"></i>
+          </div>
+          <div class="folder-name">Financial</div>
+        </div>
+        <div class="folder-item" data-folder="health">
+          <div class="folder-icon">
+            <i class="fas fa-heartbeat"></i>
+          </div>
+          <div class="folder-name">Health Records</div>
+        </div>
+        <div class="folder-item" data-folder="education">
+          <div class="folder-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <div class="folder-name">Education</div>
+        </div>
+        <div class="folder-item" data-folder="property">
+          <div class="folder-icon">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="folder-name">Property</div>
+        </div>
+        <div class="folder-item" data-folder="others">
+          <div class="folder-icon">
+            <i class="fas fa-folder"></i>
+          </div>
+          <div class="folder-name">Others</div>
+        </div>
+      </div>
+
+      <div id="folder-content" style="display: none;">
+        <div class="panel-header">
+          <button class="action-btn" id="back-to-folders">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <div class="panel-title" id="current-folder-title">ID Documents</div>
+          <div></div>
+        </div>
+        <div class="document-list" id="folder-document-list">
+          <!-- Documents will appear here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-panel" id="ocr-panel">
+    <div class="panel-header">
+      <div class="panel-title">Document Processing</div>
+      <button class="close-panel">&times;</button>
+    </div>
+
+    <div id="ocr-content">
+      <div class="document-preview" id="ocr-preview">
+        <!-- Document preview will appear here -->
+      </div>
+
+      <div class="ocr-processing" id="ocr-processing">
+        <div class="ocr-spinner">
+          <i class="fas fa-spinner"></i>
+        </div>
+        <div>Processing document...</div>
+      </div>
+
+      <div class="ocr-text" id="ocr-text" style="display: none;">
+        <!-- Extracted text will appear here -->
+      </div>
+
+      <div class="document-details" id="ocr-details" style="display: none;">
+        <!-- Document details will appear here -->
+      </div>
+
+      <button class="dept-btn" style="width:100%; margin-top:15px;" id="ocr-submit-btn">
+        <i class="fas fa-check"></i>
+        <span>Submit for Verification</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="feature-panel" id="document-type-panel">
+    <!-- Will be generated dynamically -->
+  </div>
+
+  <div class="accessibility-notice" id="accessibility-notice">
+    <i class="fas fa-eye"></i>
+    <span>Screen Reader is Active</span>
+  </div>
+
+  <div class="offline-indicator" id="offline-indicator">
+    <i class="fas fa-wifi-slash"></i>
+    <span>Offline Mode: Using Local AI</span>
+  </div>
+
+  
+</body>
+
+</html>
