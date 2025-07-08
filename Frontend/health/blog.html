@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Blog & News - MediCare Plus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafbfc;
+            color: #2d3748;
+        }
+
+        /* Medical Header */
+        .emergency-bar {
+            background: #dc2626;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .emergency-bar::before {
+            content: "🚨 ";
+        }
+
+        header {
+            background: white;
+            border-bottom: 3px solid #059669;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .medical-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            color: #1f2937;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            color: #6b7280;
+            font-size: 12px;
+            display: block;
+            margin-top: -2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #059669;
+            border-bottom-color: #059669;
+        }
+
+        .appointment-btn {
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .appointment-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        /* Blog Styles */
+        .blog-hero {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            padding: 60px 2rem 40px;
+        }
+
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(5, 150, 105, 0.15);
+            border-color: #059669;
+        }
+
+        .blog-image {
+            height: 200px;
+            background: linear-gradient(45deg, #059669, #047857);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-image::before {
+            content: attr(data-icon);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: white;
+            opacity: 0.3;
+        }
+
+        .blog-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: #dc2626;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .blog-content {
+            padding: 24px;
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .blog-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .blog-excerpt {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .read-more {
+            color: #059669;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 12px;
+        }
+
+        /* FAQ Styles */
+        .faq-section {
+            background: white;
+            padding: 60px 2rem;
+        }
+
+        .faq-item {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item.active {
+            border-color: #059669;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+        }
+
+        .faq-question {
+            background: #f9fafb;
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1f2937;
+            transition: all 0.3s;
+        }
+
+        .faq-item.active .faq-question {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .faq-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+            color: #059669;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-answer-content {
+            padding: 20px 24px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #6b7280;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            border-color: #059669;
+            background: #059669;
+            color: white;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 50px 2rem;
+            text-align: center;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .newsletter-btn {
+            background: #dc2626;
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .blog-container {
+                padding: 0 1rem;
+            }
+            
+            .category-filter {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Emergency Bar -->
+    <div class="emergency-bar">
+        Emergency Helpline: +91-102 | 24/7 Medical Support Available
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="medical-logo">
+                <div class="logo-icon">⚕️</div>
+                <div>
+                    <div class="logo-text">MediCare Plus</div>
+                    <span class="logo-subtitle">Your Health, Our Priority</span>
+                </div>
+         
+        </div>
+    </header>
+
+    <!-- Blog Hero -->
+    <section class="blog-hero">
+        <div class="blog-container">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Health Blog & News</h1>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Stay informed with the latest health tips, medical news, and government scheme updates to keep you and your family healthy.</p>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">All Posts</button>
+                <button class="filter-btn" data-category="health-tips">Health Tips</button>
+                <button class="filter-btn" data-category="medical-news">Medical News</button>
+                <button class="filter-btn" data-category="schemes">Gov Schemes</button>
+                <button class="filter-btn" data-category="nutrition">Nutrition</button>
+                <button class="filter-btn" data-category="mental-health">Mental Health</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="py-16 bg-gray-50">
+        <div class="blog-container">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+                
+                <!-- Blog Post 1 -->
+                <article class="blog-card" data-category="health-tips">
+                    <div class="blog-image" data-icon="💊">
+                        <span class="blog-badge">Health Tips</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 June 20, 2025</span>
+                            <span>👤 Dr. Sarah Johnson</span>
+                        </div>
+                        <h2 class="blog-title">10 Essential Health Tips for Summer Season</h2>
+                        <p class="blog-excerpt">Discover crucial health tips to stay healthy during the summer months. From hydration to sun protection, learn how to beat the heat effectively.</p>
+                        <a href="#" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="blog-card" data-category="medical-news">
+                    <div class="blog-image" data-icon="🏥">
+                        <span class="blog-badge">Medical News</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 June 18, 2025</span>
+                            <span>👤 Medical Team</span>
+                        </div>
+                        <h2 class="blog-title">New Breakthrough in Cancer Treatment Available</h2>
+                        <p class="blog-excerpt">Latest medical breakthrough offers new hope for cancer patients. Learn about the innovative treatment options now available at our facility.</p>
+                        <a href="#" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 3 -->
+                <article class="blog-card" data-category="schemes">
+                    <div class="blog-image" data-icon="🏛️">
+                        <span class="blog-badge">Gov Schemes</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 June 15, 2025</span>
+                            <span>👤 Policy Team</span>
+                        </div>
+                        <h2 class="blog-title">Ayushman Bharat Scheme: Complete Guide 2025</h2>
+                        <p class="blog-excerpt">Complete guide to Ayushman Bharat health insurance scheme. Learn about eligibility, benefits, and how to apply for free healthcare coverage.</p>
+                        <a href="#" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 4 -->
+                <article class="blog-card" data-category="nutrition">
+                    <div class="blog-image" data-icon="🥗">
+                        <span class="blog-badge">Nutrition</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 June 12, 2025</span>
+                            <span>👤 Nutritionist Team</span>
+                        </div>
+                        <h2 class="blog-title">Balanced Diet Plan for Diabetic Patients</h2>
+                        <p class="blog-excerpt">Expert-designed meal plans for diabetes management. Learn about foods to include and avoid for better blood sugar control.</p>
+                        <a href="#" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 5 -->
+                <article class="blog-card" data-category="mental-health">
+                    <div class="blog-image" data-icon="🧠">
+                        <span class="blog-badge">Mental Health</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 June 10, 2025</span>
+                            <span>👤 Dr. Mental Health</span>
+                        </div>
+                        <h2 class="blog-title">Managing Stress and Anxiety in Modern Life</h2>
+                        <p class="blog-excerpt">Practical strategies to manage stress and anxiety. Learn effective techniques to improve your mental well-being and quality of life.</p>
+                        <a href="#" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Blog Post 6 -->
+                <article class="blog-card" data-category="health-tips">
+                    <div class="blog-image" data-icon="💓">
+                        <span class="blog-badge">Health Tips</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 June 8, 2025</span>
+                            <span>👤 Dr. Cardiology</span>
+                        </div>
+                        <h2 class="blog-title">Heart Health: Prevention is Better than Cure</h2>
+                        <p class="blog-excerpt">Essential tips for maintaining heart health. Learn about lifestyle changes that can significantly reduce your risk of heart disease.</p>
+                        <a href="#" class="read-more">
+                            Read More
+                            <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all transform hover:scale-105">
+                    Load More Articles
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="blog-container">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Find answers to common health questions and concerns. If you don't find what you're looking for, contact our medical team.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What are the visiting hours at your hospital?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Our hospital visiting hours are from 10:00 AM to 8:00 PM daily. However, ICU visiting hours are restricted to 4:00 PM to 6:00 PM. Emergency services are available 24/7. We recommend calling ahead to confirm specific department timings.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I book an appointment online?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            You can book appointments through our website by clicking the "Book Appointment" button, calling our helpline at +91-102, or using our mobile app. Online booking is available 24/7, and you'll receive confirmation via SMS and email.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What insurance plans do you accept?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We accept all major insurance plans including Ayushman Bharat, CGHS, ESIC, and private insurance providers. We also offer cashless treatment for eligible policyholders. Please bring your insurance card and valid ID for verification.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Do you provide emergency services?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes, we provide 24/7 emergency services with a dedicated emergency department, trauma center, and ambulance services. Our emergency team includes specialists in critical care, surgery, and emergency medicine.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What COVID-19 safety measures are in place?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            We follow strict COVID-19 protocols including mandatory mask wearing, temperature screening, sanitization, social distancing, and separate OPD timings for COVID and non-COVID patients. All staff are fully vaccinated and regularly tested.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How can I get my medical records?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Medical records can be requested at the Medical Records Department with valid ID proof. Digital copies are available through our patient portal. Processing time is typically 2-3 working days for physical records and immediate for digital access.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Do you offer telemedicine consultations?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Yes, we offer telemedicine consultations for routine follow-ups, prescription renewals, and non-emergency medical advice. Book online or call our telemedicine helpline. Video consultations are available with most of our specialists.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What are your laboratory testing hours?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Our laboratory is open from 6:00 AM to 10:00 PM on weekdays and 7:00 AM to 8:00 PM on weekends. Fasting blood tests are preferred before 10:00 AM. Emergency lab services are available 24/7 for inpatients and critical cases.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="blog-container">
+            <h3 class="text-2xl font-bold mb-4">Stay Updated with Health News</h3>
+            <p class="text-lg opacity-90 mb-6">Subscribe to our newsletter for the latest health tips, medical updates, and exclusive content delivered to your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email address" class="newsletter-input" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+  
+
+    <script>
+        // FAQ Toggle Function
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked FAQ item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // Category Filter Function
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const blogCards = document.querySelectorAll('.blog-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // Update active filter button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter blog cards
+                    blogCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                            card.style.animation = 'fadeIn 0.5s ease';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Newsletter Form
+            const newsletterForm = document.querySelector('.newsletter-form');
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input').value;
+                
+                // Simulate newsletter subscription
+                alert(`Thank you! You've been subscribed to our newsletter with email: ${email}`);
+                this.querySelector('input').value = '';
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add fade-in animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.6s ease forwards';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe blog cards for animation
+            blogCards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // Read more functionality
+            document.querySelectorAll('.read-more').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // In a real application, this would navigate to the full article
+                    alert('This would open the full article. Feature to be implemented.');
+                });
+            });
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .blog-card {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

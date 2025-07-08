@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Plus - Your Health Partner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafbfc;
+            color: #2d3748;
+        }
+
+        /* Medical Header */
+        .emergency-bar {
+            background: #dc2626;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .emergency-bar::before {
+            content: "🚨 ";
+        }
+
+        header {
+            background: white;
+            border-bottom: 3px solid #059669;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .medical-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            color: #1f2937;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            color: #6b7280;
+            font-size: 12px;
+            display: block;
+            margin-top: -2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #059669;
+            border-bottom-color: #059669;
+        }
+
+        .appointment-btn {
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .appointment-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            padding: 60px 2rem 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="%23059669" stroke-width="2" opacity="0.1"/><circle cx="100" cy="100" r="60" fill="none" stroke="%23059669" stroke-width="2" opacity="0.1"/><circle cx="100" cy="100" r="40" fill="none" stroke="%23059669" stroke-width="2" opacity="0.1"/></svg>') no-repeat;
+            opacity: 0.3;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            color: #1f2937;
+            margin-bottom: 16px;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .hero-highlight {
+            color: #059669;
+            position: relative;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #059669;
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #059669;
+            border: 2px solid #059669;
+            padding: 12px 26px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.25);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+            color: white;
+        }
+
+        .medical-visual {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            position: relative;
+            border: 2px solid #e5e7eb;
+        }
+
+        .medical-visual::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #dc2626;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px white, 0 0 0 6px #dc2626;
+        }
+
+        .stethoscope {
+            font-size: 100px;
+            color: #059669;
+            margin-bottom: 16px;
+            display: block;
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .medical-text {
+            color: #374151;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Quick Services */
+        .quick-services {
+            padding: 50px 2rem;
+            background: white;
+        }
+
+        .services-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            border-color: #059669;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(5, 150, 105, 0.15);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin: 0 auto 16px;
+        }
+
+        .service-card h3 {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 40px 2rem;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .cta p {
+            font-size: 16px;
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 30px 2rem 15px;
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 30px;
+        }
+
+        .footer-brand h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #059669;
+        }
+
+        .footer-brand p {
+            color: #d1d5db;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .footer-section h4 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #059669;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .footer-section a:hover {
+            color: #059669;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            margin-top: 20px;
+            padding-top: 15px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: #007bff;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
+        }
+
+        .chatbot-window {
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .chatbot-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .chatbot-info h4 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .chatbot-info p {
+            margin: 0;
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: auto;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatbot-messages {
+            height: 280px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .chatbot-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chatbot-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin: 0 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e9ecef;
+        }
+
+        .message.user .message-content {
+            background: #007bff;
+            color: white;
+        }
+
+        .quick-options {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .quick-option {
+            padding: 8px 12px;
+            border: 1px solid #007bff;
+            border-radius: 20px;
+            background: white;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quick-option:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            gap: 10px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .chatbot-input input:focus {
+            border-color: #007bff;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .chatbot-input input::placeholder {
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+
+        .chatbot-input input:focus::placeholder {
+            color: #adb5bd;
+        }
+
+        .chatbot-send {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            height: 44px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-send:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .chatbot-send:active {
+            transform: scale(0.95);
+        }
+
+        .send-icon {
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .chatbot-send:hover .send-icon {
+            transform: translateX(2px);
+        }
+
+        .typing {
+            opacity: 0.7;
+        }
+
+        .typing .message-content::after {
+            content: '...';
+            animation: typing 1.5s infinite;
+        }
+
+        @keyframes typing {
+
+            0%,
+            60% {
+                content: '...';
+            }
+
+            20% {
+                content: '.';
+            }
+
+            40% {
+                content: '..';
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chatbot-window {
+                width: 300px;
+                bottom: 80px;
+                right: 10px;
+            }
+
+            .chatbot-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chatbot-window {
+                width: 90%;
+                height: 400px;
+                bottom: 60px;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Emergency Bar -->
+    <div class="emergency-bar">
+        Telehealth Available 24/7 - Connect with doctors instantly
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="medical-logo">
+                <div class="logo-icon">🏥</div>
+                <div>
+                    <div class="logo-text">MediCare Plus</div>
+                    <span class="logo-subtitle">Health Partner</span>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="insurance.html">Insurance</a></li>
+                    <li><a href="scheme.html">Scheme</a></li>
+                    <li><a href="support.html">Support</a></li>
+                    <li><a href="userdashboard.html">My Dashboard</a></li>
+                    <li><a href="record.html">Health Records</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+
+                </ul>
+            </nav>
+            <a href="appointement.html" class="appointment-btn">📅 Book Appointment</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Smart <span class="hero-highlight">Healthcare</span> Solutions</h1>
+                <p>Experience modern healthcare with AI-powered diagnostics, virtual consultations, and personalized
+                    treatment plans designed for your lifestyle.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary">🤖 Ask AI Doctor</button>
+                    <button class="btn-secondary">📱 Download App</button>
+                </div>
+            </div>
+            <div class="medical-visual">
+                <span class="stethoscope">🤖</span>
+                <div class="medical-text">AI Health Assistant</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Services -->
+    <section class="quick-services" id="services">
+        <div class="services-container">
+            <h2 class="section-title">Digital Health Services</h2>
+            <p class="section-subtitle">Modern healthcare solutions powered by technology</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">💊</div>
+                    <h3>Smart Prescriptions</h3>
+                    <p>Digital prescriptions with automatic refill reminders and drug interaction alerts</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Health Analytics</h3>
+                    <p>Track your health metrics with AI-powered insights and personalized recommendations</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🩺</div>
+                    <h3>Virtual Checkups</h3>
+                    <p>Complete health assessments from home using our telemedicine platform</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🧬</div>
+                    <h3>Genetic Testing</h3>
+                    <p>Discover your health predispositions with comprehensive genetic analysis</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Ready for Smarter Healthcare?</h2>
+            <p>Join thousands of patients who've upgraded to our digital health platform</p>
+            <div class="hero-actions">
+                <button class="btn-primary" style="background: white; color: #059669;">🚀 Get Started Free</button>
+                <button class="btn-secondary" style="border-color: white; color: white;">📞 Talk to Expert</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>🏥 MediCare Plus</h3>
+                <p>Revolutionizing healthcare through technology, making quality medical care accessible to everyone,
+                    everywhere.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Digital Services</h4>
+                <ul>
+                    <li><a href="#">AI Diagnostics</a></li>
+                    <li><a href="#">Telehealth</a></li>
+                    <li><a href="#">Health App</a></li>
+                    <li><a href="#">Virtual Care</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">💬 Live Chat</a></li>
+                    <li><a href="#">📱 1-800-MEDICARE</a></li>
+                    <li><a href="#">📧 support@medicareplus.com</a></li>
+                    <li><a href="#">🌐 24/7 Online</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MediCare Plus. All rights reserved. | HIPAA Compliant Digital Health Platform</p>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+
+
+    <div class="chatbot-container">
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div class="chatbot-avatar">🤖</div>
+                <div class="chatbot-info">
+                    <h4>Dr. AI Assistant</h4>
+                    <p>Online now • Ready to help</p>
+                </div>
+                <button class="chatbot-close" onclick="toggleChatbot()">×</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        Hi! I'm your AI health assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="quick-options">
+                <button class="quick-option" onclick="selectOption('Check symptoms')">🩺 Check my symptoms</button>
+                <button class="quick-option" onclick="selectOption('Book appointment')">📅 Book an appointment</button>
+                <button class="quick-option" onclick="selectOption('Medication info')">💊 Ask about medications</button>
+                <button class="quick-option" onclick="selectOption('Health tips')">💡 Get health tips</button>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="💬 Type your health question here..."
+                    onkeypress="handleKeyPress(event)" autocomplete="off" spellcheck="true">
+                <button class="chatbot-send" onclick="sendMessage()" title="Send message">
+                    <span class="send-icon">➤</span>
+                </button>
+            </div>
+        </div>
+        <button class="chatbot-toggle" id="chatbotToggle" onclick="toggleChatbot()">
+            💬
+        </button>
+    </div>
+
+    <script>
+
+        class MedicalChatbot {
+            constructor() {
+                this.apiKey = 'AIzaSyCqmCN69UOQJ9BldbTmfVH3hUKMWvBzjjI';
+                this.apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+                this.conversationHistory = [];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadConversationHistory();
+                this.setupInitialStyles();
+            }
+
+            setupEventListeners() {
+                const input = document.getElementById('chatbotInput');
+                const sendBtn = document.querySelector('.chatbot-send');
+
+                if (input) {
+                    input.addEventListener('keypress', (e) => this.handleKeyPress(e));
+                }
+                if (sendBtn) {
+                    sendBtn.addEventListener('click', () => this.sendMessage());
+                }
+            }
+
+            toggleChatbot() {
+                const window = document.getElementById('chatbotWindow');
+                if (window) {
+                    window.style.display = window.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+
+            closeChatbot() {
+                const window = document.getElementById('chatbotWindow');
+                if (window) {
+                    window.style.display = 'none';
+                }
+            }
+
+            handleKeyPress(event) {
+                if (event.key === 'Enter') {
+                    this.sendMessage();
+                }
+            }
+
+            async sendMessage() {
+                const input = document.getElementById('chatbotInput');
+                const message = input.value.trim();
+
+                if (!message) return;
+
+                this.addMessage(message, 'user');
+                input.value = '';
+
+                this.showTyping();
+
+                try {
+                    const response = await this.getMedicalResponse(message);
+                    this.hideTyping();
+                    this.addMessage(response, 'bot');
+                    this.saveConversation();
+                } catch (error) {
+                    this.hideTyping();
+                    this.addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                }
+            }
+
+            async getMedicalResponse(message) {
+                const medicalPrompt = `You are a helpful medical assistant. Provide accurate, helpful medical information while always recommending users consult healthcare professionals for serious concerns. User message: ${message}`;
+
+                const requestBody = {
+                    contents: [{
+                        parts: [{
+                            text: medicalPrompt
+                        }]
+                    }]
+                };
+
+                const response = await fetch(this.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            }
+
+            addMessage(message, sender) {
+                const messagesContainer = document.getElementById('chatbotMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+
+                const avatar = sender === 'user' ? '👤' : '🤖';
+                messageDiv.innerHTML = `
+            <div class="message-avatar">${avatar}</div>
+            <div class="message-content">${message}</div>
+        `;
+
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                this.conversationHistory.push({ message, sender, timestamp: new Date() });
+            }
+
+            showTyping() {
+                const messagesContainer = document.getElementById('chatbotMessages');
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message bot typing';
+                typingDiv.id = 'typing-indicator';
+                typingDiv.innerHTML = `
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">Typing...</div>
+        `;
+                messagesContainer.appendChild(typingDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            hideTyping() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            saveConversation() {
+                const conversationData = {
+                    history: this.conversationHistory,
+                    timestamp: new Date()
+                };
+                // Store in memory (since localStorage isn't available)
+                window.medicalChatData = conversationData;
+            }
+
+            loadConversationHistory() {
+                if (window.medicalChatData) {
+                    this.conversationHistory = window.medicalChatData.history || [];
+                }
+            }
+
+            generatePDF() {
+                if (!window.jsPDF) {
+                    alert('PDF library not loaded. Please include jsPDF library.');
+                    return;
+                }
+
+                const doc = new jsPDF();
+                doc.setFontSize(16);
+                doc.text('Medical Consultation Report', 20, 20);
+
+                let yPosition = 40;
+                this.conversationHistory.forEach((entry, index) => {
+                    if (yPosition > 270) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, entry.sender === 'user' ? 'bold' : 'normal');
+                    doc.text(`${entry.sender === 'user' ? 'Patient' : 'Assistant'}: ${entry.message}`, 20, yPosition);
+                    yPosition += 10;
+                });
+
+                doc.save('medical-consultation.pdf');
+            }
+
+            generateGraph() {
+                const symptoms = this.extractSymptoms();
+                const canvas = document.createElement('canvas');
+                canvas.width = 400;
+                canvas.height = 300;
+                const ctx = canvas.getContext('2d');
+
+                // Simple bar chart
+                ctx.fillStyle = '#007bff';
+                symptoms.forEach((symptom, index) => {
+                    const barHeight = symptom.count * 20;
+                    ctx.fillRect(50 + index * 60, 250 - barHeight, 40, barHeight);
+                    ctx.fillStyle = '#000';
+                    ctx.font = '12px Arial';
+                    ctx.fillText(symptom.name.substring(0, 8), 45 + index * 60, 270);
+                    ctx.fillStyle = '#007bff';
+                });
+
+                // Convert to image and download
+                const link = document.createElement('a');
+                link.download = 'symptoms-graph.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+
+            extractSymptoms() {
+                const symptoms = {};
+                this.conversationHistory.forEach(entry => {
+                    if (entry.sender === 'user') {
+                        const commonSymptoms = ['headache', 'fever', 'cough', 'pain', 'tired'];
+                        commonSymptoms.forEach(symptom => {
+                            if (entry.message.toLowerCase().includes(symptom)) {
+                                symptoms[symptom] = (symptoms[symptom] || 0) + 1;
+                            }
+                        });
+                    }
+                });
+
+                return Object.entries(symptoms).map(([name, count]) => ({ name, count }));
+            }
+
+            redirectToPage(page) {
+                const pages = {
+                    'dashboard': '/dashboard.html',
+                    'profile': '/profile.html',
+                    'history': '/history.html',
+                    'settings': '/settings.html'
+                };
+
+                if (pages[page]) {
+                    window.location.href = pages[page];
+                }
+            }
+
+            setupInitialStyles() {
+                if (!document.querySelector('style[data-chatbot-styles]')) {
+                    const style = document.createElement('style');
+                    style.setAttribute('data-chatbot-styles', 'true');
+                    style.textContent = `
+                .chatbot-container { 
+                    position: fixed; 
+                    bottom: 20px; 
+                    right: 20px; 
+                    z-index: 1000; 
+                }
+                .chatbot-toggle { 
+                    width: 60px; 
+                    height: 60px; 
+                    border-radius: 50%; 
+                    border: none; 
+                    background: #007bff; 
+                    color: white; 
+                    font-size: 24px; 
+                    cursor: pointer; 
+                }
+                .chatbot-window { 
+                    width: 350px; 
+                    height: 500px; 
+                    background: white; 
+                    border-radius: 10px; 
+                    box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+                    display: none; 
+                    position: absolute; 
+                    bottom: 70px; 
+                    right: 0; 
+                }
+                .chatbot-header { 
+                    padding: 15px; 
+                    background: #007bff; 
+                    color: white; 
+                    border-radius: 10px 10px 0 0; 
+                    display: flex; 
+                    align-items: center; 
+                }
+                .chatbot-avatar { 
+                    width: 40px; 
+                    height: 40px; 
+                    border-radius: 50%; 
+                    background: rgba(255,255,255,0.2); 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    margin-right: 10px; 
+                }
+                .chatbot-info h4 { 
+                    margin: 0; 
+                    font-size: 16px; 
+                }
+                .chatbot-info p { 
+                    margin: 0; 
+                    font-size: 12px; 
+                    opacity: 0.8; 
+                }
+                .chatbot-close { 
+                    background: none; 
+                    border: none; 
+                    color: white; 
+                    font-size: 20px; 
+                    cursor: pointer; 
+                    margin-left: auto; 
+                }
+                .chatbot-messages { 
+                    height: 350px; 
+                    overflow-y: auto; 
+                    padding: 15px; 
+                }
+                .message { 
+                    display: flex; 
+                    margin-bottom: 15px; 
+                }
+                .message.user { 
+                    justify-content: flex-end; 
+                }
+                .message-avatar { 
+                    width: 30px; 
+                    height: 30px; 
+                    border-radius: 50%; 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    font-size: 14px; 
+                }
+                .message-content { 
+                    max-width: 70%; 
+                    padding: 10px; 
+                    border-radius: 10px; 
+                    margin: 0 10px; 
+                }
+                .message.bot .message-content { 
+                    background: #f1f1f1; 
+                }
+                .message.user .message-content { 
+                    background: #007bff; 
+                    color: white; 
+                }
+                .quick-options {
+                    padding: 10px;
+                    border-top: 1px solid #eee;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 5px;
+                }
+                .quick-option {
+                    padding: 5px 10px;
+                    border: 1px solid #007bff;
+                    border-radius: 15px;
+                    background: white;
+                    color: #007bff;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: all 0.3s;
+                }
+                .quick-option:hover {
+                    background: #007bff;
+                    color: white;
+                }
+                .chatbot-input { 
+                    display: flex; 
+                    padding: 15px; 
+                    border-top: 1px solid #eee; 
+                }
+                .chatbot-input input { 
+                    flex: 1; 
+                    padding: 10px; 
+                    border: 1px solid #ddd; 
+                    border-radius: 20px; 
+                    outline: none; 
+                }
+                .chatbot-send { 
+                    background: #007bff; 
+                    color: white; 
+                    border: none; 
+                    padding: 10px 15px; 
+                    border-radius: 50%; 
+                    margin-left: 10px; 
+                    cursor: pointer; 
+                }
+            `;
+                    document.head.appendChild(style);
+                }
+            }
+        }
+
+        // Global functions for HTML onclick events
+        function toggleChatbot() {
+            if (window.medicalBot) {
+                window.medicalBot.toggleChatbot();
+            }
+        }
+
+        function closeChatbot() {
+            if (window.medicalBot) {
+                window.medicalBot.closeChatbot();
+            }
+        }
+
+        function sendMessage() {
+            if (window.medicalBot) {
+                window.medicalBot.sendMessage();
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (window.medicalBot) {
+                window.medicalBot.handleKeyPress(event);
+            }
+        }
+
+        function generatePDF() {
+            if (window.medicalBot) {
+                window.medicalBot.generatePDF();
+            }
+        }
+
+        function generateGraph() {
+            if (window.medicalBot) {
+                window.medicalBot.generateGraph();
+            }
+        }
+
+        function redirectTo(page) {
+            if (window.medicalBot) {
+                window.medicalBot.redirectToPage(page);
+            }
+        }
+
+        function selectOption(option) {
+            const input = document.getElementById('chatbotInput');
+            if (input) {
+                input.value = option;
+                sendMessage();
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            window.medicalBot = new MedicalChatbot();
+
+            // Set initial chatbot window state
+            const chatbotWindow = document.getElementById('chatbotWindow');
+            if (chatbotWindow) {
+                chatbotWindow.style.display = 'none';
+            }
+        });
+
+        // Save conversation before page unload
+        window.addEventListener('beforeunload', function () {
+            if (window.medicalBot) {
+                window.medicalBot.saveConversation();
+            }
+        });
+
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Button click effects
+        document.querySelectorAll('button, .appointment-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Service card hover effects
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                this.style.borderColor = '#059669';
+            });
+            card.addEventListener('mouseleave', function () {
+                this.style.borderColor = '#e5e7eb';
+            });
+        });
+
+        // Chatbot animation on load
+        window.addEventListener('load', function () {
+            setTimeout(() => {
+                const chatbotToggle = document.getElementById('chatbotToggle');
+                chatbotToggle.style.animation = 'heartbeat 2s infinite';
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCore Medical Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafbfc;
+            color: #2d3748;
+        }
+
+        /* Medical Header with Emergency Bar */
+        .emergency-bar {
+            background: #dc2626;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .emergency-bar::before {
+            content: "🚨 ";
+        }
+
+        header {
+            background: white;
+            border-bottom: 3px solid #059669;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .medical-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            color: #1f2937;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            color: #6b7280;
+            font-size: 12px;
+            display: block;
+            margin-top: -2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #059669;
+            border-bottom-color: #059669;
+        }
+
+        .appointment-btn {
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .appointment-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        /* Medical Hero with Clinical Design */
+        .hero {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            padding: 80px 2rem 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="%23059669" stroke-width="2" opacity="0.1"/><circle cx="100" cy="100" r="60" fill="none" stroke="%23059669" stroke-width="2" opacity="0.1"/><circle cx="100" cy="100" r="40" fill="none" stroke="%23059669" stroke-width="2" opacity="0.1"/></svg>') no-repeat;
+            opacity: 0.3;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .hero-highlight {
+            color: #059669;
+            position: relative;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #059669;
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #059669;
+            border: 2px solid #059669;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.25);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+            color: white;
+        }
+
+        .medical-visual {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            text-align: center;
+            position: relative;
+            border: 2px solid #e5e7eb;
+        }
+
+        .medical-visual::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #dc2626;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px white, 0 0 0 6px #dc2626;
+        }
+
+        .stethoscope {
+            font-size: 120px;
+            color: #059669;
+            margin-bottom: 20px;
+            display: block;
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .medical-text {
+            color: #374151;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        /* Medical Services Grid */
+        .services {
+            padding: 80px 2rem;
+            background: white;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .medical-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .medical-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .medical-card:hover {
+            border-color: #059669;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(5, 150, 105, 0.15);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .medical-card h3 {
+            font-size: 20px;
+            color: #1f2937;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .medical-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-link {
+            color: #059669;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-link:hover {
+            gap: 10px;
+        }
+
+        /* Medical Stats */
+        .medical-stats {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+            padding: 60px 2rem;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            position: relative;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: #059669;
+            border-radius: 2px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #059669;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #d1d5db;
+            font-weight: 500;
+        }
+
+        /* Doctor Section */
+        .doctors {
+            padding: 80px 2rem;
+            background: #f9fafb;
+        }
+
+        .doctors-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .doctors-content h2 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .doctors-content p {
+            color: #6b7280;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .doctor-features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: #059669;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .doctors-visual {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 2px solid #e5e7eb;
+        }
+
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            margin: 0 auto 8px;
+        }
+
+        .doctor-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .doctor-title {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 60px 2rem;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 40px 2rem 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #059669;
+        }
+
+        .footer-brand p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .footer-section h4 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: #059669;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: #059669;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-container,
+            .doctors-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Emergency Bar -->
+    <div class="emergency-bar">
+        Emergency? Call 911 or visit our ER - Open 24/7
+    </div>
+
+    <!-- Medical Header -->
+    <header>
+        <div class="header-content">
+            <div class="medical-logo">
+                <div class="logo-icon">⚕️</div>
+                <div>
+                    <div class="logo-text">HealthCore</div>
+                    <span class="logo-subtitle">Medical Center</span>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#services">Departments</a></li>
+                    <li><a href="#doctors">Doctors</a></li>
+                    <li><a href="#contact">Patient Portal</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+            <a href="signup.php" class="appointment-btn">Sign Up</a>
+        </div>
+    </header>
+
+    <!-- Medical Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Advanced <span class="hero-highlight">Medical Care</span> When You Need It</h1>
+                <p>Leading healthcare provider with board-certified physicians, state-of-the-art facilities, and comprehensive medical services for your family's health needs.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary">🩺 Find a Specialist</button>
+                    <button class="btn-secondary">🚑 Emergency Services</button>
+                </div>
+            </div>
+            <div class="medical-visual">
+                <span class="stethoscope">🩺</span>
+                <div class="medical-text">Expert Medical Care</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medical Services -->
+    <section class="services" id="services">
+        <div class="services-container">
+            <div class="section-header">
+                <h2 class="section-title">Medical Departments</h2>
+                <p class="section-subtitle">Comprehensive healthcare services across multiple specialties with experienced medical professionals</p>
+            </div>
+            <div class="medical-grid">
+                <div class="medical-card">
+                    <div class="card-icon">🫀</div>
+                    <h3>Cardiology</h3>
+                    <p>Advanced heart care including diagnostics, interventional procedures, and cardiac rehabilitation programs.</p>
+                    <a href="#" class="card-link">Learn More →</a>
+                </div>
+                <div class="medical-card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Neurology</h3>
+                    <p>Comprehensive neurological care for brain, spine, and nervous system disorders with latest treatment options.</p>
+                    <a href="#" class="card-link">Learn More →</a>
+                </div>
+                <div class="medical-card">
+                    <div class="card-icon">🦴</div>
+                    <h3>Orthopedics</h3>
+                    <p>Specialized bone, joint, and muscle care including sports medicine and joint replacement surgeries.</p>
+                    <a href="#" class="card-link">Learn More →</a>
+                </div>
+                <div class="medical-card">
+                    <div class="card-icon">👁️</div>
+                    <h3>Ophthalmology</h3>
+                    <p>Complete eye care services including vision correction, cataract surgery, and retinal treatments.</p>
+                    <a href="#" class="card-link">Learn More →</a>
+                </div>
+                <div class="medical-card">
+                    <div class="card-icon">🔬</div>
+                    <h3>Laboratory</h3>
+                    <p>Advanced diagnostic testing with rapid results and comprehensive pathology services.</p>
+                    <a href="#" class="card-link">Learn More →</a>
+                </div>
+                <div class="medical-card">
+                    <div class="card-icon">🏥</div>
+                    <h3>Emergency Medicine</h3>
+                    <p>24/7 emergency care with trauma center capabilities and critical care specialists.</p>
+                    <a href="#" class="card-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medical Stats -->
+    <section class="medical-stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">45,000+</span>
+                <span class="stat-label">Patients Annually</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">180+</span>
+                <span class="stat-label">Medical Specialists</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15</span>
+                <span class="stat-label">Medical Departments</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">98%</span>
+                <span class="stat-label">Patient Satisfaction</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctors Section -->
+    <section class="doctors" id="doctors">
+        <div class="doctors-container">
+            <div class="doctors-content">
+                <h2>Board-Certified Medical Experts</h2>
+                <p>Our team of experienced physicians and healthcare professionals are committed to providing exceptional medical care with the latest treatments and technologies.</p>
+                <div class="doctor-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <span>Board-certified specialists</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <span>Advanced medical training</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <span>Multidisciplinary approach</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <span>Patient-centered care</span>
+                    </div>
+                </div>
+                <button class="btn-primary">View All Doctors</button>
+            </div>
+            <div class="doctors-visual">
+                <div class="doctors-grid">
+                    <div>
+                        <div class="doctor-avatar">👨‍⚕️</div>
+                        <div class="doctor-name">Dr. Smith</div>
+                        <div class="doctor-title">Cardiologist</div>
+                    </div>
+                    <div>
+                        <div class="doctor-avatar">👩‍⚕️</div>
+                        <div class="doctor-name">Dr. Johnson</div>
+                        <div class="doctor-title">Neurologist</div>
+                    </div>
+                    <div>
+                        <div class="doctor-avatar">👨‍⚕️</div>
+                        <div class="doctor-name">Dr. Brown</div>
+                        <div class="doctor-title">Orthopedic</div>
+                    </div>
+                    <div>
+                        <div class="doctor-avatar">👩‍⚕️</div>
+                        <div class="doctor-name">Dr. Davis</div>
+                        <div class="doctor-title">Emergency</div>
+                    </div>
+                </div>
+                <div style="color: #6b7280; font-size: 14px; margin-top: 16px;">Our Medical Team</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="contact">
+        <div class="cta-container">
+            <h2>Schedule Your Medical Consultation</h2>
+            <p>Take control of your health with professional medical care from our experienced healthcare team.</p>
+            <div class="hero-actions">
+                <button class="btn-primary" style="background: white; color: #059669;">📞 Call (555) 123-4567</button>
+                <button class="btn-secondary" style="border-color: white; color: white;">🌐 Patient Portal</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>⚕️ HealthCore Medical Center</h3>
+                <p>Providing exceptional healthcare services with compassion, expertise, and advanced medical technology for over 25 years.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Find a Doctor</a></li>
+                    <li><a href="#">Appointments</a></li>
+                    <li><a href="#">Patient Portal</a></li>
+                    <li><a href="#">Emergency Care</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><a href="#">📞 (555) 123-4567</a></li>
+                    <li><a href="#">📧 info@healthcore.com</a></li>
+                    <li><a href="#">📍 123 Medical Ave</a></li>
+                    <li><a href="#">🕒 24/7 Emergency</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HealthCore Medical Center. All rights reserved. | Accredited Healthcare Facility</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Button click effects
+        document.querySelectorAll('button, .appointment-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Medical card hover effects
+        document.querySelectorAll('.medical-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderColor = '#059669';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.borderColor = '#e5e7eb';
+            });
+        });
+    </script>
+</body>
+</html>

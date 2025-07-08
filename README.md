@@ -26,6 +26,8 @@ This is the **Frontend** part of the HacknoTricks HackOrbit project. It includes
 - `dashboard.css` — Stylesheet for all dashboard page
 - `education/` — Education department folder 
 - `finance/` — Finance department folder
+- `health/` — Health department folder
+
 
 ---
 

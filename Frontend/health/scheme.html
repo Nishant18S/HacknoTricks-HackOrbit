@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Schemes - Medical Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .scheme-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.8rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .scheme-card:hover {
+            transform: translateY(-4px);
+            border-color: #059669;
+            box-shadow: 0 15px 35px rgba(5, 150, 105, 0.15);
+        }
+        
+        .popular {
+            border-color: #059669;
+        }
+        
+        .popular::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #059669;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .scheme-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .scheme-title {
+            font-size: 1.3rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .scheme-price {
+            font-size: 1.8rem;
+            color: #059669;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+        }
+        
+        .scheme-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .scheme-features li {
+            padding: 0.4rem 0;
+            color: #6b7280;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .scheme-features li::before {
+            content: "✓";
+            color: #059669;
+            font-weight: bold;
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            background: #dcfce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        
+        .scheme-btn {
+            width: 100%;
+            padding: 12px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .scheme-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+        }
+        
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #059669;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .back-home:hover {
+            border-color: #059669;
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 768px) {
+            .schemes-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.8rem; }
+            .container { padding: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-home">← Back to Home</a>
+        
+        <div class="header">
+            <h1>Health Insurance Schemes</h1>
+            <p>Choose the perfect plan for your healthcare needs</p>
+        </div>
+        
+        <div class="schemes-grid">
+            <div class="scheme-card">
+                <div class="scheme-icon">💊</div>
+                <h3 class="scheme-title">Basic Plan</h3>
+                <div class="scheme-price">₹299/month</div>
+                <ul class="scheme-features">
+                    <li>Doctor Consultations</li>
+                    <li>Basic Lab Tests</li>
+                    <li>Medicine Discounts</li>
+                    <li>24/7 Support</li>
+                </ul>
+                <button class="scheme-btn" onclick="selectPlan('basic')">Choose Plan</button>
+            </div>
+            
+            <div class="scheme-card popular">
+                <div class="scheme-icon">🏥</div>
+                <h3 class="scheme-title">Premium Plan</h3>
+                <div class="scheme-price">₹599/month</div>
+                <ul class="scheme-features">
+                    <li>All Basic Features</li>
+                    <li>Specialist Consultations</li>
+                    <li>Advanced Diagnostics</li>
+                    <li>Surgery Coverage</li>
+                    <li>Emergency Services</li>
+                </ul>
+                <button class="scheme-btn" onclick="selectPlan('premium')">Choose Plan</button>
+            </div>
+            
+            <div class="scheme-card">
+                <div class="scheme-icon">💎</div>
+                <h3 class="scheme-title">Family Plan</h3>
+                <div class="scheme-price">₹999/month</div>
+                <ul class="scheme-features">
+                    <li>All Premium Features</li>
+                    <li>Coverage for 4 Members</li>
+                    <li>Maternity Benefits</li>
+                    <li>Mental Health Support</li>
+                    <li>Annual Health Checkup</li>
+                </ul>
+                <button class="scheme-btn" onclick="selectPlan('family')">Choose Plan</button>
+            </div>
+             <div class="scheme-card">
+                <div class="scheme-icon">💎</div>
+                <h3 class="scheme-title">Family Plan</h3>
+                <div class="scheme-price">₹999/month</div>
+                <ul class="scheme-features">
+                    <li>All Premium Features</li>
+                    <li>Coverage for 4 Members</li>
+                    <li>Maternity Benefits</li>
+                    <li>Mental Health Support</li>
+                    <li>Annual Health Checkup</li>
+                </ul>
+                <button class="scheme-btn" onclick="selectPlan('family')">Choose Plan</button>
+            </div> <div class="scheme-card">
+                <div class="scheme-icon">💎</div>
+                <h3 class="scheme-title">Family Plan</h3>
+                <div class="scheme-price">₹999/month</div>
+                <ul class="scheme-features">
+                    <li>All Premium Features</li>
+                    <li>Coverage for 4 Members</li>
+                    <li>Maternity Benefits</li>
+                    <li>Mental Health Support</li>
+                    <li>Annual Health Checkup</li>
+                </ul>
+                <button class="scheme-btn" onclick="selectPlan('family')">Choose Plan</button>
+            </div> <div class="scheme-card">
+                <div class="scheme-icon">💎</div>
+                <h3 class="scheme-title">Family Plan</h3>
+                <div class="scheme-price">₹999/month</div>
+                <ul class="scheme-features">
+                    <li>All Premium Features</li>
+                    <li>Coverage for 4 Members</li>
+                    <li>Maternity Benefits</li>
+                    <li>Mental Health Support</li>
+                    <li>Annual Health Checkup</li>
+                </ul>
+                <button class="scheme-btn" onclick="selectPlan('family')">Choose Plan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectPlan(planType) {
+            const plans = {
+                basic: 'Basic Plan (₹299/month)',
+                premium: 'Premium Plan (₹599/month)',
+                family: 'Family Plan (₹999/month)'
+            };
+            
+            const plan = plans[planType];
+            if (confirm(`Select ${plan}?\n\nThis will redirect you to the payment page.`)) {
+                alert('Redirecting to secure payment gateway...');
+            }
+        }
+        
+        // Entrance animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.scheme-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+    </script>
+</body>
+</html>
