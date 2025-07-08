@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance - MediCare Plus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafbfc;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-bottom: 3px solid #059669;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            color: #1f2937;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-radius: 16px;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            color: #1f2937;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: #059669;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .insurance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .insurance-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .insurance-card:hover {
+            border-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.15);
+        }
+
+        .insurance-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .insurance-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .insurance-type {
+            font-size: 12px;
+            color: #059669;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .insurance-desc {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .verify-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .verify-form {
+            background: #f9fafb;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .verify-btn {
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .verify-btn:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .verify-result {
+            padding: 20px;
+            background: #ecfdf5;
+            border-radius: 8px;
+            border: 1px solid #d1fae5;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .verify-result.success {
+            background: #ecfdf5;
+            border-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .verify-result.error {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #991b1b;
+        }
+
+        .help-info {
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .help-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .help-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .help-icon {
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .help-text {
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .coverage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .coverage-table th,
+        .coverage-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .coverage-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .coverage-table td {
+            color: #6b7280;
+        }
+
+        .status-covered {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .status-partial {
+            color: #d97706;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .verify-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-icon">⚕️</div>
+            <div class="logo-text">MediCare Plus</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Insurance & Coverage</h1>
+            <p class="page-subtitle">We accept most major insurance plans</p>
+        </div>
+
+        <!-- Accepted Insurance Plans -->
+        <div class="section">
+            <h2 class="section-title">
+                <div class="section-icon">🏥</div>
+                Accepted Insurance Plans
+            </h2>
+            <div class="insurance-grid">
+                <div class="insurance-card">
+                    <div class="insurance-logo">🛡️</div>
+                    <div class="insurance-name">Blue Cross Blue Shield</div>
+                    <div class="insurance-type">PPO / HMO</div>
+                    <div class="insurance-desc">Full coverage for most services</div>
+                </div>
+                <div class="insurance-card">
+                    <div class="insurance-logo">💙</div>
+                    <div class="insurance-name">Aetna</div>
+                    <div class="insurance-type">PPO / HMO</div>
+                    <div class="insurance-desc">Comprehensive healthcare coverage</div>
+                </div>
+                <div class="insurance-card">
+                    <div class="insurance-logo">🏛️</div>
+                    <div class="insurance-name">Cigna</div>
+                    <div class="insurance-type">PPO / HMO</div>
+                    <div class="insurance-desc">Wide network coverage</div>
+                </div>
+                <div class="insurance-card">
+                    <div class="insurance-logo">🌟</div>
+                    <div class="insurance-name">UnitedHealthcare</div>
+                    <div class="insurance-type">PPO / HMO</div>
+                    <div class="insurance-desc">Extensive benefits package</div>
+                </div>
+                <div class="insurance-card">
+                    <div class="insurance-logo">🏥</div>
+                    <div class="insurance-name">Medicare</div>
+                    <div class="insurance-type">Government</div>
+                    <div class="insurance-desc">Federal health insurance program</div>
+                </div>
+                <div class="insurance-card">
+                    <div class="insurance-logo">🏛️</div>
+                    <div class="insurance-name">Medicaid</div>
+                    <div class="insurance-type">Government</div>
+                    <div class="insurance-desc">State health assistance program</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insurance Verification -->
+        <div class="section">
+            <h2 class="section-title">
+                <div class="section-icon">✅</div>
+                Verify Your Insurance
+            </h2>
+            <div class="verify-section">
+                <div class="verify-form">
+                    <form id="verifyForm">
+                        <div class="form-group">
+                            <label class="form-label">Insurance Provider</label>
+                            <select class="form-select" required>
+                                <option value="">Select your insurance</option>
+                                <option value="bcbs">Blue Cross Blue Shield</option>
+                                <option value="aetna">Aetna</option>
+                                <option value="cigna">Cigna</option>
+                                <option value="united">UnitedHealthcare</option>
+                                <option value="medicare">Medicare</option>
+                                <option value="medicaid">Medicaid</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Member ID</label>
+                            <input type="text" class="form-input" placeholder="Enter your member ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Group Number (if applicable)</label>
+                            <input type="text" class="form-input" placeholder="Optional">
+                        </div>
+                        <button type="submit" class="verify-btn">Verify Coverage</button>
+                    </form>
+                    <div id="verifyResult" class="verify-result">
+                        <strong>✅ Coverage Verified!</strong><br>
+                        Your insurance is active and accepted at our facility.
+                    </div>
+                </div>
+
+                <div class="help-info">
+                    <h3 style="color: #1e40af; margin-bottom: 16px; font-size: 16px;">Need Help?</h3>
+                    <div class="help-item">
+                        <div class="help-icon">📋</div>
+                        <div class="help-text">Bring your insurance card to your appointment</div>
+                    </div>
+                    <div class="help-item">
+                        <div class="help-icon">💳</div>
+                        <div class="help-text">Know your copay amount before your visit</div>
+                    </div>
+                    <div class="help-item">
+                        <div class="help-icon">📞</div>
+                        <div class="help-text">Call us at (555) 123-4567 for coverage questions</div>
+                    </div>
+                    <div class="help-item">
+                        <div class="help-icon">🏥</div>
+                        <div class="help-text">Pre-authorization may be required for some services</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coverage Details -->
+        <div class="section">
+            <h2 class="section-title">
+                <div class="section-icon">📊</div>
+                Common Coverage Details
+            </h2>
+            <table class="coverage-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Most Plans</th>
+                        <th>Medicare</th>
+                        <th>Medicaid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Annual Physical</td>
+                        <td class="status-covered">Covered 100%</td>
+                        <td class="status-covered">Covered 100%</td>
+                        <td class="status-covered">Covered 100%</td>
+                    </tr>
+                    <tr>
+                        <td>Specialist Visit</td>
+                        <td class="status-partial">Copay Required</td>
+                        <td class="status-partial">20% Coinsurance</td>
+                        <td class="status-covered">Covered</td>
+                    </tr>
+                    <tr>
+                        <td>Lab Tests</td>
+                        <td class="status-covered">Covered 80-100%</td>
+                        <td class="status-covered">Covered 80%</td>
+                        <td class="status-covered">Covered 100%</td>
+                    </tr>
+                    <tr>
+                        <td>Emergency Room</td>
+                        <td class="status-partial">High Copay</td>
+                        <td class="status-partial">20% Coinsurance</td>
+                        <td class="status-covered">Covered</td>
+                    </tr>
+                    <tr>
+                        <td>Prescription Drugs</td>
+                        <td class="status-partial">Varies by Plan</td>
+                        <td class="status-partial">Varies by Plan</td>
+                        <td class="status-covered">Covered</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('verifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.verify-btn');
+            const resultDiv = document.getElementById('verifyResult');
+            
+            // Show loading state
+            submitBtn.textContent = 'Verifying...';
+            submitBtn.disabled = true;
+            
+            // Simulate verification process
+            setTimeout(() => {
+                const isValid = Math.random() > 0.2; // 80% success rate
+                
+                if (isValid) {
+                    resultDiv.className = 'verify-result success';
+                    resultDiv.innerHTML = '<strong>✅ Coverage Verified!</strong><br>Your insurance is active and accepted at our facility.';
+                } else {
+                    resultDiv.className = 'verify-result error';
+                    resultDiv.innerHTML = '<strong>❌ Verification Failed</strong><br>Please check your information or call us at (555) 123-4567.';
+                }
+                
+                resultDiv.style.display = 'block';
+                submitBtn.textContent = 'Verify Coverage';
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Add hover effects to insurance cards
+        document.querySelectorAll('.insurance-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class from all cards
+                document.querySelectorAll('.insurance-card').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked card
+                this.classList.add('active');
+                
+                // Update form selection
+                const insuranceName = this.querySelector('.insurance-name').textContent;
+                const select = document.querySelector('.form-select');
+                
+                // Map insurance names to select values
+                const insuranceMap = {
+                    'Blue Cross Blue Shield': 'bcbs',
+                    'Aetna': 'aetna',
+                    'Cigna': 'cigna',
+                    'UnitedHealthcare': 'united',
+                    'Medicare': 'medicare',
+                    'Medicaid': 'medicaid'
+                };
+                
+                if (insuranceMap[insuranceName]) {
+                    select.value = insuranceMap[insuranceName];
+                }
+            });
+        });
+
+        // Add CSS for active state
+        const style = document.createElement('style');
+        style.textContent = `
+            .insurance-card.active {
+                border-color: #059669;
+                background: #ecfdf5;
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(5, 150, 105, 0.15);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
