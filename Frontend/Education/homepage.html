@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVerse - Educational Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: white;
+            padding: 4rem 0;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .search-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Common Section Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        /* Highlights Section */
+        .highlights {
+            background: white;
+            padding: 6rem 0;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Scholarships Section */
+        .scholarships {
+            background: white;
+            padding: 6rem 0;
+        }
+
+        .scholarship-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .scholarship-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .scholarship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .scholarship-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .scholarship-amount {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        /* Partners Section */
+        .partners {
+            background: #f8f9fa;
+            padding: 4rem 0;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .partner-logo {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: white;
+            padding: 6rem 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 3rem 0 0;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section h4 {
+            color: var(--text-light);
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 0.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: calc(var(--border-radius) / 2);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .newsletter-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-gradient);
+            border: none;
+            border-radius: calc(var(--border-radius) / 2);
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+        }
+
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-legal a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .cube-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .cube {
+                width: 150px;
+                height: 150px;
+                font-size: 1.5rem;
+            }
+
+            .cube.front, .cube.back, .cube.right, 
+            .cube.left, .cube.top, .cube.bottom {
+                transform-origin: center;
+            }
+
+            .cube.front { transform: rotateY(0deg) translateZ(75px); }
+            .cube.back { transform: rotateY(180deg) translateZ(75px); }
+            .cube.right { transform: rotateY(90deg) translateZ(75px); }
+            .cube.left { transform: rotateY(-90deg) translateZ(75px); }
+            .cube.top { transform: rotateX(90deg) translateZ(75px); }
+            .cube.bottom { transform: rotateX(-90deg) translateZ(75px); }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 24px;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-window.active {
+            display: flex;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .chatbot-header p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chatbot-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .chatbot-close:hover {
+            opacity: 1;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 70%;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ccc;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .chatbot-input {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #eee;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .chatbot-input input:focus {
+            border-color: #667eea;
+        }
+
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .send-button:hover {
+            transform: scale(1.1);
+        }
+
+        .send-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 8px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .chatbot-window {
+                width: calc(100vw - 40px);
+                height: calc(100vh - 100px);
+                right: 20px;
+                bottom: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Eduverse</div>
+            <ul class="nav-links">
+                <li><a href="#home.html">Home</a></li>
+                <li><a href="scholarship.html">Scholarships</a></li>
+                <li><a href="Loanpage.html">Loans</a></li>
+                <li><a href="annoucement.html">Announcements</a></li>
+                <li><a href="calender.html">Academic Calendar</a></li>
+                <li><a href="scheme.html">scheme</a></li>
+                <li><a href="studentdashboard.html">My Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Unlock Your Educational Future</h1>
+            <p>Discover scholarships, loans, and opportunities that will transform your academic journey into success
+            </p>
+            <button class="cta-button" onclick="scrollToSection('scholarships')">Apply for Scholarships Now</button>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input"
+                    placeholder="Find scholarships by field, institution, or amount...">
+                <button class="search-button">Search Scholarships</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights Section -->
+    <section class="highlights">
+        <div class="container">
+            <h2 class="section-title">Why Choose EduPath?</h2>
+            <div class="highlights-grid">
+                <div class="highlight-card fade-in">
+                    <div class="highlight-icon">🎓</div>
+                    <h3>Premium Scholarships</h3>
+                    <p>Access to over 10,000+ scholarships from top universities and organizations worldwide. Find the
+                        perfect match for your academic goals.</p>
+                </div>
+                <div class="highlight-card fade-in">
+                    <div class="highlight-icon">💳</div>
+                    <h3>Flexible Loans</h3>
+                    <p>Low-interest educational loans with flexible repayment options. Invest in your future without
+                        financial stress.</p>
+                </div>
+                <div class="highlight-card fade-in">
+                    <div class="highlight-icon">🏆</div>
+                    <h3>Success Stories</h3>
+                    <p>Join thousands of successful students who achieved their dreams through our platform. Your
+                        success story starts here.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50K+</h3>
+                    <p>Students Funded</p>
+                </div>
+                <div class="stat-item">
+                    <h3>$2.5B</h3>
+                    <p>Scholarships Awarded</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Partner Universities</p>
+                </div>
+                <div class="stat-item">
+                    <h3>95%</h3>
+                    <p>Success Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Scholarships -->
+    <section class="scholarships" id="scholarships">
+        <div class="container">
+            <h2 class="section-title">Featured Scholarships</h2>
+            <div class="scholarship-grid">
+                <div class="scholarship-card">
+                    <div class="scholarship-header">
+                        <h3>Global Excellence Scholarship</h3>
+                        <div class="scholarship-amount">$25,000</div>
+                    </div>
+                    <div class="scholarship-body">
+                        <p>Merit-based scholarship for outstanding international students pursuing undergraduate studies
+                            in STEM fields.</p>
+                        <p><strong>Deadline:</strong> March 15, 2025</p>
+                        <p><strong>Eligibility:</strong> GPA 3.8+, International Students</p>
+                    </div>
+                </div>
+                <div class="scholarship-card">
+                    <div class="scholarship-header">
+                        <h3>Future Leaders Grant</h3>
+                        <div class="scholarship-amount">$15,000</div>
+                    </div>
+                    <div class="scholarship-body">
+                        <p>Supporting students with leadership potential in business and entrepreneurship programs.</p>
+                        <p><strong>Deadline:</strong> April 30, 2025</p>
+                        <p><strong>Eligibility:</strong> Business Major, Leadership Experience</p>
+                    </div>
+                </div>
+                <div class="scholarship-card">
+                    <div class="scholarship-header">
+                        <h3>Innovation in Tech Award</h3>
+                        <div class="scholarship-amount">$30,000</div>
+                    </div>
+                    <div class="scholarship-body">
+                        <p>For students pursuing computer science, AI, or engineering with innovative project
+                            portfolios.</p>
+                        <p><strong>Deadline:</strong> February 28, 2025</p>
+                        <p><strong>Eligibility:</strong> Tech Portfolio, CS/Engineering Major</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners">
+        <div class="container">
+            <h2 class="section-title">Our Partner Institutions</h2>
+            <div class="partners-grid">
+                <div class="partner-logo">Harvard University</div>
+                <div class="partner-logo">Stanford University</div>
+                <div class="partner-logo">MIT</div>
+                <div class="partner-logo">Oxford University</div>
+                <div class="partner-logo">Cambridge University</div>
+                <div class="partner-logo">UC Berkeley</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Success Stories</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>EduPath helped me secure a full scholarship to MIT. The platform made finding and applying for
+                        scholarships incredibly easy and efficient.</p>
+                    <div style="margin-top: 1rem; font-weight: 600; color: #667eea;">- Sarah Chen, MIT Graduate</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>Thanks to EduPath's loan program, I was able to pursue my MBA without financial stress. The
+                        flexible repayment options were exactly what I needed.</p>
+                    <div style="margin-top: 1rem; font-weight: 600; color: #667eea;">- Marcus Johnson, MBA Stanford
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>The scholarship matching algorithm is incredible. It found opportunities I never would have
+                        discovered on my own. Highly recommend!</p>
+                    <div style="margin-top: 1rem; font-weight: 600; color: #667eea;">- Priya Patel, Oxford Scholar</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChatbot()">
+            💬
+        </button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <button class="chatbot-close" onclick="toggleChatbot()">×</button>
+                <h3>EduVerse Assistant</h3>
+                <p>Ask me about scholarships, loans, and more!</p>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        Hi! I'm your EduVerse assistant. How can I help you today?
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <div class="quick-action" onclick="sendQuickMessage('Tell me about scholarships')">📚 Scholarships
+                    </div>
+                    <div class="quick-action" onclick="sendQuickMessage('How do education loans work?')">💰 Loans</div>
+                    <div class="quick-action" onclick="sendQuickMessage('Application deadlines')">📅 Deadlines</div>
+                    <div class="quick-action" onclick="sendQuickMessage('Eligibility criteria')">✅ Eligibility</div>
+                </div>
+                <div class="message bot typing-indicator" id="typingIndicator">
+                    <div class="message-avatar">🤖</div>
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <div class="input-container">
+                    <input type="text" id="chatInput" placeholder="Type your message..."
+                        onkeypress="handleKeyPress(event)">
+                    <button class="send-button" onclick="sendMessage()" id="sendButton">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+     <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>EduVerse</h3>
+                        <p>Transforming education through innovative technology and personalized learning experiences.</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">🐦</a>
+                        <a href="#" class="social-link">💼</a>
+                        <a href="#" class="social-link">📸</a>
+                        <a href="#" class="social-link">📺</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Courses</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Data Science</a></li>
+                        <li><a href="#">Machine Learning</a></li>
+                        <li><a href="#">Digital Marketing</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">Cloud Computing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Mission</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partnerships</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">System Status</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for the latest courses and updates.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input">
+                        <button class="newsletter-btn">Subscribe</button>
+                    </div>
+                    <div class="footer-contact">
+                        <p>📞 +1 (555) 123-4567</p>
+                        <p>✉️ hello@eduverse.com</p>
+                        <p>📍 123 Education St, Learning City, LC 12345</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 EduVerse. All rights reserved.</p>
+                    <div class="footer-legal">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                        <a href="#">GDPR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Chatbot functionality
+        // Advanced Education Chatbot JavaScript
+        class AdvancedEducationChatbot {
+   
+            constructor() {
+        this.apiKey = 'AIzaSyCqmCN69UOQJ9BldbTmfVH3hUKMWvBzjjI';
+        this.apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+                this.isOpen = false;
+                this.isTyping = false;
+                this.conversationHistory = [];
+                this.userContext = {
+                    visitedPages: [],
+                    interests: [],
+                    lastQuery: null,
+                    sessionTime: Date.now()
+                };
+
+                // Page routing configuration
+                this.pageRoutes = {
+                    'home': 'homepage.html',
+                    'about': 'aboutus.html',
+                    'loans': 'loanapp.html',
+                    'loan-page': 'Loanpage.html',
+                    'schemes': 'scheme.html',
+                    'scholarships': 'scholarship.html',
+                    'application': 'schoapplication.html',
+                    'calendar': 'calender.html',
+                    'announcements': 'announcement.html',
+                    'contact': 'contactuspage.html',
+                    'login': 'login.html',
+                    'signup': 'signup.html',
+                    'dashboard': 'studentdashboard.html',
+                    'landing': 'landingpage.html'
+                };
+
+                // Advanced knowledge base
+                this.knowledgeBase = {
+                    scholarships: {
+                        types: [
+                            {
+                                name: "Global Excellence Scholarship",
+                                amount: "$25,000",
+                                eligibility: "Minimum 3.8 GPA, Leadership experience, International students welcome",
+                                deadline: "March 15, 2025",
+                                requirements: ["Academic transcripts", "2 recommendation letters", "Personal essay", "Leadership portfolio"]
+                            },
+                            {
+                                name: "Future Leaders Grant",
+                                amount: "$15,000",
+                                eligibility: "Minimum 3.5 GPA, Community service, STEM fields preferred",
+                                deadline: "April 30, 2025",
+                                requirements: ["Academic records", "Community service certificate", "Research proposal"]
+                            },
+                            {
+                                name: "Innovation in Tech Award",
+                                amount: "$30,000",
+                                eligibility: "Technology/Engineering majors, Portfolio required, Minimum 3.6 GPA",
+                                deadline: "February 28, 2025",
+                                requirements: ["Technical portfolio", "Project documentation", "Innovation proposal"]
+                            },
+                            {
+                                name: "Need-Based Assistance",
+                                amount: "Up to $20,000",
+                                eligibility: "Financial need demonstration, Academic merit",
+                                deadline: "Rolling basis",
+                                requirements: ["Financial documents", "Academic transcripts", "Need assessment form"]
+                            }
+                        ],
+                        application_process: "Create account → Complete profile → Upload documents → Submit application → Interview (if selected) → Award notification"
+                    },
+                    loans: {
+                        types: [
+                            {
+                                name: "Student Education Loan",
+                                range: "$5,000 - $100,000",
+                                interest: "3.5% - 8.5% (varies by credit score)",
+                                repayment: "Up to 20 years",
+                                features: ["No prepayment penalty", "Grace period options", "Income-based repayment"]
+                            },
+                            {
+                                name: "Parent PLUS Loan",
+                                range: "Up to full cost of attendance",
+                                interest: "5.3% - 9.8%",
+                                repayment: "Up to 25 years",
+                                features: ["Credit check required", "Immediate or deferred payments", "No borrowing limits"]
+                            },
+                            {
+                                name: "Graduate Student Loan",
+                                range: "$10,000 - $150,000",
+                                interest: "4.2% - 10.1%",
+                                repayment: "Up to 25 years",
+                                features: ["Higher limits", "Specialized programs", "Career-based repayment options"]
+                            }
+                        ],
+                        eligibility: "Enrolled student status, Credit score 600+, Income verification, Co-signer may be required",
+                        documents: ["Admission letter", "Income proof", "Credit report", "Bank statements", "ID proof"]
+                    },
+                    insurance: {
+                        types: [
+                            {
+                                name: "Student Health Insurance",
+                                coverage: "Medical, dental, vision, mental health",
+                                premium: "$800 - $2,500/year",
+                                benefits: ["Preventive care", "Emergency services", "Prescription drugs", "Specialist visits"]
+                            },
+                            {
+                                name: "Education Loan Insurance",
+                                coverage: "Loan protection in case of disability/death",
+                                premium: "0.5% - 2% of loan amount",
+                                benefits: ["Loan forgiveness", "Family protection", "Disability coverage"]
+                            },
+                            {
+                                name: "International Student Insurance",
+                                coverage: "Comprehensive health and travel",
+                                premium: "$500 - $1,800/year",
+                                benefits: ["Medical evacuation", "Trip interruption", "Personal liability"]
+                            }
+                        ]
+                    },
+                    schemes: {
+                        government: [
+                            "Central Sector Scheme of Scholarships",
+                            "Post Matric Scholarships for Minorities",
+                            "National Scholarship Portal Programs",
+                            "PM-YASASVI Scheme",
+                            "Begum Hazrat Mahal National Scholarship"
+                        ],
+                        private: [
+                            "Corporate Scholarship Programs",
+                            "Industry-Specific Grants",
+                            "Merit-Based Awards",
+                            "Need-Based Assistance Programs"
+                        ],
+                        state: [
+                            "State Merit Scholarships",
+                            "Backward Class Scholarships",
+                            "Professional Course Scholarships",
+                            "Technical Education Schemes"
+                        ]
+                    }
+                };
+
+                // Natural Language Processing patterns
+                this.intentPatterns = {
+                    greeting: /^(hi|hello|hey|good morning|good afternoon|good evening|namaste)/i,
+                    scholarship: /(scholarship|grant|award|financial aid|funding|study abroad)/i,
+                    loan: /(loan|finance|borrow|credit|emi|interest|repay)/i,
+                    insurance: /(insurance|health|medical|coverage|protection)/i,
+                    scheme: /(scheme|program|government|state|central)/i,
+                    eligibility: /(eligibility|qualify|criteria|requirement|eligible)/i,
+                    deadline: /(deadline|last date|due date|when|time)/i,
+                    application: /(apply|application|form|process|how to|steps)/i,
+                    navigation: /(go to|visit|show|open|redirect|page|section)/i,
+                    amount: /(amount|money|cost|fee|price|how much)/i,
+                    documents: /(document|paper|certificate|proof|upload)/i,
+                    contact: /(contact|phone|email|address|reach|support)/i,
+                    about: /(about|who|what is|tell me about)/i,
+                    goodbye: /(bye|goodbye|see you|thanks|thank you)/i
+                };
+
+                this.init();
+            }
+
+            init() {
+                // Track page visits
+                this.trackPageVisit();
+
+                // Initialize chat history from localStorage if available
+                this.loadChatHistory();
+
+                // Set up event listeners
+                this.setupEventListeners();
+
+                // Personalized greeting based on time
+                this.showPersonalizedGreeting();
+            }
+
+            setupEventListeners() {
+                // Enhanced input handling
+                const chatInput = document.getElementById('chatInput');
+                if (chatInput) {
+                    chatInput.addEventListener('input', (e) => {
+                        this.handleTyping();
+                    });
+
+                    chatInput.addEventListener('focus', () => {
+                        this.markAsActive();
+                    });
+                }
+
+                // Track user interactions
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.chatbot-container')) {
+                        this.trackInteraction('chatbot_interaction');
+                    }
+                });
+            }
+
+            trackPageVisit() {
+                const currentPage = window.location.pathname.split('/').pop() || 'homepage.html';
+                if (!this.userContext.visitedPages.includes(currentPage)) {
+                    this.userContext.visitedPages.push(currentPage);
+                }
+            }
+
+            showPersonalizedGreeting() {
+                const hour = new Date().getHours();
+                let greeting = "Hello!";
+
+                if (hour < 12) greeting = "Good morning!";
+                else if (hour < 17) greeting = "Good afternoon!";
+                else greeting = "Good evening!";
+
+                const welcomeMessage = `${greeting} I'm your EduVerse assistant. I can help you with scholarships, loans, insurance, and navigate through our website. What would you like to know today?`;
+
+                // Update the initial bot message
+                setTimeout(() => {
+                    const firstMessage = document.querySelector('.message.bot .message-content');
+                    if (firstMessage) {
+                        firstMessage.textContent = welcomeMessage;
+                    }
+                }, 500);
+            }
+
+            toggleChatbot() {
+                const chatbotWindow = document.getElementById('chatbotWindow');
+                this.isOpen = !this.isOpen;
+
+                if (this.isOpen) {
+                    chatbotWindow.classList.add('active');
+                    this.trackInteraction('chatbot_opened');
+                    document.getElementById('chatInput').focus();
+                } else {
+                    chatbotWindow.classList.remove('active');
+                    this.trackInteraction('chatbot_closed');
+                }
+            }
+
+            async sendMessage() {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+
+                if (message === '' || this.isTyping) return;
+
+                this.addMessage(message, 'user');
+                input.value = '';
+                this.userContext.lastQuery = message;
+
+                // Analyze intent and generate response
+                this.showTypingIndicator();
+
+                try {
+                    const response = await this.generateAdvancedResponse(message);
+
+                    setTimeout(() => {
+                        this.hideTypingIndicator();
+                        this.addMessage(response.text, 'bot');
+
+                        // Handle page redirection if needed
+                        if (response.redirect) {
+                            this.offerPageRedirection(response.redirect);
+                        }
+
+                        // Show follow-up suggestions
+                        if (response.suggestions) {
+                            this.showSuggestions(response.suggestions);
+                        }
+                    }, 1000 + Math.random() * 1000);
+
+                } catch (error) {
+                    this.hideTypingIndicator();
+                    this.addMessage("I apologize, but I'm having trouble processing your request. Please try again or contact our support team.", 'bot');
+                }
+
+                this.saveChatHistory();
+            }
+
+            async generateAdvancedResponse(message) {
+                const intent = this.analyzeIntent(message);
+                const entities = this.extractEntities(message);
+
+                let response = {
+                    text: "",
+                    redirect: null,
+                    suggestions: []
+                };
+
+                // Context-aware responses based on intent
+                switch (intent.primary) {
+                    case 'greeting':
+                        response.text = this.generateGreetingResponse();
+                        response.suggestions = ["Tell me about scholarships", "How do loans work?", "Show me schemes"];
+                        break;
+
+                    case 'scholarship':
+                        response = this.generateScholarshipResponse(entities, message);
+                        break;
+
+                    case 'loan':
+                        response = this.generateLoanResponse(entities, message);
+                        break;
+
+                    case 'insurance':
+                        response = this.generateInsuranceResponse(entities, message);
+                        break;
+
+                    case 'scheme':
+                        response = this.generateSchemeResponse(entities, message);
+                        break;
+
+                    case 'navigation':
+                        response = this.handleNavigation(message);
+                        break;
+
+                    case 'application':
+                        response = this.generateApplicationResponse(entities, message);
+                        break;
+
+                    case 'contact':
+                        response = this.generateContactResponse();
+                        break;
+
+                    case 'goodbye':
+                        response.text = "Thank you for using EduVerse! Feel free to reach out anytime for assistance with your educational journey. Have a great day!";
+                        break;
+
+                    default:
+                        response = this.generateContextualResponse(message, intent, entities);
+                }
+
+                return response;
+            }
+
+            analyzeIntent(message) {
+                const intents = {
+                    primary: 'general',
+                    confidence: 0,
+                    secondary: []
+                };
+
+                for (const [intent, pattern] of Object.entries(this.intentPatterns)) {
+                    if (pattern.test(message)) {
+                        if (intents.confidence < 0.8) {
+                            intents.primary = intent;
+                            intents.confidence = 0.8;
+                        } else {
+                            intents.secondary.push(intent);
+                        }
+                    }
+                }
+
+                return intents;
+            }
+
+            extractEntities(message) {
+                const entities = {
+                    amount: null,
+                    program: null,
+                    page: null,
+                    deadline: null,
+                    eligibility: null
+                };
+
+                // Extract amount mentions
+                const amountMatch = message.match(/\$?(\d+(?:,\d{3})*(?:\.\d{2})?)/);
+                if (amountMatch) entities.amount = amountMatch[1];
+
+                // Extract program mentions
+                const programs = ['scholarship', 'loan', 'insurance', 'grant', 'award'];
+                for (const program of programs) {
+                    if (message.toLowerCase().includes(program)) {
+                        entities.program = program;
+                        break;
+                    }
+                }
+
+                // Extract page mentions
+                for (const [key, value] of Object.entries(this.pageRoutes)) {
+                    if (message.toLowerCase().includes(key)) {
+                        entities.page = key;
+                        break;
+                    }
+                }
+
+                return entities;
+            }
+
+            generateScholarshipResponse(entities, message) {
+                const scholarships = this.knowledgeBase.scholarships.types;
+                let response = {
+                    text: "",
+                    redirect: "scholarships",
+                    suggestions: ["Apply for scholarship", "Check eligibility", "View deadlines"]
+                };
+
+                if (message.toLowerCase().includes('deadline')) {
+                    let deadlineInfo = "📅 **Upcoming Scholarship Deadlines:**\n\n";
+                    scholarships.forEach(scholarship => {
+                        deadlineInfo += `• **${scholarship.name}**: ${scholarship.deadline}\n`;
+                    });
+                    deadlineInfo += "\n⚠️ Don't miss out! Start your applications early.";
+                    response.text = deadlineInfo;
+
+                } else if (message.toLowerCase().includes('eligibility')) {
+                    response.text = "📋 **Scholarship Eligibility Overview:**\n\n" +
+                        "**General Requirements:**\n" +
+                        "• Minimum GPA requirements (3.5-3.8)\n" +
+                        "• Academic transcripts\n" +
+                        "• Recommendation letters\n" +
+                        "• Personal essays\n" +
+                        "• Leadership/community service experience\n\n" +
+                        "Each scholarship has specific criteria. Would you like details about a particular scholarship?";
+
+                } else if (message.toLowerCase().includes('amount') || message.toLowerCase().includes('money')) {
+                    response.text = "💰 **Scholarship Amounts Available:**\n\n" +
+                        scholarships.map(s => `• **${s.name}**: ${s.amount}`).join('\n') +
+                        "\n\nAmounts vary based on merit, need, and program type. Apply for multiple scholarships to maximize your funding!";
+
+                } else {
+                    response.text = "🎓 **Available Scholarships:**\n\n" +
+                        scholarships.map(s =>
+                            `**${s.name}** - ${s.amount}\n` +
+                            `Deadline: ${s.deadline}\n` +
+                            `Eligibility: ${s.eligibility}\n`
+                        ).join('\n') +
+                        "\n📝 Ready to apply? I can guide you through the application process!";
+                }
+
+                return response;
+            }
+
+            generateLoanResponse(entities, message) {
+                const loans = this.knowledgeBase.loans.types;
+                let response = {
+                    text: "",
+                    redirect: "loans",
+                    suggestions: ["Apply for loan", "Check interest rates", "Repayment options"]
+                };
+
+                if (message.toLowerCase().includes('interest') || message.toLowerCase().includes('rate')) {
+                    response.text = "📊 **Education Loan Interest Rates:**\n\n" +
+                        loans.map(loan =>
+                            `**${loan.name}**\n` +
+                            `Interest Rate: ${loan.interest}\n` +
+                            `Loan Amount: ${loan.range}\n`
+                        ).join('\n') +
+                        "\n💡 Rates depend on credit score, income, and loan amount. Pre-qualify to get your personalized rate!";
+
+                } else if (message.toLowerCase().includes('repay') || message.toLowerCase().includes('emi')) {
+                    response.text = "💳 **Loan Repayment Options:**\n\n" +
+                        "**Flexible Repayment Plans:**\n" +
+                        "• Standard 10-year plan\n" +
+                        "• Extended 20-25 year plan\n" +
+                        "• Income-based repayment\n" +
+                        "• Graduated payment plan\n\n" +
+                        "**Benefits:**\n" +
+                        "• No prepayment penalties\n" +
+                        "• Grace period options\n" +
+                        "• Deferment available\n" +
+                        "• Auto-pay discounts\n\n" +
+                        "Use our EMI calculator to plan your payments!";
+
+                } else if (message.toLowerCase().includes('eligibility') || message.toLowerCase().includes('qualify')) {
+                    response.text = "✅ **Loan Eligibility Criteria:**\n\n" +
+                        `**Basic Requirements:**\n${this.knowledgeBase.loans.eligibility}\n\n` +
+                        "**Required Documents:**\n" +
+                        this.knowledgeBase.loans.documents.map(doc => `• ${doc}`).join('\n') +
+                        "\n\n📞 Get pre-approved in just 2 minutes with our quick eligibility check!";
+
+                } else {
+                    response.text = "🏦 **Education Loan Options:**\n\n" +
+                        loans.map(loan =>
+                            `**${loan.name}**\n` +
+                            `Amount: ${loan.range}\n` +
+                            `Interest: ${loan.interest}\n` +
+                            `Repayment: ${loan.repayment}\n`
+                        ).join('\n') +
+                        "\n✨ Quick approval in 48 hours! Start your application today.";
+                }
+
+                return response;
+            }
+
+            generateInsuranceResponse(entities, message) {
+                const insurance = this.knowledgeBase.insurance.types;
+                let response = {
+                    text: "🛡️ **Student Insurance Options:**\n\n" +
+                        insurance.map(ins =>
+                            `**${ins.name}**\n` +
+                            `Coverage: ${ins.coverage}\n` +
+                            `Premium: ${ins.premium}\n` +
+                            `Benefits: ${ins.benefits.join(', ')}\n`
+                        ).join('\n') +
+                        "\n💡 Protect your investment in education! Get a quote in seconds.",
+                    redirect: null,
+                    suggestions: ["Get insurance quote", "Compare plans", "Contact insurance agent"]
+                };
+
+                return response;
+            }
+
+            generateSchemeResponse(entities, message) {
+                const schemes = this.knowledgeBase.schemes;
+                let response = {
+                    text: "🎯 **Available Schemes & Programs:**\n\n" +
+                        "**Government Schemes:**\n" +
+                        schemes.government.map(scheme => `• ${scheme}`).join('\n') +
+                        "\n\n**Private Schemes:**\n" +
+                        schemes.private.map(scheme => `• ${scheme}`).join('\n') +
+                        "\n\n**State Schemes:**\n" +
+                        schemes.state.map(scheme => `• ${scheme}`).join('\n') +
+                        "\n\n📋 Each scheme has specific eligibility criteria. Which category interests you most?",
+                    redirect: "schemes",
+                    suggestions: ["Government schemes", "Private programs", "State scholarships"]
+                };
+
+                return response;
+            }
+
+            handleNavigation(message) {
+                const pageKeywords = {
+                    'home': ['home', 'main', 'homepage'],
+                    'about': ['about', 'about us', 'company'],
+                    'loans': ['loan', 'borrow', 'finance'],
+                    'schemes': ['scheme', 'program', 'grant'],
+                    'scholarships': ['scholarship', 'award', 'funding'],
+                    'contact': ['contact', 'support', 'help'],
+                    'login': ['login', 'sign in', 'account'],
+                    'dashboard': ['dashboard', 'profile', 'account']
+                };
+
+                let targetPage = null;
+                for (const [page, keywords] of Object.entries(pageKeywords)) {
+                    if (keywords.some(keyword => message.toLowerCase().includes(keyword))) {
+                        targetPage = page;
+                        break;
+                    }
+                }
+
+                if (targetPage && this.pageRoutes[targetPage]) {
+                    return {
+                        text: `I'll redirect you to the ${targetPage} page. You can also click the button below to navigate directly.`,
+                        redirect: targetPage,
+                        suggestions: [`Go to ${targetPage}`, "Stay here and chat", "Show me more options"]
+                    };
+                }
+
+                return {
+                    text: "I can help you navigate to different sections of our website. Where would you like to go?\n\n📍 Available pages: Home, About Us, Loans, Schemes, Scholarships, Contact, Dashboard",
+                    redirect: null,
+                    suggestions: ["Go to loans", "View scholarships", "Contact support"]
+                };
+            }
+
+            generateApplicationResponse(entities, message) {
+                return {
+                    text: "📝 **Application Process:**\n\n" +
+                        "**Step-by-Step Guide:**\n" +
+                        "1. **Create Account** - Register on our platform\n" +
+                        "2. **Complete Profile** - Fill in personal & academic details\n" +
+                        "3. **Choose Program** - Select scholarship/loan type\n" +
+                        "4. **Upload Documents** - Submit required paperwork\n" +
+                        "5. **Review & Submit** - Double-check and submit\n" +
+                        "6. **Track Status** - Monitor application progress\n\n" +
+                        "⏱️ **Timeline:** Applications typically take 15-20 minutes to complete.\n" +
+                        "📞 **Support:** Available 24/7 if you need assistance!\n\n" +
+                        "Ready to start your application?",
+                    redirect: "application",
+                    suggestions: ["Start application", "View requirements", "Contact support"]
+                };
+            }
+
+            generateContactResponse() {
+                return {
+                    text: "📞 **Contact Information:**\n\n" +
+                        "**Customer Support:**\n" +
+                        "• Email: support@eduverse.com\n" +
+                        "• Phone: +1 (555) 123-4567\n" +
+                        "• Live Chat: Available 24/7\n\n" +
+                        "**Office Hours:**\n" +
+                        "• Monday-Friday: 9 AM - 6 PM\n" +
+                        "• Saturday: 10 AM - 4 PM\n" +
+                        "• Sunday: Closed\n\n" +
+                        "**Emergency Support:**\n" +
+                        "• Urgent issues: +1 (555) 911-HELP\n" +
+                        "• Email: urgent@eduverse.com\n\n" +
+                        "How can I assist you further?",
+                    redirect: "contact",
+                    suggestions: ["Call support", "Send email", "Visit office"]
+                };
+            }
+
+            generateContextualResponse(message, intent, entities) {
+                // Smart contextual responses based on conversation history and user behavior
+                const recentTopics = this.conversationHistory.slice(-3).map(msg => msg.topic);
+
+                if (recentTopics.includes('scholarship') && message.toLowerCase().includes('apply')) {
+                    return {
+                        text: "Since you're interested in scholarships, I'll help you with the application process! You can apply for multiple scholarships simultaneously to increase your chances. Would you like me to guide you through the scholarship application?",
+                        redirect: "scholarships",
+                        suggestions: ["Start scholarship application", "Check eligibility", "View deadlines"]
+                    };
+                }
+
+                // Fallback with intelligent suggestions
+                return {
+                    text: "I understand you're looking for information about educational opportunities. Here's what I can help you with:\n\n" +
+                        "🎓 **Scholarships** - Find funding for your studies\n" +
+                        "🏦 **Education Loans** - Flexible financing options\n" +
+                        "🛡️ **Insurance** - Protect your educational investment\n" +
+                        "📋 **Government Schemes** - Explore available programs\n" +
+                        "📝 **Applications** - Step-by-step guidance\n\n" +
+                        "What specific information would you like to know more about?",
+                    redirect: null,
+                    suggestions: ["View scholarships", "Explore loans", "Check schemes", "Contact support"]
+                };
+            }
+
+            sendQuickMessage(message) {
+                this.addMessage(message, 'user');
+                this.showTypingIndicator();
+
+                setTimeout(async () => {
+                    this.hideTypingIndicator();
+                    const response = await this.generateAdvancedResponse(message);
+                    this.addMessage(response.text, 'bot');
+
+                    if (response.redirect) {
+                        this.offerPageRedirection(response.redirect);
+                    }
+
+                    if (response.suggestions) {
+                        this.showSuggestions(response.suggestions);
+                    }
+                }, 800);
+            }
+
+            addMessage(message, sender) {
+                const messagesContainer = document.getElementById('chatbotMessages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.textContent = sender === 'user' ? '👤' : '🤖';
+
+                const content = document.createElement('div');
+                content.className = 'message-content';
+
+                // Format message with markdown-like syntax
+                const formattedMessage = this.formatMessage(message);
+                content.innerHTML = formattedMessage;
+
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(content);
+
+                // Insert before typing indicator
+                const typingIndicator = document.getElementById('typingIndicator');
+                messagesContainer.insertBefore(messageDiv, typingIndicator);
+
+                // Smooth scroll to bottom
+                this.scrollToBottom();
+
+                // Save to conversation history
+                this.conversationHistory.push({
+                    message: message,
+                    sender: sender,
+                    timestamp: Date.now(),
+                    topic: this.extractTopicFromMessage(message)
+                });
+            }
+
+            formatMessage(message) {
+                return message
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/(📞|📧|🌐|📱|📍|💰|🎓|🏦|🛡️|📋|📝|⏱️|✅|❌|🚀|💡|⚠️)/g, '<span style="font-size: 1.2em;">$1</span>');
+            }
+
+            extractTopicFromMessage(message) {
+                const topics = ['scholarship', 'loan', 'insurance', 'scheme', 'application', 'contact'];
+                for (const topic of topics) {
+                    if (message.toLowerCase().includes(topic)) {
+                        return topic;
+                    }
+                }
+                return 'general';
+            }
+
+            offerPageRedirection(page) {
+                if (this.pageRoutes[page]) {
+                    setTimeout(() => {
+                        const redirectDiv = document.createElement('div');
+                        redirectDiv.className = 'message bot redirect-offer';
+                        redirectDiv.innerHTML = `
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="redirect-buttons">
+                            <button onclick="advancedChatbot.redirectToPage('${page}')" class="redirect-btn primary">
+                                Go to ${page.charAt(0).toUpperCase() + page.slice(1)} Page
+                            </button>
+                            <button onclick="advancedChatbot.dismissRedirect(this)" class="redirect-btn secondary">
+                                Stay Here
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                        const messagesContainer = document.getElementById('chatbotMessages');
+                        const typingIndicator = document.getElementById('typingIndicator');
+                        messagesContainer.insertBefore(redirectDiv, typingIndicator);
+                        this.scrollToBottom();
+                    }, 1000);
+                }
+            }
+
+            redirectToPage(page) {
+                if (this.pageRoutes[page]) {
+                    this.trackInteraction(`page_redirect_${page}`);
+                    window.location.href = this.pageRoutes[page];
+                }
+            }
+
+            dismissRedirect(element) {
+                element.closest('.redirect-offer').style.display = 'none';
+            }
+
+            showSuggestions(suggestions) {
+                setTimeout(() => {
+                    const suggestionsDiv = document.createElement('div');
+                    suggestionsDiv.className = 'message bot suggestions';
+                    suggestionsDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="suggestion-buttons">
+                        ${suggestions.map(suggestion =>
+                        `<button onclick="advancedChatbot.sendQuickMessage('${suggestion}')" class="suggestion-btn">
+                                ${suggestion}
+                            </button>`
+                    ).join('')}
+                    </div>
+                </div>
+            `;
+
+                    const messagesContainer = document.getElementById('chatbotMessages');
+                    const typingIndicator = document.getElementById('typingIndicator');
+                    messagesContainer.insertBefore(suggestionsDiv, typingIndicator);
+                    this.scrollToBottom();
+                }, 500);
+            }
+
+            showTypingIndicator() {
+                this.isTyping = true;
+                const typingIndicator = document.getElementById('typingIndicator');
+                typingIndicator.style.display = 'flex';
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                this.isTyping = false;
+                const typingIndicator = document.getElementById('typingIndicator');
+                typingIndicator.style.display = 'none';
+            }
+
+            scrollToBottom() {
+                const messagesContainer = document.getElementById('chatbotMessages');
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            handleKeyPress(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    this.sendMessage();
+                }
+            }
+
+            handleTyping() {
+                // Show user is typing (visual feedback)
+                const sendButton = document.getElementById('sendButton');
+                const input = document.getElementById('chatInput');
+
+                if (input.value.trim()) {
+                    sendButton.style.opacity = '1';
+                    sendButton.style.transform = 'scale(1)';
+                } else {
+                    sendButton.style.opacity = '0.7';
+                    sendButton.style.transform = 'scale(0.95)';
+                }
+            }
+
+            markAsActive() {
+                this.userContext.lastActivity = Date.now();
+            }
+
+            trackInteraction(action) {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', action, {
+                        event_category: 'chatbot',
+                        event_label: 'user_interaction'
+                    });
+                }
+            }
+
+            saveChatHistory() {
+                try {
+                    const chatData = {
+                        history: this.conversationHistory.slice(-20), // Keep last 20 messages
+                        context: this.userContext,
+                        timestamp: Date.now()
+                    };
+                    // Note: localStorage not available in Claude artifacts
+                    // In real implementation, you would use: localStorage.setItem('eduverse_chat', JSON.stringify(chatData));
+                } catch (error) {
+                    console.log('Chat history save skipped - storage not available');
+                }
+            }
+
+            loadChatHistory() {
+                try {
+                 
+                    if (saved) {
+                        const chatData = JSON.parse(saved);
+                        this.conversationHistory = chatData.history || [];
+                        this.userContext = {...this.userContext, ...chatData.context};
+                    }
+                } catch (error) {
+                    console.log('Chat history load skipped - storage not available');
+                }
+            }
+
+            // Advanced features
+            generateGreetingResponse() {
+                const greetings = [
+                    "Hello! Welcome to EduVerse! I'm here to help you navigate your educational journey. What can I assist you with today?",
+                    "Hi there! I'm your personal education assistant. I can help you with scholarships, loans, insurance, and much more!",
+                    "Welcome! I'm excited to help you explore educational opportunities. What would you like to know about?",
+                    "Hello! Ready to unlock your educational potential? I'm here to guide you through scholarships, funding, and applications!"
+                ];
+
+                return greetings[Math.floor(Math.random() * greetings.length)];
+            }
+
+            // Smart suggestion system
+            generateSmartSuggestions(userMessage, context) {
+                const suggestions = [];
+
+                // Based on message content
+                if (userMessage.toLowerCase().includes('money') || userMessage.toLowerCase().includes('cost')) {
+                    suggestions.push("Calculate loan EMI", "Find scholarships", "Compare funding options");
+                }
+
+                if (userMessage.toLowerCase().includes('international')) {
+                    suggestions.push("International student scholarships", "Study abroad loans", "Visa requirements");
+                }
+
+                if (userMessage.toLowerCase().includes('deadline') || userMessage.toLowerCase().includes('time')) {
+                    suggestions.push("View all deadlines", "Set reminder", "Apply now");
+                }
+
+                // Based on user context
+                if (context.visitedPages.includes('loanapp.html')) {
+                    suggestions.push("Continue loan application", "Check loan status", "Contact loan officer");
+                }
+
+                if (context.interests.includes('scholarship')) {
+                    suggestions.push("New scholarship alerts", "Application tips", "Success stories");
+                }
+
+                return suggestions.slice(0, 3); // Limit to 3 suggestions
+            }
+
+            // Multi-language support (basic)
+            detectLanguage(message) {
+                const hindiPattern = /[\u0900-\u097F]/;
+                const tamilPattern = /[\u0B80-\u0BFF]/;
+
+                if (hindiPattern.test(message)) return 'hi';
+                if (tamilPattern.test(message)) return 'ta';
+                return 'en';
+            }
+
+            // Sentiment analysis (basic)
+            analyzeSentiment(message) {
+                const positiveWords = ['good', 'great', 'excellent', 'amazing', 'helpful', 'thank', 'love', 'best'];
+                const negativeWords = ['bad', 'terrible', 'awful', 'hate', 'worst', 'disappointed', 'frustrated'];
+
+                const words = message.toLowerCase().split(/\s+/);
+                let positiveScore = 0;
+                let negativeScore = 0;
+
+                words.forEach(word => {
+                    if (positiveWords.includes(word)) positiveScore++;
+                    if (negativeWords.includes(word)) negativeScore++;
+                });
+
+                if (positiveScore > negativeScore) return 'positive';
+                if (negativeScore > positiveScore) return 'negative';
+                return 'neutral';
+            }
+
+            // Handle feedback
+            handleFeedback(message) {
+                const sentiment = this.analyzeSentiment(message);
+
+                if (sentiment === 'negative') {
+                    return {
+                        text: "I'm sorry to hear you're having difficulties. Let me connect you with our support team for personalized assistance. In the meantime, is there anything specific I can help clarify?",
+                        redirect: "contact",
+                        suggestions: ["Speak to human agent", "Report issue", "Get help"]
+                    };
+                } else if (sentiment === 'positive') {
+                    return {
+                        text: "Thank you for the positive feedback! I'm glad I could help. Is there anything else you'd like to know about our educational services?",
+                        redirect: null,
+                        suggestions: ["Explore more services", "Share with friends", "Rate our service"]
+                    };
+                }
+
+                return null;
+            }
+
+            // Advanced search within knowledge base
+            searchKnowledgeBase(query) {
+                const results = [];
+                const searchTerms = query.toLowerCase().split(/\s+/);
+
+                // Search scholarships
+                this.knowledgeBase.scholarships.types.forEach(scholarship => {
+                    let relevanceScore = 0;
+                    const searchableText = `${scholarship.name} ${scholarship.eligibility} ${scholarship.requirements.join(' ')}`.toLowerCase();
+
+                    searchTerms.forEach(term => {
+                        if (searchableText.includes(term)) {
+                            relevanceScore++;
+                        }
+                    });
+
+                    if (relevanceScore > 0) {
+                        results.push({
+                            type: 'scholarship',
+                            item: scholarship,
+                            relevance: relevanceScore
+                        });
+                    }
+                });
+
+                // Search loans
+                this.knowledgeBase.loans.types.forEach(loan => {
+                    let relevanceScore = 0;
+                    const searchableText = `${loan.name} ${loan.features.join(' ')}`.toLowerCase();
+
+                    searchTerms.forEach(term => {
+                        if (searchableText.includes(term)) {
+                            relevanceScore++;
+                        }
+                    });
+
+                    if (relevanceScore > 0) {
+                        results.push({
+                            type: 'loan',
+                            item: loan,
+                            relevance: relevanceScore
+                        });
+                    }
+                });
+
+                // Sort by relevance
+                return results.sort((a, b) => b.relevance - a.relevance);
+            }
+
+            // Handle complex queries with multiple intents
+            handleComplexQuery(message) {
+                const intents = [];
+
+                // Check for multiple intents
+                Object.entries(this.intentPatterns).forEach(([intent, pattern]) => {
+                    if (pattern.test(message)) {
+                        intents.push(intent);
+                    }
+                });
+
+                if (intents.length > 1) {
+                    // Handle multiple intents
+                    let response = "I understand you're asking about multiple topics. Let me address each one:\n\n";
+
+                    if (intents.includes('scholarship') && intents.includes('loan')) {
+                        response += "💰 **Funding Options**: You can combine scholarships and loans for maximum funding. Scholarships reduce the amount you need to borrow, saving on interest costs.\n\n";
+                    }
+
+                    if (intents.includes('eligibility') && intents.includes('deadline')) {
+                        response += "📋 **Quick Checklist**: Check eligibility first, then note the deadlines. I recommend applying 2-3 months before deadlines.\n\n";
+                    }
+
+                    response += "Which aspect would you like me to explain in more detail?";
+
+                    return {
+                        text: response,
+                        redirect: null,
+                        suggestions: intents.slice(0, 3).map(intent => `Tell me more about ${intent}`)
+                    };
+                }
+
+                return null;
+            }
+
+            // Proactive assistance based on user behavior
+            checkForProactiveHelp() {
+                const now = Date.now();
+                const sessionDuration = now - this.userContext.sessionTime;
+
+                // If user has been inactive for 2 minutes, offer help
+                if (this.userContext.lastActivity && (now - this.userContext.lastActivity) > 120000) {
+                    setTimeout(() => {
+                        this.addMessage("I noticed you've been quiet. Is there anything specific you'd like help with? I'm here to assist!", 'bot');
+                    }, 1000);
+                }
+
+                // If user has visited loan page but not applied
+                if (this.userContext.visitedPages.includes('loanapp.html') && sessionDuration > 300000) {
+                    setTimeout(() => {
+                        this.addMessage("I see you were looking at loan options earlier. Do you need help completing your application or have questions about the process?", 'bot');
+                    }, 2000);
+                }
+            }
+
+            // Export chat functionality
+            exportChatHistory() {
+                const chatExport = {
+                    timestamp: new Date().toISOString(),
+                    messages: this.conversationHistory,
+                    userContext: this.userContext
+                };
+
+                const blob = new Blob([JSON.stringify(chatExport, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `eduverse-chat-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            // Voice input support (if available)
+            startVoiceInput() {
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    const recognition = new SpeechRecognition();
+
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+                    recognition.lang = 'en-US';
+
+                    recognition.onstart = () => {
+                        this.addMessage("🎤 Listening... Please speak your question.", 'bot');
+                    };
+
+                    recognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript;
+                        document.getElementById('chatInput').value = transcript;
+                        this.sendMessage();
+                    };
+
+                    recognition.onerror = (event) => {
+                        this.addMessage("Sorry, I couldn't hear you clearly. Please try typing your question.", 'bot');
+                    };
+
+                    recognition.start();
+                } else {
+                    this.addMessage("Voice input is not supported in your browser. Please type your question.", 'bot');
+                }
+            }
+
+            // Initialize typing suggestions
+            initTypingSuggestions() {
+                const input = document.getElementById('chatInput');
+                let suggestionTimeout;
+
+                input.addEventListener('input', () => {
+                    clearTimeout(suggestionTimeout);
+                    suggestionTimeout = setTimeout(() => {
+                        this.showTypingSuggestions(input.value);
+                    }, 300);
+                });
+            }
+
+            showTypingSuggestions(partialText) {
+                if (partialText.length < 3) return;
+
+                const suggestions = [
+                    'scholarship eligibility',
+                    'loan application process',
+                    'insurance coverage details',
+                    'government schemes',
+                    'application deadlines',
+                    'contact support'
+                ].filter(suggestion =>
+                    suggestion.toLowerCase().includes(partialText.toLowerCase())
+                );
+
+                if (suggestions.length > 0) {
+                    // Create suggestions dropdown (implementation depends on UI framework)
+                    console.log('Typing suggestions:', suggestions);
+                }
+            }
+        }
+
+        // Global instance and functions for HTML integration
+        let advancedChatbot;
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            advancedChatbot = new AdvancedEducationChatbot();
+
+            // Set up proactive help check
+            setInterval(() => {
+                advancedChatbot.checkForProactiveHelp();
+            }, 60000); // Check every minute
+        });
+
+        // Global functions for HTML onclick handlers
+        function toggleChatbot() {
+            if (advancedChatbot) {
+                advancedChatbot.toggleChatbot();
+            }
+        }
+
+        function sendMessage() {
+            if (advancedChatbot) {
+                advancedChatbot.sendMessage();
+            }
+        }
+
+        function sendQuickMessage(message) {
+            if (advancedChatbot) {
+                advancedChatbot.sendQuickMessage(message);
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (advancedChatbot) {
+                advancedChatbot.handleKeyPress(event);
+            }
+        }
+
+        // Smooth scrolling function for page navigation
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Additional utility functions
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD'
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // CSS styles for dynamic elements (add to your stylesheet)
+        const dynamicStyles = `
+<style>
+.redirect-buttons, .suggestion-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.redirect-btn, .suggestion-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.redirect-btn.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.redirect-btn.secondary {
+    background: #f8f9fa;
+    color: #495057;
+    border: 1px solid #e9ecef;
+}
+
+.suggestion-btn {
+    background: #f8f9fa;
+    color: #495057;
+    border: 1px solid #e9ecef;
+}
+
+.redirect-btn:hover, .suggestion-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.redirect-btn.primary:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+.redirect-btn.secondary:hover, .suggestion-btn:hover {
+    background: #e9ecef;
+}
+
+.message.suggestions, .message.redirect-offer {
+    animation: slideIn 0.5s ease;
+}
+
+@media (max-width: 480px) {
+    .chatbot-window {
+        width: 100vw;
+        height: 100vh;
+        bottom: 0;
+        right: 0;
+        border-radius: 0;
+    }
+    
+    .redirect-buttons, .suggestion-buttons {
+        flex-direction: column;
+    }
+}
+</style>
+`;
+
+
+
+        // Inject styles if not already present
+        if (!document.querySelector('#chatbot-dynamic-styles')) {
+            const styleElement = document.createElement('style');
+            styleElement.id = 'chatbot-dynamic-styles';
+            styleElement.innerHTML = dynamicStyles.replace(/<\/?style>/g, '');
+            document.head.appendChild(styleElement);
+        }
+
+        // Add smooth scrolling to all links with href starting with #
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+
+
+
+
+
+
+
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function () {
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all cards
+            document.querySelectorAll('.highlight-card, .scholarship-card, .testimonial-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+
+</html>

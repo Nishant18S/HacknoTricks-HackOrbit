@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Portal - Courses & Schemes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .search-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .highlight-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-3px);
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .course-item, .scheme-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .course-item:hover, .scheme-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .course-title, .scheme-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .course-info, .scheme-info {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 5px 5px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            transform: translateY(-2px);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .btn-download:hover {
+            background: linear-gradient(135deg, #20c997, #28a745);
+        }
+
+        .category-filter {
+            display: none;
+        }
+
+        .category-filter.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Educational Portal</h1>
+            <p>Comprehensive Guide to Courses & Government Schemes</p>
+        </div>
+
+        <div class="search-section">
+            <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Search courses, schemes, or keywords...">
+            <div class="filters">
+                <select class="filter-select" id="levelFilter">
+                    <option value="">All Education Levels</option>
+                    <option value="school">🏫 School Education</option>
+                    <option value="higher">🎓 Higher Education</option>
+                </select>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="student">👨‍🎓 For Students</option>
+                    <option value="teacher">👩‍🏫 For Teachers</option>
+                    <option value="institute">🏛️ For Institutes</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="highlights">
+            <div class="highlight-card">
+                <h3>🔥 Popular Schemes</h3>
+                <p>National Scholarship Portal & PM Poshan actively accepting applications</p>
+            </div>
+            <div class="highlight-card">
+                <h3>🆕 New Courses</h3>
+                <p>Digital Marketing & AI courses launched this month</p>
+            </div>
+            <div class="highlight-card">
+                <h3>🎯 Apply Now</h3>
+                <p>Last date for NEET preparation courses: July 30, 2025</p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="section" id="coursesSection">
+                <h2>🏫 Educational Courses</h2>
+                
+                <div class="course-item" data-category="school">
+                    <div class="course-title">🎓 Primary Education (Classes 1-5)</div>
+                    <div class="course-info">
+                        🕒 Duration: 5 Years | 📚 Subjects: Hindi, English, Math, EVS, Art<br>
+                        🎯 Eligibility: Age 6+ | 📝 Admission: Direct/Entrance
+                    </div>
+                    <button class="btn" onclick="applyNow('Primary Education')">📝 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadProspectus('primary')">📁 Download Syllabus</button>
+                </div>
+
+                <div class="course-item" data-category="school">
+                    <div class="course-title">🎓 Secondary Education (Classes 9-10)</div>
+                    <div class="course-info">
+                        🕒 Duration: 2 Years | 📚 Subjects: Core + Electives<br>
+                        🎯 Eligibility: Class 8 Pass | 📝 Board: CBSE/State Board
+                    </div>
+                    <button class="btn" onclick="applyNow('Secondary Education')">📝 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadProspectus('secondary')">📁 Download Syllabus</button>
+                </div>
+
+                <div class="course-item" data-category="higher">
+                    <div class="course-title">🎓 Bachelor of Education (B.Ed.)</div>
+                    <div class="course-info">
+                        🕒 Duration: 2 Years | 📚 Subjects: Pedagogy, Psychology, Teaching Methods<br>
+                        🎯 Eligibility: Graduation with 50% | 📝 Entrance: CET/University Test
+                    </div>
+                    <button class="btn" onclick="applyNow('B.Ed.')">📝 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadProspectus('bed')">📁 Download Syllabus</button>
+                </div>
+
+                <div class="course-item" data-category="higher">
+                    <div class="course-title">🎓 Master of Arts (M.A.)</div>
+                    <div class="course-info">
+                        🕒 Duration: 2 Years | 📚 Subjects: Specialization Based<br>
+                        🎯 Eligibility: Bachelor's Degree | 📝 Admission: Merit/Entrance
+                    </div>
+                    <button class="btn" onclick="applyNow('M.A.')">📝 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadProspectus('ma')">📁 Download Syllabus</button>
+                </div>
+
+                <div class="course-item" data-category="higher">
+                    <div class="course-title">🎓 Digital Marketing Certificate</div>
+                    <div class="course-info">
+                        🕒 Duration: 6 Months | 📚 Subjects: SEO, Social Media, Analytics<br>
+                        🎯 Eligibility: 12th Pass | 📝 Mode: Online/Offline
+                    </div>
+                    <button class="btn" onclick="applyNow('Digital Marketing')">📝 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadProspectus('digital')">📁 Download Syllabus</button>
+                </div>
+            </div>
+
+            <div class="section" id="schemesSection">
+                <h2>📢 Government Schemes</h2>
+                
+                <div class="scheme-item" data-category="student">
+                    <div class="scheme-title">📢 National Scholarship Portal (NSP)</div>
+                    <div class="scheme-info">
+                        ✅ For: SC/ST/OBC/Minority Students | 💰 Benefit: ₹10,000–₹50,000 per year<br>
+                        🎯 Objective: Financial assistance for education | 📅 Last Date: July 31, 2025
+                    </div>
+                    <button class="btn" onclick="applyScheme('NSP')">🔗 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadGuidelines('nsp')">📁 Download Guidelines</button>
+                </div>
+
+                <div class="scheme-item" data-category="student">
+                    <div class="scheme-title">📢 PM Poshan (Mid-Day Meal)</div>
+                    <div class="scheme-info">
+                        ✅ For: School Children (Classes 1-8) | 💰 Benefit: Free nutritious meals<br>
+                        🎯 Objective: Improve nutrition & school attendance | 📅 Status: Active
+                    </div>
+                    <button class="btn" onclick="applyScheme('PM Poshan')">🔗 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadGuidelines('poshan')">📁 Download Guidelines</button>
+                </div>
+
+                <div class="scheme-item" data-category="student">
+                    <div class="scheme-title">📢 National Means-cum-Merit Scholarship (NMMS)</div>
+                    <div class="scheme-info">
+                        ✅ For: Class 8 students | 💰 Benefit: ₹12,000 per year<br>
+                        🎯 Objective: Prevent dropouts & encourage higher education | 📅 Last Date: Sept 30, 2025
+                    </div>
+                    <button class="btn" onclick="applyScheme('NMMS')">🔗 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadGuidelines('nmms')">📁 Download Guidelines</button>
+                </div>
+
+                <div class="scheme-item" data-category="teacher">
+                    <div class="scheme-title">📢 NISHTHA (Teachers Training)</div>
+                    <div class="scheme-info">
+                        ✅ For: School Teachers & Head Teachers | 💰 Benefit: Free training & certification<br>
+                        🎯 Objective: Holistic advancement of teachers | 📅 Status: Ongoing
+                    </div>
+                    <button class="btn" onclick="applyScheme('NISHTHA')">🔗 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadGuidelines('nishtha')">📁 Download Guidelines</button>
+                </div>
+
+                <div class="scheme-item" data-category="institute">
+                    <div class="scheme-title">📢 Samagra Shiksha Abhiyan</div>
+                    <div class="scheme-info">
+                        ✅ For: Schools & Educational Institutes | 💰 Benefit: Infrastructure & quality improvement<br>
+                        🎯 Objective: Holistic education development | 📅 Status: Active
+                    </div>
+                    <button class="btn" onclick="applyScheme('Samagra Shiksha')">🔗 Apply Now</button>
+                    <button class="btn btn-download" onclick="downloadGuidelines('samagra')">📁 Download Guidelines</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchBar = document.getElementById('searchBar');
+        const levelFilter = document.getElementById('levelFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const courseItems = document.querySelectorAll('.course-item');
+        const schemeItems = document.querySelectorAll('.scheme-item');
+
+        function filterContent() {
+            const searchTerm = searchBar.value.toLowerCase();
+            const levelValue = levelFilter.value;
+            const categoryValue = categoryFilter.value;
+
+            // Filter courses
+            courseItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const matchesSearch = text.includes(searchTerm);
+                const matchesLevel = !levelValue || item.dataset.category === levelValue;
+                
+                if (matchesSearch && matchesLevel) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Filter schemes
+            schemeItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                const matchesSearch = text.includes(searchTerm);
+                const matchesCategory = !categoryValue || item.dataset.category === categoryValue;
+                
+                if (matchesSearch && matchesCategory) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        searchBar.addEventListener('input', filterContent);
+        levelFilter.addEventListener('change', filterContent);
+        categoryFilter.addEventListener('change', filterContent);
+
+        // Application functions with real functionality
+        function applyNow(courseName) {
+            // Real application URLs for different courses
+            const applicationUrls = {
+                'Primary Education': 'https://www.education.gov.in/primary-admission',
+                'Secondary Education': 'https://cbse.gov.in/admission',
+                'B.Ed.': 'https://ncte-india.org/bed-admission',
+                'M.A.': 'https://ugc.ac.in/ma-admission',
+                'Digital Marketing': 'https://digitalindia.gov.in/courses'
+            };
+            
+            const url = applicationUrls[courseName];
+            if (url) {
+                // Show loading message
+                const originalText = event.target.textContent;
+                event.target.textContent = '🔄 Opening...';
+                event.target.disabled = true;
+                
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                    event.target.textContent = originalText;
+                    event.target.disabled = false;
+                }, 1000);
+            } else {
+                alert(`Application portal for ${courseName} will be available soon!`);
+            }
+        }
+
+        function applyScheme(schemeName) {
+            // Real government scheme URLs
+            const schemeUrls = {
+                'NSP': 'https://scholarships.gov.in/',
+                'PM Poshan': 'https://pmposhan.education.gov.in/',
+                'NMMS': 'https://scert.telangana.gov.in/nmms',
+                'NISHTHA': 'https://itpd.ncert.gov.in/',
+                'Samagra Shiksha': 'https://samagra.education.gov.in/'
+            };
+            
+            const url = schemeUrls[schemeName];
+            if (url) {
+                // Show loading message
+                const originalText = event.target.textContent;
+                event.target.textContent = '🔄 Opening...';
+                event.target.disabled = true;
+                
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                    event.target.textContent = originalText;
+                    event.target.disabled = false;
+                }, 1000);
+            }
+        }
+
+        function downloadProspectus(courseType) {
+            // Create sample PDF content for different courses
+            const prospectusContent = {
+                'primary': {
+                    title: 'Primary Education Syllabus (Classes 1-5)',
+                    content: `
+PRIMARY EDUCATION CURRICULUM
+
+Classes 1-5 Syllabus Overview:
+
+SUBJECTS:
+• Hindi Language & Literature
+• English Language & Communication
+• Mathematics & Basic Arithmetic
+• Environmental Studies (EVS)
+• Art & Craft
+• Physical Education
+
+ASSESSMENT PATTERN:
+• Continuous Assessment: 40%
+• Final Examination: 60%
+• Practical/Project Work: 20%
+
+ADMISSION REQUIREMENTS:
+• Age: 6+ years for Class 1
+• Previous class certificate
+• Birth certificate
+• Address proof
+
+For more information, visit: www.education.gov.in
+                    `
+                },
+                'secondary': {
+                    title: 'Secondary Education Syllabus (Classes 9-10)',
+                    content: `
+SECONDARY EDUCATION CURRICULUM
+
+Classes 9-10 CBSE Syllabus:
+
+CORE SUBJECTS:
+• English (Communicative/Language & Literature)
+• Hindi (Course A/B)
+• Mathematics (Standard/Basic)
+• Science (Physics, Chemistry, Biology)
+• Social Science (History, Geography, Political Science, Economics)
+
+ADDITIONAL SUBJECTS:
+• Sanskrit/French/German
+• Computer Applications
+• Art Education
+• Physical Education & Health
+
+BOARD EXAMINATION:
+• Class 10 Board Exam (AISSE)
+• Internal Assessment: 20%
+• Board Exam: 80%
+
+ELIGIBILITY:
+• Class 8 Pass Certificate
+• Transfer Certificate from previous school
+                    `
+                },
+                'bed': {
+                    title: 'Bachelor of Education (B.Ed.) Prospectus',
+                    content: `
+BACHELOR OF EDUCATION (B.Ed.) - 2 YEARS
+
+COURSE OVERVIEW:
+• Duration: 2 Years (4 Semesters)
+• Mode: Regular/Distance
+• Affiliation: NCTE Approved
+
+CURRICULUM:
+• Pedagogy of School Subjects
+• Educational Psychology
+• Educational Technology
+• Assessment & Evaluation
+• School Experience & Internship
+
+ELIGIBILITY:
+• Graduation with 50% marks
+• Entrance Test (CET)
+• Interview
+
+CAREER OPPORTUNITIES:
+• Primary/Secondary School Teacher
+• Educational Counselor
+• Content Developer
+• Training Specialist
+
+FEES: ₹25,000 - ₹50,000 per year
+                    `
+                }
+            };
+
+            const content = prospectusContent[courseType];
+            if (content) {
+                // Create and download text file
+                const blob = new Blob([content.content], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${content.title.replace(/\s+/g, '_')}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                // Show success message
+                showNotification(`📁 Downloaded: ${content.title}`, 'success');
+            } else {
+                showNotification('📁 Prospectus will be available soon!', 'info');
+            }
+        }
+
+        function downloadGuidelines(schemeType) {
+            // Create sample guidelines content for different schemes
+            const guidelinesContent = {
+                'nsp': {
+                    title: 'National Scholarship Portal Guidelines',
+                    content: `
+NATIONAL SCHOLARSHIP PORTAL (NSP) - GUIDELINES
+
+OBJECTIVE:
+To provide financial assistance to students belonging to SC/ST/OBC/Minority communities.
+
+ELIGIBILITY CRITERIA:
+• Student should belong to SC/ST/OBC/Minority category
+• Family income should be below specified limits
+• Student should be studying in recognized institution
+• Minimum attendance: 75%
+
+SCHOLARSHIP AMOUNTS:
+• Class 1-5: ₹1,000 per year
+• Class 6-8: ₹1,500 per year
+• Class 9-10: ₹3,000 per year
+• Class 11-12: ₹5,000 per year
+• Graduation: ₹10,000-₹20,000 per year
+• Post-Graduation: ₹25,000-₹50,000 per year
+
+APPLICATION PROCESS:
+1. Register on scholarships.gov.in
+2. Fill online application form
+3. Upload required documents
+4. Submit before deadline
+5. Institute verification
+6. State/Central verification
+7. Scholarship disbursement
+
+REQUIRED DOCUMENTS:
+• Caste/Community Certificate
+• Income Certificate
+• Mark sheets/Certificates
+• Bank Account Details
+• Aadhar Card
+
+IMPORTANT DATES:
+• Application Start: July 1, 2025
+• Last Date: July 31, 2025
+• Verification: August 1-31, 2025
+• Disbursement: September 2025
+
+For queries: helpdesk@nsp.gov.in
+Website: https://scholarships.gov.in
+                    `
+                },
+                'poshan': {
+                    title: 'PM Poshan Scheme Guidelines',
+                    content: `
+PM POSHAN (MID-DAY MEAL SCHEME) - GUIDELINES
+
+OBJECTIVE:
+To improve nutritional status and encourage school attendance among children.
+
+COVERAGE:
+• Classes I-VIII in Government/Aided Schools
+• Children in EGS/AIE Centers
+• Children in Madrasas/Maqtabs supported under SSA
+
+NORMS:
+• Primary (I-V): 450 kcal energy, 12g protein per day
+• Upper Primary (VI-VIII): 700 kcal energy, 20g protein per day
+
+MENU PLANNING:
+• Weekly menu with variety
+• Local food habits consideration
+• Seasonal vegetables inclusion
+• Fortified food items
+
+IMPLEMENTATION:
+• State/UT Governments responsible
+• School Management Committees oversight
+• Community participation
+• Regular monitoring & evaluation
+
+COST SHARING:
+• Food grains: 100% Central assistance
+• Cooking cost: 60% Central, 40% State
+• Infrastructure: 60% Central, 40% State
+
+QUALITY ASSURANCE:
+• Nutrition Education
+• Health Check-ups
+• Kitchen Gardens
+• Community mobilization
+
+Contact: pmposhan@education.gov.in
+Website: https://pmposhan.education.gov.in
+                    `
+                }
+            };
+
+            const content = guidelinesContent[schemeType];
+            if (content) {
+                // Create and download text file
+                const blob = new Blob([content.content], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${content.title.replace(/\s+/g, '_')}_Guidelines.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                // Show success message
+                showNotification(`📁 Downloaded: ${content.title}`, 'success');
+            } else {
+                showNotification('📁 Guidelines will be available soon!', 'info');
+            }
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : '#17a2b8'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-weight: bold;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.course-item, .scheme-item, .highlight-card');
+            
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

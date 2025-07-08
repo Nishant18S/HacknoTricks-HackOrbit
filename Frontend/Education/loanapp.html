@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Loan Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .form-container {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input, select, textarea {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: border-color 0.15s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-card {
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            background: white;
+        }
+
+        .radio-card:hover {
+            border-color: #3b82f6;
+        }
+
+        .radio-card input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .radio-card input[type="radio"]:checked + .radio-content {
+            color: #1e40af;
+        }
+
+        .radio-card:has(input:checked) {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .radio-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .radio-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .submit-btn {
+            background: #1e40af;
+            color: white;
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            display: block;
+            margin: 2rem auto 0;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .note {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+            color: #92400e;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+            }
+            
+            .form-container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Educational Loan Application</h1>
+            <p>Secure financing for your educational goals</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="loanForm">
+                <!-- Personal Information -->
+                <div class="section">
+                    <div class="section-title">Personal Information</div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>First Name <span class="required">*</span></label>
+                            <input type="text" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name <span class="required">*</span></label>
+                            <input type="text" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Email <span class="required">*</span></label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone <span class="required">*</span></label>
+                            <input type="tel" name="phone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Date of Birth <span class="required">*</span></label>
+                            <input type="date" name="dateOfBirth" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Social Security Number <span class="required">*</span></label>
+                            <input type="text" name="ssn" placeholder="XXX-XX-XXXX" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address <span class="required">*</span></label>
+                        <textarea name="address" placeholder="Complete address" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Educational Information -->
+                <div class="section">
+                    <div class="section-title">Educational Information</div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Institution <span class="required">*</span></label>
+                            <input type="text" name="institution" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Program/Course <span class="required">*</span></label>
+                            <input type="text" name="program" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Degree Level <span class="required">*</span></label>
+                            <select name="degreeLevel" required>
+                                <option value="">Select Level</option>
+                                <option value="certificate">Certificate</option>
+                                <option value="associate">Associate</option>
+                                <option value="bachelor">Bachelor's</option>
+                                <option value="master">Master's</option>
+                                <option value="doctoral">Doctoral</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Expected Graduation <span class="required">*</span></label>
+                            <input type="month" name="expectedGraduation" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loan Information -->
+                <div class="section">
+                    <div class="section-title">Loan Information</div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Loan Amount Requested <span class="required">*</span></label>
+                            <input type="number" name="loanAmount" min="1000" max="200000" step="100" placeholder="$" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Education Cost <span class="required">*</span></label>
+                            <input type="number" name="totalCost" min="1000" step="100" placeholder="$" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Loan Purpose <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="purpose" value="tuition" id="tuition">
+                                <label for="tuition">Tuition & Fees</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="purpose" value="housing" id="housing">
+                                <label for="housing">Housing</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="purpose" value="books" id="books">
+                                <label for="books">Books & Supplies</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="purpose" value="living" id="living">
+                                <label for="living">Living Expenses</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Repayment Plan -->
+                <div class="section">
+                    <div class="section-title">Repayment Plan</div>
+
+                    <div class="radio-group">
+                        <div class="radio-card">
+                            <input type="radio" name="repaymentPlan" value="standard" id="standard" required>
+                            <div class="radio-content">
+                                <div class="radio-title">Standard</div>
+                                <div class="radio-subtitle">Fixed payments, 10 years</div>
+                            </div>
+                        </div>
+                        <div class="radio-card">
+                            <input type="radio" name="repaymentPlan" value="extended" id="extended" required>
+                            <div class="radio-content">
+                                <div class="radio-title">Extended</div>
+                                <div class="radio-subtitle">Lower payments, 25 years</div>
+                            </div>
+                        </div>
+                        <div class="radio-card">
+                            <input type="radio" name="repaymentPlan" value="graduated" id="graduated" required>
+                            <div class="radio-content">
+                                <div class="radio-title">Graduated</div>
+                                <div class="radio-subtitle">Payments increase over time</div>
+                            </div>
+                        </div>
+                        <div class="radio-card">
+                            <input type="radio" name="repaymentPlan" value="income-driven" id="income-driven" required>
+                            <div class="radio-content">
+                                <div class="radio-title">Income-Driven</div>
+                                <div class="radio-subtitle">Based on income</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Information -->
+                <div class="section">
+                    <div class="section-title">Financial Information</div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Employment Status <span class="required">*</span></label>
+                            <select name="employmentStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="employed">Employed Full-time</option>
+                                <option value="part-time">Part-time</option>
+                                <option value="self-employed">Self-employed</option>
+                                <option value="unemployed">Unemployed</option>
+                                <option value="student">Student</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Annual Income</label>
+                            <input type="number" name="annualIncome" min="0" step="1000" placeholder="$">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Employer (if applicable)</label>
+                        <input type="text" name="employer">
+                    </div>
+                </div>
+
+                <!-- Parent/Guardian Information -->
+                <div class="section">
+                    <div class="section-title">Parent/Guardian Information</div>
+                    
+                    <div class="note">
+                        Required for students under 21 or PLUS loan applications.
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Parent/Guardian Name</label>
+                            <input type="text" name="parentName">
+                        </div>
+                        <div class="form-group">
+                            <label>Parent/Guardian Phone</label>
+                            <input type="tel" name="parentPhone">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Parent/Guardian Email</label>
+                        <input type="email" name="parentEmail">
+                    </div>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="section">
+                    <div class="section-title">Terms & Conditions</div>
+
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="terms" id="terms" required>
+                            <label for="terms">I agree to the terms and conditions <span class="required">*</span></label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="creditCheck" id="creditCheck" required>
+                            <label for="creditCheck">I authorize credit check <span class="required">*</span></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Additional Comments</label>
+                        <textarea name="comments" placeholder="Any special circumstances or additional information"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        class LoanApplicationForm {
+            constructor() {
+                this.form = document.getElementById('loanForm');
+                this.progressFill = document.getElementById('progressFill');
+                this.validationRules = this.initValidationRules();
+                this.formData = {};
+                this.isSubmitting = false;
+                
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.initFormFormatters();
+                this.loadSavedData();
+                this.updateProgress();
+                this.initRealTimeValidation();
+            }
+
+            initValidationRules() {
+                return {
+                    email: {
+                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: 'Please enter a valid email address'
+                    },
+                    phone: {
+                        pattern: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                        message: 'Please enter a valid phone number'
+                    },
+                    ssn: {
+                        pattern: /^\d{3}-\d{2}-\d{4}$/,
+                        message: 'Please enter a valid SSN (XXX-XX-XXXX)'
+                    },
+                    loanAmount: {
+                        min: 1000,
+                        max: 200000,
+                        message: 'Loan amount must be between $1,000 and $200,000'
+                    }
+                };
+            }
+
+            bindEvents() {
+                // Form input events
+                this.form.addEventListener('input', this.debounce(this.handleInput.bind(this), 300));
+                this.form.addEventListener('change', this.handleChange.bind(this));
+                this.form.addEventListener('submit', this.handleSubmit.bind(this));
+                
+                // Auto-save functionality
+                this.form.addEventListener('input', this.debounce(this.autoSave.bind(this), 1000));
+                
+                // Page visibility change for auto-save
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) this.autoSave();
+                });
+                
+                // Before unload warning
+                window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
+            }
+
+            initFormFormatters() {
+                const formatters = {
+                    ssn: this.formatSSN,
+                    phone: this.formatPhone,
+                    loanAmount: this.formatCurrency,
+                    totalCost: this.formatCurrency,
+                    annualIncome: this.formatCurrency
+                };
+
+                Object.entries(formatters).forEach(([name, formatter]) => {
+                    const input = this.form.querySelector(`input[name="${name}"]`);
+                    if (input) {
+                        input.addEventListener('input', (e) => {
+                            const cursorPos = e.target.selectionStart;
+                            const oldValue = e.target.value;
+                            const newValue = formatter.call(this, oldValue);
+                            
+                            if (newValue !== oldValue) {
+                                e.target.value = newValue;
+                                // Maintain cursor position
+                                const newPos = cursorPos + (newValue.length - oldValue.length);
+                                e.target.setSelectionRange(newPos, newPos);
+                            }
+                        });
+                    }
+                });
+            }
+
+            initRealTimeValidation() {
+                const inputs = this.form.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    input.addEventListener('blur', () => this.validateField(input));
+                    input.addEventListener('input', () => this.clearFieldError(input));
+                });
+            }
+
+            handleInput(e) {
+                this.updateProgress();
+                this.calculateLoanMetrics();
+            }
+
+            handleChange(e) {
+                this.updateProgress();
+                this.handleConditionalFields(e.target);
+            }
+
+            handleConditionalFields(target) {
+                // Employment status conditional logic
+                if (target.name === 'employmentStatus') {
+                    const employerField = this.form.querySelector('input[name="employer"]');
+                    const incomeField = this.form.querySelector('input[name="annualIncome"]');
+                    
+                    if (['unemployed', 'student'].includes(target.value)) {
+                        employerField.disabled = true;
+                        employerField.style.backgroundColor = '#f3f4f6';
+                        incomeField.value = '';
+                        incomeField.disabled = true;
+                        incomeField.style.backgroundColor = '#f3f4f6';
+                    } else {
+                        employerField.disabled = false;
+                        employerField.style.backgroundColor = '';
+                        incomeField.disabled = false;
+                        incomeField.style.backgroundColor = '';
+                    }
+                }
+            }
+
+            calculateLoanMetrics() {
+                const loanAmount = parseFloat(this.form.querySelector('input[name="loanAmount"]')?.value) || 0;
+                const totalCost = parseFloat(this.form.querySelector('input[name="totalCost"]')?.value) || 0;
+                const annualIncome = parseFloat(this.form.querySelector('input[name="annualIncome"]')?.value) || 0;
+
+                // Debt-to-income ratio warning
+                if (loanAmount > 0 && annualIncome > 0) {
+                    const monthlyPayment = this.estimateMonthlyPayment(loanAmount);
+                    const monthlyIncome = annualIncome / 12;
+                    const debtRatio = (monthlyPayment / monthlyIncome) * 100;
+
+                    this.showLoanInsights(debtRatio, monthlyPayment);
+                }
+
+                // Loan vs total cost validation
+                if (loanAmount > totalCost && totalCost > 0) {
+                    this.showFieldWarning('loanAmount', 'Loan amount exceeds total education cost');
+                }
+            }
+
+            estimateMonthlyPayment(principal, rate = 0.05, years = 10) {
+                const monthlyRate = rate / 12;
+                const numPayments = years * 12;
+                return (principal * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                       (Math.pow(1 + monthlyRate, numPayments) - 1);
+            }
+
+            showLoanInsights(debtRatio, monthlyPayment) {
+                let existingInsight = document.querySelector('.loan-insight');
+                if (existingInsight) existingInsight.remove();
+
+                const insight = document.createElement('div');
+                insight.className = 'loan-insight';
+                insight.style.cssText = `
+                    background: ${debtRatio > 20 ? '#fee2e2' : '#ecfdf5'};
+                    border: 1px solid ${debtRatio > 20 ? '#fca5a5' : '#86efac'};
+                    border-radius: 6px;
+                    padding: 1rem;
+                    margin-top: 1rem;
+                    font-size: 0.875rem;
+                `;
+                
+                insight.innerHTML = `
+                    <strong>Loan Estimate:</strong><br>
+                    Estimated monthly payment: ${monthlyPayment.toFixed(2)}<br>
+                    Debt-to-income ratio: ${debtRatio.toFixed(1)}%
+                    ${debtRatio > 20 ? '<br><span style="color: #dc2626;">⚠️ High debt-to-income ratio detected</span>' : ''}
+                `;
+
+                const loanSection = document.querySelector('.section:nth-child(3)');
+                loanSection.appendChild(insight);
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                if (this.isSubmitting) return;
+                
+                try {
+                    this.isSubmitting = true;
+                    const submitBtn = this.form.querySelector('.submit-btn');
+                    
+                    // Validate form
+                    if (!this.validateForm()) {
+                        this.isSubmitting = false;
+                        return;
+                    }
+
+                    // Update button state
+                    submitBtn.textContent = 'Processing...';
+                    submitBtn.disabled = true;
+
+                    // Collect form data
+                    const formData = this.collectFormData();
+                    
+                    // Simulate API call with realistic delay
+                    await this.submitToAPI(formData);
+                    
+                    // Success handling
+                    this.handleSubmissionSuccess();
+                    
+                } catch (error) {
+                    this.handleSubmissionError(error);
+                } finally {
+                    this.isSubmitting = false;
+                    const submitBtn = this.form.querySelector('.submit-btn');
+                    submitBtn.textContent = 'Submit Application';
+                    submitBtn.disabled = false;
+                }
+            }
+
+            validateForm() {
+                let isValid = true;
+                const errors = [];
+
+                // Required field validation
+                const requiredFields = this.form.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!this.validateField(field)) {
+                        isValid = false;
+                    }
+                });
+
+                // Custom validations
+                const purposes = this.form.querySelectorAll('input[name="purpose"]:checked');
+                if (purposes.length === 0) {
+                    this.showFieldError('purpose', 'Please select at least one loan purpose');
+                    isValid = false;
+                }
+
+                // Age validation (must be 16+)
+                const dobField = this.form.querySelector('input[name="dateOfBirth"]');
+                if (dobField.value) {
+                    const age = this.calculateAge(new Date(dobField.value));
+                    if (age < 16) {
+                        this.showFieldError('dateOfBirth', 'Applicant must be at least 16 years old');
+                        isValid = false;
+                    }
+                }
+
+                if (!isValid) {
+                    this.scrollToFirstError();
+                    this.showNotification('Please correct the highlighted errors', 'error');
+                }
+
+                return isValid;
+            }
+
+            validateField(field) {
+                const value = field.value.trim();
+                const name = field.name;
+                
+                // Required field check
+                if (field.required && !value) {
+                    this.showFieldError(name, 'This field is required');
+                    return false;
+                }
+
+                // Pattern validation
+                if (value && this.validationRules[name]) {
+                    const rule = this.validationRules[name];
+                    
+                    if (rule.pattern && !rule.pattern.test(value)) {
+                        this.showFieldError(name, rule.message);
+                        return false;
+                    }
+                    
+                    if (rule.min && parseFloat(value) < rule.min) {
+                        this.showFieldError(name, rule.message);
+                        return false;
+                    }
+                    
+                    if (rule.max && parseFloat(value) > rule.max) {
+                        this.showFieldError(name, rule.message);
+                        return false;
+                    }
+                }
+
+                this.clearFieldError(field);
+                return true;
+            }
+
+            showFieldError(fieldName, message) {
+                const field = this.form.querySelector(`[name="${fieldName}"]`);
+                if (!field) return;
+
+                field.style.borderColor = '#dc2626';
+                
+                // Remove existing error
+                const existingError = field.parentNode.querySelector('.field-error');
+                if (existingError) existingError.remove();
+                
+                // Add error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'field-error';
+                errorDiv.style.cssText = 'color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;';
+                errorDiv.textContent = message;
+                field.parentNode.appendChild(errorDiv);
+            }
+
+            showFieldWarning(fieldName, message) {
+                const field = this.form.querySelector(`[name="${fieldName}"]`);
+                if (!field) return;
+
+                field.style.borderColor = '#f59e0b';
+                field.title = message;
+            }
+
+            clearFieldError(field) {
+                field.style.borderColor = '';
+                field.title = '';
+                const error = field.parentNode.querySelector('.field-error');
+                if (error) error.remove();
+            }
+
+            collectFormData() {
+                const data = {};
+                const formData = new FormData(this.form);
+                
+                // Handle regular fields
+                for (let [key, value] of formData.entries()) {
+                    if (data[key]) {
+                        // Handle multiple values (checkboxes)
+                        if (Array.isArray(data[key])) {
+                            data[key].push(value);
+                        } else {
+                            data[key] = [data[key], value];
+                        }
+                    } else {
+                        data[key] = value;
+                    }
+                }
+
+                // Add metadata
+                data.submissionTime = new Date().toISOString();
+                data.userAgent = navigator.userAgent;
+                data.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                return data;
+            }
+
+            async submitToAPI(data) {
+                // Simulate API call
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        // Simulate random API success/failure for demo
+                        if (Math.random() > 0.1) {
+                            resolve({ 
+                                success: true, 
+                                applicationId: 'LA' + Date.now(),
+                                message: 'Application submitted successfully'
+                            });
+                        } else {
+                            reject(new Error('Server temporarily unavailable'));
+                        }
+                    }, 2000 + Math.random() * 2000);
+                });
+            }
+
+            handleSubmissionSuccess() {
+                this.clearAutoSavedData();
+                this.showNotification('Application submitted successfully! You will receive confirmation within 24 hours.', 'success');
+                
+                // Optionally redirect or reset form
+                setTimeout(() => {
+                    if (confirm('Would you like to submit another application?')) {
+                        this.form.reset();
+                        this.updateProgress();
+                    }
+                }, 3000);
+            }
+
+            handleSubmissionError(error) {
+                console.error('Submission error:', error);
+                this.showNotification(`Submission failed: ${error.message}. Please try again.`, 'error');
+            }
+
+            updateProgress() {
+                const requiredInputs = this.form.querySelectorAll('input[required], select[required]');
+                const filled = Array.from(requiredInputs).filter(input => {
+                    if (input.type === 'checkbox') return input.checked;
+                    return input.value.trim() !== '';
+                });
+                
+                const progress = (filled.length / requiredInputs.length) * 100;
+                this.progressFill.style.width = progress + '%';
+            }
+
+            // Utility methods
+            formatSSN(value) {
+                const digits = value.replace(/\D/g, '');
+                if (digits.length >= 6) {
+                    return digits.substring(0,3) + '-' + digits.substring(3,5) + '-' + digits.substring(5,9);
+                } else if (digits.length >= 4) {
+                    return digits.substring(0,3) + '-' + digits.substring(3);
+                }
+                return digits;
+            }
+
+            formatPhone(value) {
+                const digits = value.replace(/\D/g, '');
+                if (digits.length >= 7) {
+                    return `(${digits.substring(0,3)}) ${digits.substring(3,6)}-${digits.substring(6,10)}`;
+                } else if (digits.length >= 4) {
+                    return `(${digits.substring(0,3)}) ${digits.substring(3)}`;
+                } else if (digits.length >= 1) {
+                    return `(${digits}`;
+                }
+                return digits;
+            }
+
+            formatCurrency(value) {
+                const digits = value.replace(/\D/g, '');
+                return digits ? parseInt(digits).toLocaleString() : '';
+            }
+
+            calculateAge(birthDate) {
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                return age;
+            }
+
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            autoSave() {
+                const data = this.collectFormData();
+                this.formData = data;
+                
+                // Show save indicator
+                this.showSaveIndicator();
+            }
+
+            loadSavedData() {
+                // In a real app, this would load from localStorage or API
+                // For demo purposes, we'll skip this
+            }
+
+            clearAutoSavedData() {
+                this.formData = {};
+            }
+
+            showSaveIndicator() {
+                let indicator = document.querySelector('.save-indicator');
+                if (!indicator) {
+                    indicator = document.createElement('div');
+                    indicator.className = 'save-indicator';
+                    indicator.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #10b981;
+                        color: white;
+                        padding: 0.5rem 1rem;
+                        border-radius: 6px;
+                        font-size: 0.875rem;
+                        z-index: 1000;
+                        opacity: 0;
+                        transition: opacity 0.3s ease;
+                    `;
+                    document.body.appendChild(indicator);
+                }
+                
+                indicator.textContent = '✓ Draft saved';
+                indicator.style.opacity = '1';
+                
+                setTimeout(() => {
+                    indicator.style.opacity = '0';
+                }, 2000);
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'error' ? '#dc2626' : type === 'success' ? '#10b981' : '#3b82f6'};
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: 6px;
+                    z-index: 1000;
+                    max-width: 90%;
+                    text-align: center;
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, type === 'error' ? 5000 : 3000);
+            }
+
+            scrollToFirstError() {
+                const firstError = this.form.querySelector('.field-error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            handleBeforeUnload(e) {
+                const hasData = Object.keys(this.formData).length > 0;
+                if (hasData && !this.isSubmitting) {
+                    e.preventDefault();
+                    e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+                }
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            new LoanApplicationForm();
+        });
+    </script>
+</body>
+</html>
