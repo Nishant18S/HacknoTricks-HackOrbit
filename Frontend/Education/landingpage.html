@@ -1,0 +1,1316 @@
+;<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVerse - Learn Beyond Boundaries</title>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #ffffff;
+            --bg-primary: #ffffff;
+            --bg-dark: #0f172a;
+            --bg-gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --border-radius: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: var(--transition);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--text-light);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 3D Object Container */
+        .hero-3d {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cube-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+            animation: rotate3d 10s infinite linear;
+        }
+
+        .cube {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .cube:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .cube.front { transform: rotateY(0deg) translateZ(100px); }
+        .cube.back { transform: rotateY(180deg) translateZ(100px); }
+        .cube.right { transform: rotateY(90deg) translateZ(100px); }
+        .cube.left { transform: rotateY(-90deg) translateZ(100px); }
+        .cube.top { transform: rotateX(90deg) translateZ(100px); }
+        .cube.bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotate3d {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: var(--bg-primary);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--bg-dark);
+            padding: 4rem 0;
+            color: var(--text-light);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Responsive Design */
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-primary);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transform: scale(0.95);
+            opacity: 0.7;
+        }
+
+        .testimonial-card.active {
+            transform: scale(1);
+            opacity: 1;
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--primary-color);
+        }
+
+        .testimonial-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .stars {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            font-style: italic;
+            position: relative;
+        }
+
+        .testimonial-card blockquote::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary-color);
+            position: absolute;
+            top: -1rem;
+            left: -1rem;
+            font-family: serif;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+        }
+
+        .author-info h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .testimonial-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-dot.active {
+            background: var(--primary-color);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.2);
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 5rem 0;
+            background: var(--bg-primary);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .faq-question.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: var(--transition);
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+
+        .faq-answer.active {
+            max-height: 200px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 3rem 0 0;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section h4 {
+            color: var(--text-light);
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 0.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: calc(var(--border-radius) / 2);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .newsletter-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-gradient);
+            border: none;
+            border-radius: calc(var(--border-radius) / 2);
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+        }
+
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .footer-legal a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .cube-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .cube {
+                width: 150px;
+                height: 150px;
+                font-size: 1.5rem;
+            }
+
+            .cube.front, .cube.back, .cube.right, 
+            .cube.left, .cube.top, .cube.bottom {
+                transform-origin: center;
+            }
+
+            .cube.front { transform: rotateY(0deg) translateZ(75px); }
+            .cube.back { transform: rotateY(180deg) translateZ(75px); }
+            .cube.right { transform: rotateY(90deg) translateZ(75px); }
+            .cube.left { transform: rotateY(-90deg) translateZ(75px); }
+            .cube.top { transform: rotateX(90deg) translateZ(75px); }
+            .cube.bottom { transform: rotateX(-90deg) translateZ(75px); }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">EduVerse</div>
+            <ul class="nav-links">
+                <li><a href="aboutus.html">About</a></li>
+                <li><a href="contactuspage.html">Contact</a></li>
+                 <li><a href="signup.html">SignUp</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="floating-elements">
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Learn Beyond Boundaries</h1>
+                <p>Discover cutting-edge courses, interactive learning experiences, and transform your future with our revolutionary education platform.</p>
+                <div class="cta-buttons">
+                    <a href="#courses" class="btn btn-primary">Start Learning</a>
+                    <a href="#about" class="btn btn-secondary">Explore More</a>
+                </div>
+            </div>
+            
+            <div class="hero-3d">
+                <div class="cube-container">
+                    <div class="cube front">📚</div>
+                    <div class="cube back">💡</div>
+                    <div class="cube right">🎓</div>
+                    <div class="cube left">🚀</div>
+                    <div class="cube top">⭐</div>
+                    <div class="cube bottom">🌟</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="courses">
+        <div class="features-container">
+            <div class="section-title">
+                <h2>Why Choose EduVerse?</h2>
+                <p>Experience the future of learning with our innovative approach</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Personalized Learning</h3>
+                    <p>AI-powered curriculum that adapts to your learning style and pace for maximum effectiveness.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Global Community</h3>
+                    <p>Connect with learners worldwide, share knowledge, and build lasting professional relationships.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Industry Certification</h3>
+                    <p>Earn recognized certificates that boost your career prospects and validate your expertise.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>500K+</h3>
+                <p>Active Learners</p>
+            </div>
+            <div class="stat-item">
+                <h3>1000+</h3>
+                <p>Expert Courses</p>
+            </div>
+            <div class="stat-item">
+                <h3>95%</h3>
+                <p>Success Rate</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Support Available</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="testimonials-container">
+            <div class="section-title">
+                <h2>What Our Students Say</h2>
+                <p>Real stories from learners who transformed their careers with EduVerse</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card active">
+                    <div class="testimonial-content">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <blockquote>
+                            "EduVerse completely transformed my career. The personalized learning approach helped me master web development in just 6 months. The community support was incredible!"
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='30' fill='%236366f1'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='white' font-size='20' font-weight='bold'%3ESA%3C/text%3E%3C/svg%3E" alt="Sarah">
+                            </div>
+                            <div class="author-info">
+                                <h4>Sarah Anderson</h4>
+                                <p>Full-Stack Developer at TechCorp</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <blockquote>
+                            "The AI-powered curriculum adapted perfectly to my learning style. I went from zero to landing my dream job in data science. Highly recommend!"
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='30' fill='%238b5cf6'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='white' font-size='20' font-weight='bold'%3EMJ%3C/text%3E%3C/svg%3E" alt="Michael">
+                            </div>
+                            <div class="author-info">
+                                <h4>Michael Johnson</h4>
+                                <p>Data Scientist at DataFlow</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <blockquote>
+                            "As a working mother, the flexible learning schedule was perfect. The quality of content and instructor support exceeded my expectations."
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='30' fill='%2306b6d4'/%3E%3Ctext x='30' y='35' text-anchor='middle' fill='white' font-size='20' font-weight='bold'%3ELC%3C/text%3E%3C/svg%3E" alt="Lisa">
+                            </div>
+                            <div class="author-info">
+                                <h4>Lisa Chen</h4>
+                                <p>UX Designer at CreativeStudio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-navigation">
+                <button class="nav-dot active" data-slide="0"></button>
+                <button class="nav-dot" data-slide="1"></button>
+                <button class="nav-dot" data-slide="2"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="faq-container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Everything you need to know about EduVerse</p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question active">
+                        <span>How does the personalized learning system work?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer active">
+                        <p>Our AI-powered system analyzes your learning patterns, strengths, and areas for improvement to create a customized curriculum. It adapts in real-time based on your progress, ensuring optimal learning efficiency.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What kind of certification do I receive?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You'll receive industry-recognized certificates upon course completion. Our certificates are accepted by top companies worldwide and can be verified through our blockchain-based verification system.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can I learn at my own pace?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! Our platform is designed for flexible learning. You can access courses 24/7, pause and resume anytime, and set your own deadlines. Perfect for working professionals and busy schedules.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What support is available during my learning journey?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We provide comprehensive support including 24/7 chat assistance, weekly mentor sessions, peer community forums, and direct access to instructors. You're never alone in your learning journey.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Is there a money-back guarantee?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! We offer a 30-day money-back guarantee. If you're not completely satisfied with your learning experience, we'll refund your payment in full, no questions asked.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How do I get started?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Getting started is easy! Simply create your free account, take our skills assessment quiz, and we'll recommend the perfect learning path for you. Your first lesson is always free!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3>EduVerse</h3>
+                        <p>Transforming education through innovative technology and personalized learning experiences.</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">📘</a>
+                        <a href="#" class="social-link">🐦</a>
+                        <a href="#" class="social-link">💼</a>
+                        <a href="#" class="social-link">📸</a>
+                        <a href="#" class="social-link">📺</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Courses</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Data Science</a></li>
+                        <li><a href="#">Machine Learning</a></li>
+                        <li><a href="#">Digital Marketing</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">Cloud Computing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Mission</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partnerships</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">System Status</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for the latest courses and updates.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input">
+                        <button class="newsletter-btn">Subscribe</button>
+                    </div>
+                    <div class="footer-contact">
+                        <p>📞 +1 (555) 123-4567</p>
+                        <p>✉️ hello@eduverse.com</p>
+                        <p>📍 123 Education St, Learning City, LC 12345</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 EduVerse. All rights reserved.</p>
+                    <div class="footer-legal">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                        <a href="#">GDPR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Header background on scroll
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if (window.scrollY > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.98)';
+        header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+    } else {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+        header.style.boxShadow = 'none';
+    }
+});
+
+// Interactive cube hover effects
+const cubes = document.querySelectorAll('.cube');
+cubes.forEach(cube => {
+    cube.addEventListener('mouseenter', () => {
+        cube.style.transform += ' scale(1.1)';
+    });
+    
+    cube.addEventListener('mouseleave', () => {
+        cube.style.transform = cube.style.transform.replace(' scale(1.1)', '');
+    });
+});
+
+// Testimonial slider functionality
+const testimonialCards = document.querySelectorAll('.testimonial-card');
+const navDots = document.querySelectorAll('.nav-dot');
+let currentTestimonial = 0;
+
+function showTestimonial(index) {
+    testimonialCards.forEach((card, i) => {
+        card.classList.toggle('active', i === index);
+    });
+    navDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+}
+
+navDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        currentTestimonial = index;
+        showTestimonial(currentTestimonial);
+    });
+});
+
+// Auto-rotate testimonials
+setInterval(() => {
+    currentTestimonial = (currentTestimonial + 1) % testimonialCards.length;
+    showTestimonial(currentTestimonial);
+}, 5000);
+
+// FAQ accordion functionality
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+        const faqItem = question.parentElement;
+        const answer = faqItem.querySelector('.faq-answer');
+        const isActive = question.classList.contains('active');
+        
+        // Close all other FAQ items
+        faqQuestions.forEach(q => {
+            q.classList.remove('active');
+            q.parentElement.querySelector('.faq-answer').classList.remove('active');
+        });
+        
+        // Toggle current item
+        if (!isActive) {
+            question.classList.add('active');
+            answer.classList.add('active');
+        }
+    });
+});
+
+// Newsletter form functionality
+const newsletterForm = document.querySelector('.newsletter-form');
+const newsletterInput = document.querySelector('.newsletter-input');
+const newsletterBtn = document.querySelector('.newsletter-btn');
+
+newsletterBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const email = newsletterInput.value.trim();
+    
+    if (email && email.includes('@')) {
+        newsletterBtn.textContent = 'Subscribed!';
+        newsletterBtn.style.background = '#10b981';
+        newsletterInput.value = '';
+        
+        setTimeout(() => {
+            newsletterBtn.textContent = 'Subscribe';
+            newsletterBtn.style.background = '';
+        }, 3000);
+    } else {
+        newsletterInput.style.borderColor = '#ef4444';
+        setTimeout(() => {
+            newsletterInput.style.borderColor = '';
+        }, 2000);
+    }
+});
+
+newsletterInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        newsletterBtn.click();
+    }
+});
+
+// Scroll animations for sections
+const animationObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+// Add initial animation styles and observe elements
+document.querySelectorAll('.testimonial-card, .faq-item, .feature-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    animationObserver.observe(el);
+});
+
+// Animate stats on scroll
+const observerOptions = {
+    threshold: 0.5,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const statNumbers = entry.target.querySelectorAll('.stat-item h3');
+            statNumbers.forEach(stat => {
+                const finalNumber = stat.textContent;
+                const numericValue = parseInt(finalNumber.replace(/[^\d]/g, ''));
+                const suffix = finalNumber.replace(/[\d]/g, '');
+                
+                let currentNumber = 0;
+                const increment = numericValue / 50;
+                
+                const counter = setInterval(() => {
+                    currentNumber += increment;
+                    if (currentNumber >= numericValue) {
+                        stat.textContent = finalNumber;
+                        clearInterval(counter);
+                    } else {
+                        stat.textContent = Math.floor(currentNumber) + suffix;
+                    }
+                }, 30);
+            });
+            
+            // Mark as animated to prevent re-triggering
+            entry.target.classList.add('stats-animated');
+            statsObserver.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+const statsSection = document.querySelector('.stats');
+if (statsSection) {
+    statsObserver.observe(statsSection);
+}
+
+// Additional scroll effects for parallax elements
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallaxElements = document.querySelectorAll('.parallax');
+    
+    parallaxElements.forEach(element => {
+        const speed = element.dataset.speed || 0.5;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+});
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Trigger initial animations
+    showTestimonial(0);
+    
+    // Add loading complete class
+    document.body.classList.add('loaded');
+});
+                    
+    </script>
+</body>
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - College Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #3498db;
+            background: white;
+            color: #3498db;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .sort-select {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .announcements-grid {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .announcement-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .announcement-card.exams {
+            border-left-color: #e74c3c;
+        }
+
+        .announcement-card.admissions {
+            border-left-color: #2ecc71;
+        }
+
+        .announcement-card.scholarships {
+            border-left-color: #f39c12;
+        }
+
+        .announcement-card.academic {
+            border-left-color: #9b59b6;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge.new {
+            background: #e74c3c;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .badge.exams {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .badge.admissions {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .badge.scholarships {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .badge.academic {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .card-date {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-content {
+            color: #34495e;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #3498db;
+            border: 1px solid #3498db;
+        }
+
+        .btn-outline:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+        }
+
+        .no-results h3 {
+            margin-bottom: 10px;
+            color: #34495e;
+        }
+
+        .archived-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .archived-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .archived-header h2 {
+            color: #7f8c8d;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .search-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .announcements-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .controls {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📢 Announcements</h1>
+            <p>Stay updated with the latest college notifications and important updates</p>
+        </div>
+
+        <div class="controls">
+            <div class="search-filter">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search announcements...">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="exams">Exams</button>
+                    <button class="filter-btn" data-filter="admissions">Admissions</button>
+                    <button class="filter-btn" data-filter="scholarships">Scholarships</button>
+                    <button class="filter-btn" data-filter="academic">Academic</button>
+                </div>
+
+                <select class="sort-select" id="sortSelect">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="announcements-grid" id="announcementsGrid">
+            <!-- Announcements will be populated by JavaScript -->
+        </div>
+
+        <div class="archived-section" id="archivedSection">
+            <div class="archived-header">
+                <h2>📁 Archived Announcements</h2>
+            </div>
+            <div class="announcements-grid" id="archivedGrid">
+                <!-- Archived announcements will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample announcement data
+        const announcements = [
+            {
+                id: 1,
+                title: "Admission Open for 2025-26 Session",
+                category: "admissions",
+                date: "2025-06-19",
+                content: "Online applications are now open for all undergraduate and postgraduate programs. Last date to apply is July 15, 2025.",
+                isNew: true,
+                hasDocument: true,
+                pdfUrl: "admission-2025-26.pdf",
+                archived: false
+            },
+            {
+                id: 2,
+                title: "Final Semester Exam Schedule Released",
+                category: "exams",
+                date: "2025-06-18",
+                content: "The examination schedule for final semester has been published. Please check the detailed timetable and prepare accordingly.",
+                isNew: true,
+                hasDocument: true,
+                pdfUrl: "exam-schedule-final-sem.pdf",
+                archived: false
+            },
+            {
+                id: 3,
+                title: "National Scholarship Scheme 2025-26",
+                category: "scholarships",
+                date: "2025-06-17",
+                content: "Applications are invited for various national scholarship schemes. Eligible students can apply before the deadline.",
+                isNew: false,
+                hasDocument: true,
+                pdfUrl: "scholarship-scheme-2025.pdf",
+                archived: false
+            },
+            {
+                id: 4,
+                title: "NEP 2020 Implementation Guidelines",
+                category: "academic",
+                date: "2025-06-16",
+                content: "New guidelines for the implementation of National Education Policy 2020 have been released. All faculty members are requested to review.",
+                isNew: false,
+                hasDocument: true,
+                pdfUrl: "nep-2020-guidelines.pdf",
+                archived: false
+            },
+            {
+                id: 5,
+                title: "Summer Break Holiday Notice",
+                category: "academic",
+                date: "2025-06-15",
+                content: "College will remain closed from June 20th to July 5th for summer break. Emergency contact numbers are provided in the notice.",
+                isNew: false,
+                hasDocument: false,
+                archived: false
+            },
+            {
+                id: 6,
+                title: "Research Symposium 2025",
+                category: "academic",
+                date: "2025-06-10",
+                content: "Annual research symposium will be held on July 20-21, 2025. Students and faculty are invited to participate and present their research work.",
+                isNew: false,
+                hasDocument: true,
+                pdfUrl: "research-symposium-2025.pdf",
+                archived: false
+            },
+            {
+                id: 7,
+                title: "Placement Drive - Tech Companies",
+                category: "academic",
+                date: "2025-05-15",
+                content: "Campus placement drive for final year students. Multiple tech companies will be participating. Registration deadline was May 20th.",
+                isNew: false,
+                hasDocument: true,
+                pdfUrl: "placement-drive-tech.pdf",
+                archived: true
+            },
+            {
+                id: 8,
+                title: "Mid-term Results Published",
+                category: "exams",
+                date: "2025-04-10",
+                content: "Mid-term examination results have been published on the student portal. Students can check their results using their roll numbers.",
+                isNew: false,
+                hasDocument: false,
+                archived: true
+            }
+        ];
+
+        let filteredAnnouncements = [...announcements];
+        let currentFilter = 'all';
+        let currentSort = 'newest';
+
+        // PDF Download function
+        function downloadPDF(pdfUrl, title) {
+            // Create a sample PDF content (in real implementation, you would fetch actual PDF)
+            const pdfContent = generateSamplePDF(title);
+
+            // Create blob and download
+            const blob = new Blob([pdfContent], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+
+            // Create temporary link and trigger download
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = pdfUrl;
+            document.body.appendChild(link);
+            link.click();
+
+            // Cleanup
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+
+            // Show success message
+            showNotification(`📄 ${pdfUrl} downloaded successfully!`);
+        }
+
+        // Generate sample PDF content (placeholder)
+        function generateSamplePDF(title) {
+            return `%PDF-1.41 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources <<
+/Font <<
+/F1 5 0 R
+>>
+>>
+>>
+endobj
+
+4 0 obj
+<<
+/Length 100
+>>
+stream
+BT
+/F1 12 Tf
+50 750 Td
+(${title}) Tj
+0 -20 Td
+(Official College Document) Tj
+0 -20 Td
+(Generated on: ${new Date().toLocaleDateString()}) Tj
+ET
+endstream
+endobj
+
+5 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+endobj
+
+xref
+0 6
+0000000000 65535 f 
+0000000010 00000 n 
+0000000053 00000 n 
+0000000100 00000 n 
+0000000250 00000 n 
+0000000400 00000 n 
+trailer
+<<
+/Size 6
+/Root 1 0 R
+>>
+startxref
+480
+%%EOF`;
+        }
+
+        // Show notification function
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #2ecc71;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-weight: 500;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function createAnnouncementCard(announcement) {
+            const card = document.createElement('div');
+            card.className = `announcement-card ${announcement.category}`;
+            card.innerHTML = `
+                <div class="card-header">
+                    <div>
+                        ${announcement.isNew ? '<span class="badge new">🔔 New</span>' : ''}
+                        <span class="badge ${announcement.category}">${announcement.category}</span>
+                    </div>
+                </div>
+                <h3 class="card-title">${announcement.title}</h3>
+                <div class="card-date">
+                    📅 Published: ${formatDate(announcement.date)}
+                </div>
+                <div class="card-content">
+                    ${announcement.content}
+                </div>
+                <div class="card-actions">
+                    ${announcement.hasDocument ? `<button class="btn btn-primary" onclick="downloadPDF('${announcement.pdfUrl}', '${announcement.title}')">📄 Download PDF</button>` : ''}
+                    <a href="#" class="btn btn-outline">Read More</a>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderAnnouncements() {
+            const currentAnnouncements = filteredAnnouncements.filter(a => !a.archived);
+            const archivedAnnouncements = filteredAnnouncements.filter(a => a.archived);
+
+            const currentGrid = document.getElementById('announcementsGrid');
+            const archivedGrid = document.getElementById('archivedGrid');
+            const archivedSection = document.getElementById('archivedSection');
+
+            // Clear existing content
+            currentGrid.innerHTML = '';
+            archivedGrid.innerHTML = '';
+
+            // Render current announcements
+            if (currentAnnouncements.length === 0) {
+                currentGrid.innerHTML = `
+                    <div class="no-results">
+                        <h3>No announcements found</h3>
+                        <p>Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+            } else {
+                currentAnnouncements.forEach(announcement => {
+                    currentGrid.appendChild(createAnnouncementCard(announcement));
+                });
+            }
+
+            // Render archived announcements
+            if (archivedAnnouncements.length > 0) {
+                archivedSection.style.display = 'block';
+                archivedAnnouncements.forEach(announcement => {
+                    archivedGrid.appendChild(createAnnouncementCard(announcement));
+                });
+            } else {
+                archivedSection.style.display = 'none';
+            }
+        }
+
+        function filterAnnouncements() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredAnnouncements = announcements.filter(announcement => {
+                const matchesCategory = currentFilter === 'all' || announcement.category === currentFilter;
+                const matchesSearch = announcement.title.toLowerCase().includes(searchTerm) ||
+                    announcement.content.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+
+            sortAnnouncements();
+            renderAnnouncements();
+        }
+
+        function sortAnnouncements() {
+            filteredAnnouncements.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return currentSort === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterAnnouncements);
+
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            filterAnnouncements();
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.filter;
+                filterAnnouncements();
+            });
+        });
+
+        // Initialize
+        filterAnnouncements();
+    </script>
+</body>
+
+</html>
