@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="User Dashboard - Manage your government financial services and applications in one place.">
+    <meta name="keywords" content="user dashboard, government portal, financial services, applications, notifications">
+    <meta name="author" content="Government Financial Portal">
+    <title>User Dashboard | FinGov Portal</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "User Dashboard",
+        "description": "Manage your government financial services and applications in one place.",
+        "applicationCategory": "GovernmentService"
+    }
+    </script>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="dashboard.js" defer></script>
+    <script src="chatbot.js" defer></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">FinGov Portal</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="loan.html">Loan</a></li>
+                <li><a href="schemes.html">Schemes</a></li>
+                <li><a href="insurance.html">Insurance</a></li>
+                <li><a href="investors.html">Investors</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <button class="mobile-menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard">
+        <aside class="sidebar">
+            <h3>User Dashboard</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="menu-item active" data-section="overview"><span>🏠</span> Overview</a></li>
+                <li><a href="#" class="menu-item" data-section="profile"><span>👤</span> Profile</a></li>
+                <li><a href="#" class="menu-item" data-section="applications"><span>📑</span> Applications</a></li>
+                <li><a href="#" class="menu-item" data-section="notifications"><span>🔔</span> Notifications</a></li>
+                <li><a href="#" class="menu-item" data-section="transactions"><span>💰</span> Transactions</a></li>
+                <li><a href="#" class="menu-item" data-section="settings"><span>⚙️</span> Settings</a></li>
+                <li><a href="#" class="menu-item" data-section="help"><span>❓</span> Help</a></li>
+                <li><a href="#" class="menu-item"><span>🚪</span> Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <!-- Overview Section -->
+            <div id="overview" class="section active">
+                <div class="welcome-banner">
+                    <h2>Welcome, Priya Sharma!</h2>
+                    <p>Manage your government financial services and applications in one place.</p>
+                </div>
+
+                <div class="quick-actions">
+                    <div class="quick-action">
+                        <span>📑</span>
+                        <h3>Apply for Loan</h3>
+                        <p>Start your loan application process</p>
+                        <a href="#" class="dashboard-link">Apply Now</a>
+                    </div>
+                    <div class="quick-action">
+                        <span>🛡️</span>
+                        <h3>Apply for Insurance</h3>
+                        <p>Protect yourself and your family</p>
+                        <a href="#" class="dashboard-link">Apply Now</a>
+                    </div>
+                    <div class="quick-action">
+                        <span>📋</span>
+                        <h3>Check Schemes</h3>
+                        <p>Explore available government schemes</p>
+                        <a href="#" class="dashboard-link">Explore</a>
+                    </div>
+                    <div class="quick-action">
+                        <span>💰</span>
+                        <h3>Track Investments</h3>
+                        <p>Monitor your investment portfolio</p>
+                        <a href="#" class="dashboard-link">View</a>
+                    </div>
+                </div>
+
+                <div class="dashboard-section">
+                    <h3>Your Applications</h3>
+                    <div class="applications-grid">
+                        <div class="application-card">
+                            <h4>Education Loan</h4>
+                            <p>Application ID: ED2025-001</p>
+                            <span class="application-status status-pending">Pending</span>
+                            <a href="#" class="dashboard-link">View Details</a>
+                        </div>
+                        <div class="application-card">
+                            <h4>Health Insurance</h4>
+                            <p>Application ID: HI2025-002</p>
+                            <span class="application-status status-approved">Approved</span>
+                            <a href="#" class="dashboard-link">View Details</a>
+                        </div>
+                        <div class="application-card">
+                            <h4>Business Scheme</h4>
+                            <p>Application ID: BS2025-003</p>
+                            <span class="application-status status-rejected">Rejected</span>
+                            <a href="#" class="dashboard-link">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-section">
+                    <h3>Profile Summary</h3>
+                    <div class="profile-summary">
+                        <h4>Personal Information</h4>
+                        <div class="profile-info">
+                            <div class="profile-info-item">
+                                <label>Name</label>
+                                <p>Priya Sharma</p>
+                            </div>
+                            <div class="profile-info-item">
+                                <label>Email</label>
+                                <p>priya.sharma@example.com</p>
+                            </div>
+                            <div class="profile-info-item">
+                                <label>Phone</label>
+                                <p>+91 9876543210</p>
+                            </div>
+                            <div class="profile-info-item">
+                                <label>Address</label>
+                                <p>123, Green Avenue, Mumbai, Maharashtra</p>
+                            </div>
+                        </div>
+                        <a href="#" class="dashboard-link">Edit Profile</a>
+                    </div>
+                </div>
+
+                <div class="dashboard-section">
+                    <h3>Recent Notifications</h3>
+                    <div class="notifications-list">
+                        <div class="notification">
+                            <div class="notification-date">June 19, 2025</div>
+                            <div class="notification-title">Health Insurance Approved</div>
+                            <div class="notification-excerpt">Your application for health insurance has been approved.
+                                Check
+                                your inbox for details.</div>
+                        </div>
+                        <div class="notification">
+                            <div class="notification-date">June 18, 2025</div>
+                            <div class="notification-title">New Scheme Available</div>
+                            <div class="notification-excerpt">A new business support scheme is now open for
+                                applications.
+                            </div>
+                        </div>
+                        <div class="notification">
+                            <div class="notification-date">June 17, 2025</div>
+                            <div class="notification-title">Application Status Update</div>
+                            <div class="notification-excerpt">Your education loan application is under review.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profile" class="section">
+                <div class="section-header">
+                    <h2>User Profile</h2>
+                    <p>Manage your personal information and account details.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Personal Information</h3>
+                        <form style="margin-top: 1rem;">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" value="Priya Sharma">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" value="priya.sharma@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" value="+91 9876543210">
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input type="date" value="1990-05-15">
+                            </div>
+                            <button type="submit" class="btn">Update Profile</button>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>Address Information</h3>
+                        <form style="margin-top: 1rem;">
+                            <div class="form-group">
+                                <label>Street Address</label>
+                                <input type="text" value="123, Green Avenue">
+                            </div>
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" value="Mumbai">
+                            </div>
+                            <div class="form-group">
+                                <label>State</label>
+                                <select>
+                                    <option selected>Maharashtra</option>
+                                    <option>Tamil Nadu</option>
+                                    <option>Karnataka</option>
+                                    <option>Delhi</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>PIN Code</label>
+                                <input type="text" value="400001">
+                            </div>
+                            <button type="submit" class="btn">Update Address</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Document Verification</h3>
+                    <div style="margin-top: 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 1rem; background: #f8fafc; border-radius: 6px;">
+                            <div>
+                                <strong>Aadhaar Card</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">XXXX-XXXX-1234</p>
+                            </div>
+                            <span class="status status-approved">Verified</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 1rem; background: #f8fafc; border-radius: 6px;">
+                            <div>
+                                <strong>PAN Card</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">ABCDE1234F</p>
+                            </div>
+                            <span class="status status-approved">Verified</span>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 6px;">
+                            <div>
+                                <strong>Bank Account</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">XXXXXXXXX789</p>
+                            </div>
+                            <span class="status status-pending">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Section -->
+            <div id="applications" class="section">
+                <div class="section-header">
+                    <h2>My Applications</h2>
+                    <p>Track and manage all your government service applications.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <button class="btn">New Application</button>
+                    <button class="btn btn-secondary">Filter Applications</button>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Application ID</th>
+                            <th>Service Type</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ED2025-001</td>
+                            <td>Education Loan</td>
+                            <td>June 10, 2025</td>
+                            <td><span class="status status-pending">Pending</span></td>
+                            <td>
+                                <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View</button>
+                                <button class="btn btn-secondary"
+                                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HI2025-002</td>
+                            <td>Health Insurance</td>
+                            <td>June 5, 2025</td>
+                            <td><span class="status status-approved">Approved</span></td>
+                            <td>
+                                <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View</button>
+                                <button class="btn btn-success"
+                                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">Download</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>BS2025-003</td>
+                            <td>Business Scheme</td>
+                            <td>May 28, 2025</td>
+                            <td><span class="status status-rejected">Rejected</span></td>
+                            <td>
+                                <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View</button>
+                                <button class="btn btn-secondary"
+                                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">Reapply</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>SL2025-004</td>
+                            <td>Student Loan</td>
+                            <td>May 20, 2025</td>
+                            <td><span class="status status-approved">Approved</span></td>
+                            <td>
+                                <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">View</button>
+                                <button class="btn btn-success"
+                                    style="padding: 0.5rem 1rem; font-size: 0.8rem;">Download</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Notifications Section -->
+            <div id="notifications" class="section">
+                <div class="section-header">
+                    <h2>Notifications</h2>
+                    <p>Stay updated with important alerts and messages.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <button class="btn btn-secondary">Mark All as Read</button>
+                    <button class="btn btn-secondary">Filter Notifications</button>
+                </div>
+
+                <div class="card">
+                    <div class="notification-item">
+                        <div class="notification-icon success">✓</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #1e40af; margin-bottom: 0.5rem;">Health Insurance Approved</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem;">Your application for
+                                health insurance has been approved. Check your inbox for details.</p>
+                            <small style="color: #9ca3af;">June 19, 2025 - 2:30 PM</small>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon info">ℹ</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #1e40af; margin-bottom: 0.5rem;">New Scheme Available</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem;">A new business support
+                                scheme is now open for applications. Apply before the deadline.</p>
+                            <small style="color: #9ca3af;">June 18, 2025 - 10:15 AM</small>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon warning">⚠</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #1e40af; margin-bottom: 0.5rem;">Application Status Update</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem;">Your education loan
+                                application is under review. Additional documents may be required.</p>
+                            <small style="color: #9ca3af;">June 17, 2025 - 4:45 PM</small>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon info">📄</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #1e40af; margin-bottom: 0.5rem;">Document Verification</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem;">Please verify your bank
+                                account details to complete your profile.</p>
+                            <small style="color: #9ca3af;">June 15, 2025 - 9:20 AM</small>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-icon success">💰</div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #1e40af; margin-bottom: 0.5rem;">Loan Disbursement</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 0.5rem;">Your student loan
+                                amount has been successfully disbursed to your account.</p>
+                            <small style="color: #9ca3af;">June 12, 2025 - 11:30 AM</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions Section -->
+            <div id="transactions" class="section">
+                <div class="section-header">
+                    <h2>Transaction History</h2>
+                    <p>View your financial transactions and payment history.</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <button class="btn btn-secondary">Download Statement</button>
+                    <button class="btn btn-secondary">Filter Transactions</button>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TXN001</td>
+                            <td>Student Loan Disbursement</td>
+                            <td>June 12, 2025</td>
+                            <td>Credit</td>
+                            <td>₹2,50,000</td>
+                            <td><span class="status status-approved">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>TXN002</td>
+                            <td>Health Insurance Premium</td>
+                            <td>June 5, 2025</td>
+                            <td>Debit</td>
+                            <td>₹12,000</td>
+                            <td><span class="status status-approved">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>TXN003</td>
+                            <td>Application Processing Fee</td>
+                            <td>May 28, 2025</td>
+                            <td>Debit</td>
+                            <td>₹500</td>
+                            <td><span class="status status-approved">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>TXN004</td>
+                            <td>Scheme Subsidy Credit</td>
+                            <td>May 15, 2025</td>
+                            <td>Credit</td>
+                            <td>₹25,000</td>
+                            <td><span class="status status-approved">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>TXN005</td>
+                            <td>Document Verification Fee</td>
+                            <td>May 10, 2025</td>
+                            <td>Debit</td>
+                            <td>₹200</td>
+                            <td><span class="status status-approved">Completed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="grid" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Transaction Summary</h3>
+                        <div style="margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Total Credits:</span>
+                                <strong style="color: #10b981;">₹2,75,000</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Total Debits:</span>
+                                <strong style="color: #ef4444;">₹12,700</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Net Balance:</span>
+                                <strong style="color: #1e40af;">₹2,62,300</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Transactions This Month:</span>
+                                <strong>5</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Quick Actions</h3>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn" style="width: 100%; margin-bottom: 0.5rem;">Make Payment</button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">Request
+                                Refund</button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">View
+                                Receipt</button>
+                            <button class="btn btn-secondary" style="width: 100%;">Contact Support</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="section">
+                <div class="section-header">
+                    <h2>Account Settings</h2>
+                    <p>Manage your account preferences and security settings.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Security Settings</h3>
+                        <div style="margin-top: 1rem;">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" placeholder="Enter current password">
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" placeholder="Enter new password">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" placeholder="Confirm new password">
+                            </div>
+                            <button class="btn">Update Password</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Two-Factor Authentication</h3>
+                        <div style="margin-top: 1rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <strong>SMS Authentication</strong>
+                                    <p style="color: #6b7280; font-size: 0.9rem;">Receive codes via SMS</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <strong>Email Authentication</strong>
+                                    <p style="color: #6b7280; font-size: 0.9rem;">Receive codes via email</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <button class="btn btn-secondary">Setup Authenticator App</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Notification Preferences</h3>
+                    <div style="margin-top: 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div>
+                                <strong>Email Notifications</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Receive updates via email</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div>
+                                <strong>SMS Notifications</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Receive updates via SMS</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <div>
+                                <strong>Push Notifications</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Receive browser notifications</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>Marketing Communications</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Receive promotional content</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Privacy Settings</h3>
+                        <div style="margin-top: 1rem;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <strong>Profile Visibility</strong>
+                                    <p style="color: #6b7280; font-size: 0.9rem;">Make profile visible to others</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong>Data Sharing</strong>
+                                    <p style="color: #6b7280; font-size: 0.9rem;">Share data for analytics</p>
+                                </div>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Account Actions</h3>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">Export
+                                Data</button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">Deactivate
+                                Account</button>
+                            <button class="btn btn-danger" style="width: 100%;">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div id="help" class="section">
+                <div class="section-header">
+                    <h2>Help & Support</h2>
+                    <p>Get assistance and find answers to your questions.</p>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>🎯 Quick Help</h3>
+                        <div style="margin-top: 1rem;">
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Getting Started</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Learn how to use the portal</p>
+                                <button class="btn btn-secondary" style="margin-top: 0.5rem;">View Tutorial</button>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Application Process</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Step-by-step application guide</p>
+                                <button class="btn btn-secondary" style="margin-top: 0.5rem;">Read Guide</button>
+                            </div>
+                            <div>
+                                <strong>Common Issues</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Solutions to frequent problems</p>
+                                <button class="btn btn-secondary" style="margin-top: 0.5rem;">View Solutions</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📞 Contact Support</h3>
+                        <div style="margin-top: 1rem;">
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Phone Support</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">1800-123-4567 (Toll Free)</p>
+                                <p style="color: #6b7280; font-size: 0.8rem;">Mon-Fri: 9 AM - 6 PM</p>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Email Support</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">support@fingov.gov.in</p>
+                                <p style="color: #6b7280; font-size: 0.8rem;">Response within 24 hours</p>
+                            </div>
+                            <div>
+                                <strong>Live Chat</strong>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Available 24/7</p>
+                                <button class="btn" style="margin-top: 0.5rem;">Start Chat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📚 Frequently Asked Questions</h3>
+                    <div style="margin-top: 1rem;">
+                        <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1rem;">
+                            <strong style="color: #1e40af;">How do I track my application status?</strong>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 0.5rem;">You can track your
+                                application status by going to the Applications section in your dashboard. Each
+                                application shows its current status and any required actions.</p>
+                        </div>
+                        <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1rem;">
+                            <strong style="color: #1e40af;">What documents are required for loan applications?</strong>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 0.5rem;">Required documents include
+                                Aadhaar card, PAN card, income certificate, bank statements, and collateral documents
+                                (if applicable). Check the specific loan page for detailed requirements.</p>
+                        </div>
+                        <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1rem;">
+                            <strong style="color: #1e40af;">How long does application processing take?</strong>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 0.5rem;">Processing times vary by
+                                service: Loans (15-30 days), Insurance (7-14 days), Schemes (10-21 days). You'll receive
+                                updates via email and SMS.</p>
+                        </div>
+                        <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1rem;">
+                            <strong style="color: #1e40af;">Can I edit my application after submission?</strong>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 0.5rem;">Applications can be edited
+                                within 24 hours of submission if they're still in "Pending" status. After that, you'll
+                                need to contact support for changes.</p>
+                        </div>
+                        <div>
+                            <strong style="color: #1e40af;">How do I reset my password?</strong>
+                            <p style="color: #6b7280; font-size: 0.9rem; margin-top: 0.5rem;">You can reset your
+                                password from the login page using the "Forgot Password" link, or change it from the
+                                Settings section in your dashboard.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💬 Submit Feedback</h3>
+                    <form style="margin-top: 1rem;">
+                        <div class="form-group">
+                            <label>Feedback Type</label>
+                            <select>
+                                <option>General Feedback</option>
+                                <option>Bug Report</option>
+                                <option>Feature Request</option>
+                                <option>Complaint</option>
+                                <option>Suggestion</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" placeholder="Brief description of your feedback">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="4" placeholder="Detailed feedback or description"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🏛️ FinGov Portal</h3>
+                    <p>Empowering financial transparency between citizens and government through digital innovation and
+                        accessible services.</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Twitter">🐦</a>
+                        <a href="#" title="LinkedIn">💼</a>
+                        <a href="#" title="YouTube">📺</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Financial Services</h3>
+                    <ul>
+                        <li><a href="#loan">Government Loans</a></li>
+                        <li><a href="#schemes">Welfare Schemes</a></li>
+                        <li><a href="#insurance">Insurance Programs</a></li>
+                        <li><a href="#investment">Investment Options</a></li>
+                        <li><a href="#tax">Tax Services</a></li>
+                        <li><a href="#subsidy">Subsidies</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#gdp">GDP Reports</a></li>
+                        <li><a href="#budget">Budget Documents</a></li>
+                        <li><a href="#statistics">Economic Statistics</a></li>
+                        <li><a href="#downloads">Downloads</a></li>
+                        <li><a href="#forms">Application Forms</a></li>
+                        <li><a href="#calculator">Financial Calculators</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support & Information</h3>
+                    <ul>
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#tutorial">Tutorials</a></li>
+                        <li><a href="#status">Service Status</a></li>
+                        <li><a href="#feedback">Feedback</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#dashboard">User Dashboard</a></li>
+                        <li><a href="#register">Register</a></li>
+                        <li><a href="#login">Login</a></li>
+                        <li><a href="#investors">Foreign Investors</a></li>
+                        <li><a href="#mobile-app">Mobile App</a></li>
+                        <li><a href="#accessibility">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                    <a href="#security">Security</a>
+                    <a href="#disclaimer">Disclaimer</a>
+                    <a href="#sitemap">Site Map</a>
+                </div>
+                <p>&copy; 2025 Government Financial Portal. All rights reserved. | Official Government Website</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Toggle Button -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+        <div class="chatbot-icon">💬</div>
+        <div class="chatbot-notification hidden" id="chatbotNotification">1</div>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <!-- Chatbot Header -->
+        <div class="chatbot-header">
+            <div class="chatbot-header-info">
+                <div class="chatbot-avatar">🏛️</div>
+                <div class="chatbot-details">
+                    <div class="chatbot-name">FinGov Assistant</div>
+                    <div class="chatbot-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </div>
+                </div>
+            </div>
+            <button class="chatbot-minimize" id="chatbotMinimize">−</button>
+        </div>
+
+        <!-- Chatbot Messages -->
+        <div class="chatbot-messages" id="chatbotMessages">
+            <!-- Messages will be dynamically added here -->
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div class="chatbot-quick-actions" id="quickActions">
+            <button class="quick-action-btn" data-action="loan">💰 Loan Info</button>
+            <button class="quick-action-btn" data-action="schemes">🎯 Schemes</button>
+            <button class="quick-action-btn" data-action="insurance">🛡️ Insurance</button>
+            <button class="quick-action-btn" data-action="contact">📞 Contact</button>
+        </div>
+
+        <!-- Chatbot Input -->
+        <div class="chatbot-input-container">
+            <div class="chatbot-input-wrapper">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message here..."
+                    maxlength="500" />
+                <button class="chatbot-send-btn" id="chatbotSend" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="chatbot-typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="typing-text">FinGov Assistant is typing...</span>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
