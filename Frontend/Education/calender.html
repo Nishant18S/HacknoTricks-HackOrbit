@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced AI Academic Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 10px;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
+            50% { background: linear-gradient(135deg, #764ba2 0%, #f093fb 50%, #667eea 100%); }
+        }
+
+        .calendar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-status {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+        }
+
+        .ai-indicator {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .current-month {
+            font-size: 1.4em;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .weather-time-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9em;
+            color: #495057;
+        }
+
+        .weather-icon {
+            font-size: 1.5em;
+        }
+
+        .time-display {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .ai-input-section {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .ai-input-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .ai-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 30px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .ai-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 4px 6px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+
+        .ai-send-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-send-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-suggestions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .suggestion-chip {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-weight: 500;
+        }
+
+        .suggestion-chip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .calendar-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 0;
+        }
+
+        .calendar-main {
+            padding: 20px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, #495057, #6c757d);
+            color: white;
+            padding: 15px 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .day-cell {
+            background: white;
+            min-height: 100px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid transparent;
+        }
+
+        .day-cell:hover {
+            background: #f8f9fa;
+            transform: scale(1.02);
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .day-number {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #212529;
+        }
+
+        .other-month {
+            opacity: 0.3;
+            background: #f8f9fa;
+        }
+
+        .today {
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .today .day-number {
+            color: white;
+        }
+
+        .event {
+            background: #e74c3c;
+            color: white;
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 6px;
+            margin: 2px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .event:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .event.exam { background: linear-gradient(135deg, #dc3545, #c82333); }
+        .event.holiday { background: linear-gradient(135deg, #fd7e14, #e8590c); }
+        .event.assignment { background: linear-gradient(135deg, #0d6efd, #0b5ed7); }
+        .event.general { background: linear-gradient(135deg, #6f42c1, #59359a); }
+        .event.ai-suggested { 
+            background: linear-gradient(135deg, #28a745, #20c997); 
+            border-left: 3px solid #17a2b8;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(40, 167, 69, 0.8); }
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #f8f9fa, #ffffff);
+            border-left: 1px solid #e9ecef;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ai-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .ai-panel-header {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1em;
+        }
+
+        .ai-response {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            border-left: 4px solid #667eea;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .loading {
+            opacity: 0.7;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-left: 8px;
+            border: 2px solid #667eea;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .upcoming-events {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .upcoming-event {
+            background: white;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .upcoming-event:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 1024px) {
+            .calendar-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                border-left: none;
+                border-top: 1px solid #e9ecef;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calendar-container { margin: 5px; }
+            .day-cell { min-height: 70px; padding: 4px; }
+            .nav-controls { flex-direction: column; gap: 10px; }
+            .weather-time-section { flex-direction: column; gap: 10px; text-align: center; }
+            .legend { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="header">
+            <h1>🎓 Advanced AI Academic Calendar</h1>
+            <div class="ai-status">
+                <div class="ai-indicator"></div>
+                <span>AI Assistant Online</span>
+            </div>
+            <div class="nav-controls">
+                <button class="nav-btn" id="prevBtn">← Previous</button>
+                <div class="current-month" id="currentMonth"></div>
+                <button class="nav-btn" id="nextBtn">Next →</button>
+            </div>
+        </div>
+
+        <div class="weather-time-section">
+            <div class="weather-info" id="weatherInfo">
+                <div class="weather-icon">🌤️</div>
+                <div>Loading weather...</div>
+            </div>
+            <div class="time-display" id="timeDisplay"></div>
+        </div>
+
+        <div class="ai-input-section">
+            <div class="ai-input-container">
+                <input type="text" class="ai-input" id="aiInput" placeholder="Ask AI anything: 'Schedule my midterm for next Monday', 'What's my workload this week?', 'Plan study sessions'">
+                <button class="ai-send-btn" id="aiSendBtn">📤</button>
+            </div>
+            <div class="ai-suggestions">
+                <button class="suggestion-chip" onclick="quickCommand('Add midterm exam next Monday')">📝 Add Midterm</button>
+                <button class="suggestion-chip" onclick="quickCommand('Schedule study sessions for this week')">📚 Study Sessions</button>
+                <button class="suggestion-chip" onclick="quickCommand('Show my upcoming deadlines')">⏰ Deadlines</button>
+                <button class="suggestion-chip" onclick="quickCommand('Plan my week efficiently')">🎯 Plan Week</button>
+                <button class="suggestion-chip" onclick="quickCommand('Add break time tomorrow')">☕ Add Break</button>
+            </div>
+        </div>
+
+        <div class="calendar-wrapper">
+            <div class="calendar-main">
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="ai-panel">
+                    <div class="ai-panel-header">
+                        🤖 AI Assistant
+                    </div>
+                    <div class="ai-response" id="aiResponse">
+                        Welcome! I'm your advanced AI academic assistant. I can help you:
+                        <br><br>
+                        • Schedule events with natural language
+                        • Analyze your workload and suggest optimizations
+                        • Create study schedules based on your preferences
+                        • Predict potential conflicts and suggest solutions
+                        <br><br>
+                        Try asking me anything about your academic schedule!
+                    </div>
+                </div>
+
+                <div class="ai-panel">
+                    <div class="ai-panel-header">
+                        📅 Upcoming Events
+                    </div>
+                    <div class="upcoming-events" id="upcomingEvents">
+                        Loading upcoming events...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #6f42c1, #59359a);"></div>
+                <span>General</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #dc3545, #c82333);"></div>
+                <span>Exams</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #fd7e14, #e8590c);"></div>
+                <span>Holidays</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #0d6efd, #0b5ed7);"></div>
+                <span>Assignments</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #28a745, #20c997);"></div>
+                <span>AI Suggested</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class AdvancedAICalendar {
+            constructor() {
+                this.apiKey = 'AIzaSyCqmCN69UOQJ9BldbTmfVH3hUKMWvBzjjI';
+                this.apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+                this.currentDate = new Date();
+                this.events = this.loadEvents();
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.renderCalendar();
+                this.updateTimeDisplay();
+                this.loadWeatherData();
+                this.updateUpcomingEvents();
+                
+                // Update time every second
+                setInterval(() => this.updateTimeDisplay(), 1000);
+                
+                // Update weather every 30 minutes
+                setInterval(() => this.loadWeatherData(), 1800000);
+            }
+
+            loadEvents() {
+                const saved = localStorage.getItem('calendarEvents');
+                if (saved) {
+                    return JSON.parse(saved);
+                }
+                
+                // Default events
+                return {
+                    '2025-01-15': [{title: 'Spring Semester Begins', type: 'general'}],
+                    '2025-02-14': [{title: 'Midterm Exams Week', type: 'exam'}],
+                    '2025-03-15': [{title: 'Research Paper Due', type: 'assignment'}],
+                    '2025-03-25': [{title: 'Spring Break', type: 'holiday'}],
+                    '2025-04-20': [{title: 'Final Project Presentation', type: 'assignment'}],
+                    '2025-05-10': [{title: 'Final Exams Begin', type: 'exam'}]
+                };
+            }
+
+            saveEvents() {
+                localStorage.setItem('calendarEvents', JSON.stringify(this.events));
+            }
+
+            async callGeminiAPI(prompt) {
+                try {
+                    const response = await fetch(this.apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `You are an advanced AI academic calendar assistant. Current date: ${new Date().toDateString()}.
+
+Context: User has an academic calendar with events. Current events: ${JSON.stringify(this.events, null, 2)}
+
+User request: "${prompt}"
+
+Please respond in a helpful, conversational way. If the user wants to:
+1. Add events - extract the event details and provide a structured response
+2. Query information - analyze their calendar and provide insights
+3. Get suggestions - provide personalized academic advice
+4. Plan schedules - create optimal scheduling recommendations
+
+If adding events, respond with JSON in this format at the end:
+{
+  "action": "add_event",
+  "date": "YYYY-MM-DD",
+  "title": "Event Title",
+  "type": "exam|assignment|holiday|general"
+}
+
+Provide a natural, helpful response followed by any structured data if needed.`
+                                }]
+                            }]
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0]) {
+                        return data.candidates[0].content.parts[0].text;
+                    } else {
+                        throw new Error('No response from AI');
+                    }
+                } catch (error) {
+                    console.error('AI API Error:', error);
+                    return "I'm having trouble connecting to my AI brain right now. Let me try to help you with basic calendar functions instead!";
+                }
+            }
+
+            async processAICommand(input) {
+                const responseDiv = document.getElementById('aiResponse');
+                responseDiv.classList.add('loading');
+                responseDiv.innerHTML = 'AI is thinking...';
+
+                try {
+                    const aiResponse = await this.callGeminiAPI(input);
+                    
+                    // Check if response contains JSON for event creation
+                    const jsonMatch = aiResponse.match(/\{[\s\S]*"action":\s*"add_event"[\s\S]*\}/);
+                    if (jsonMatch) {
+                        try {
+                            const eventData = JSON.parse(jsonMatch[0]);
+                            this.addEventFromAI(eventData);
+                            const cleanResponse = aiResponse.replace(jsonMatch[0], '').trim();
+                            responseDiv.innerHTML = cleanResponse || "✅ Event added successfully!";
+                        } catch (e) {
+                            responseDiv.innerHTML = aiResponse;
+                        }
+                    } else {
+                        responseDiv.innerHTML = aiResponse;
+                    }
+                } catch (error) {
+                    responseDiv.innerHTML = "Sorry, I encountered an error. Let me help you with basic calendar functions instead!";
+                }
+
+                responseDiv.classList.remove('loading');
+                this.updateUpcomingEvents();
+            }
+
+            addEventFromAI(eventData) {
+                const { date, title, type } = eventData;
+                
+                if (!this.events[date]) {
+                    this.events[date] = [];
+                }
+                
+                this.events[date].push({
+                    title: title,
+                    type: type || 'general',
+                    aiSuggested: true,
+                    created: new Date().toISOString()
+                });
+                
+                this.saveEvents();
+                this.renderCalendar();
+            }
+
+            updateTimeDisplay() {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('en-US', {
+                    hour12: true,
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                const dateStr = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                document.getElementById('timeDisplay').innerHTML = `${dateStr}<br>${timeStr}`;
+            }
+
+            async loadWeatherData() {
+                try {
+                    // Using a free weather API (OpenWeatherMap requires API key, using a mock for demo)
+                    const weatherInfo = document.getElementById('weatherInfo');
+                    
+                    // Mock weather data - in real implementation, use actual weather API
+                    const mockWeather = {
+                        temp: Math.floor(Math.random() * 15) + 15, // 15-30°C
+                        condition: ['sunny', 'cloudy', 'rainy', 'partly-cloudy'][Math.floor(Math.random() * 4)],
+                        humidity: Math.floor(Math.random() * 40) + 40 // 40-80%
+                    };
+                    
+                    const weatherIcons = {
+                        sunny: '☀️',
+                        cloudy: '☁️',
+                        rainy: '🌧️',
+                        'partly-cloudy': '⛅'
+                    };
+                    
+                    weatherInfo.innerHTML = `
+                        <div class="weather-icon">${weatherIcons[mockWeather.condition]}</div>
+                        <div>
+                            <div>${mockWeather.temp}°C</div>
+                            <div style="font-size: 0.8em; opacity: 0.8;">Humidity: ${mockWeather.humidity}%</div>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('Weather API Error:', error);
+                }
+            }
+
+            updateUpcomingEvents() {
+                const upcomingDiv = document.getElementById('upcomingEvents');
+                const today = new Date();
+                const upcoming = [];
+                
+                for (const [dateStr, dayEvents] of Object.entries(this.events)) {
+                    const eventDate = new Date(dateStr);
+                    if (eventDate >= today) {
+                        dayEvents.forEach(event => {
+                            upcoming.push({
+                                date: eventDate,
+                                ...event
+                            });
+                        });
+                    }
+                }
+                
+                upcoming.sort((a, b) => a.date - b.date);
+                
+                if (upcoming.length === 0) {
+                    upcomingDiv.innerHTML = '<div style="text-align: center; opacity: 0.7;">No upcoming events</div>';
+                    return;
+                }
+                
+                const upcomingHTML = upcoming.slice(0, 6).map(event => `
+                    <div class="upcoming-event">
+                        <div style="font-weight: 600; color: #495057;">${event.title}</div>
+                        <div style="font-size: 0.8em; color: #6c757d; margin-top: 2px;">
+                            ${event.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            ${event.aiSuggested ? '• AI Suggested' : ''}
+                        </div>
+                    </div>
+                `).join('');
+                
+                upcomingDiv.innerHTML = upcomingHTML;
+            }
+
+            renderCalendar() {
+                const grid = document.getElementById('calendarGrid');
+                const monthDisplay = document.getElementById('currentMonth');
+                
+                const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                
+                grid.innerHTML = '';
+                monthDisplay.textContent = `${months[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
+
+                // Add day headers
+                days.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'day-header';
+                    dayHeader.textContent = day;
+                    grid.appendChild(dayHeader);
+                });
+
+                // Calculate dates
+                const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+                const startDate = new Date(firstDay);
+                startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                // Create calendar cells
+                for (let i = 0; i < 42; i++) {
+                    const cellDate = new Date(startDate);
+                    cellDate.setDate(startDate.getDate() + i);
+                    
+                    const dayCell = document.createElement('div');
+                    dayCell.className = 'day-cell';
+                    
+                    if (cellDate.getMonth() !== this.currentDate.getMonth()) {
+                        dayCell.classList.add('other-month');
+                    }
+                    
+                    if (cellDate.getTime() === today.getTime()) {
+                        dayCell.classList.add('today');
+                    }
+
+                    const dayNumber = document.createElement('div');
+                    dayNumber.className = 'day-number';
+                    dayNumber.textContent = cellDate.getDate();
+                    dayCell.appendChild(dayNumber);
+
+                    // Add events
+                    const dateKey = this.formatDate(cellDate);
+                    if (this.events[dateKey]) {
+                        this.events[dateKey].forEach(event => {
+                            const eventDiv = document.createElement('div');
+                            eventDiv.className = `event ${event.type}`;
+                            if (event.aiSuggested) {
+                                eventDiv.classList.add('ai-suggested');
+                            }
+                            eventDiv.textContent = event.title;
+                            eventDiv.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                this.showEventDetails(event, dateKey);
+                            });
+                            dayCell.appendChild(eventDiv);
+                        });
+                    }
+
+                    // Add click handler for adding events
+                    dayCell.addEventListener('click', () => {
+                        this.quickAddEvent(cellDate);
+                    });
+
+                    grid.appendChild(dayCell);
+                }
+            }
+
+            formatDate(date) {
+                return date.toISOString().split('T')[0];
+            }
+
+            showEventDetails(event, dateKey) {
+                const modal = this.createModal(`
+                    <h3>${event.title}</h3>
+                    <p><strong>Date:</strong> ${new Date(dateKey).toLocaleDateString()}</p>
+                    <p><strong>Type:</strong> ${event.type.charAt(0).toUpperCase() + event.type.slice(1)}</p>
+                    ${event.aiSuggested ? '<p><strong>AI Suggested Event</strong></p>' : ''}
+                    <div style="margin-top: 20px;">
+                        <button onclick="this.closest('.modal').remove()" style="background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-right: 10px; cursor: pointer;">Close</button>
+                        <button onclick="calendar.deleteEvent('${dateKey}', '${event.title}'); this.closest('.modal').remove();" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Delete</button>
+                    </div>
+                `);
+                document.body.appendChild(modal);
+            }
+
+            quickAddEvent(date) {
+                const dateStr = date.toLocaleDateString();
+                const modal = this.createModal(`
+                    <h3>Add Event - ${dateStr}</h3>
+                    <div style="margin: 15px 0;">
+                        <input type="text" id="eventTitle" placeholder="Event title" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px;">
+                        <select id="eventType" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                            <option value="general">General</option>
+                            <option value="exam">Exam</option>
+                            <option value="assignment">Assignment</option>
+                            <option value="holiday">Holiday</option>
+                        </select>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button onclick="this.closest('.modal').remove()" style="background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-right: 10px; cursor: pointer;">Cancel</button>
+                        <button onclick="calendar.addQuickEvent('${this.formatDate(date)}'); this.closest('.modal').remove();" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Add Event</button>
+                    </div>
+                `);
+                document.body.appendChild(modal);
+                document.getElementById('eventTitle').focus();
+            }
+
+            addQuickEvent(dateKey) {
+                const title = document.getElementById('eventTitle').value.trim();
+                const type = document.getElementById('eventType').value;
+                
+                if (!title) return;
+                
+                if (!this.events[dateKey]) {
+                    this.events[dateKey] = [];
+                }
+                
+                this.events[dateKey].push({
+                    title: title,
+                    type: type,
+                    created: new Date().toISOString()
+                });
+                
+                this.saveEvents();
+                this.renderCalendar();
+                this.updateUpcomingEvents();
+            }
+
+            deleteEvent(dateKey, eventTitle) {
+                if (this.events[dateKey]) {
+                    this.events[dateKey] = this.events[dateKey].filter(event => event.title !== eventTitle);
+                    if (this.events[dateKey].length === 0) {
+                        delete this.events[dateKey];
+                    }
+                    this.saveEvents();
+                    this.renderCalendar();
+                    this.updateUpcomingEvents();
+                }
+            }
+
+            createModal(content) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                `;
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                    background: white;
+                    padding: 25px;
+                    border-radius: 15px;
+                    max-width: 500px;
+                    width: 90%;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                `;
+                modalContent.innerHTML = content;
+                
+                modal.appendChild(modalContent);
+                
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.remove();
+                });
+                
+                return modal;
+            }
+
+            setupEventListeners() {
+                document.getElementById('prevBtn').addEventListener('click', () => {
+                    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+                    this.renderCalendar();
+                });
+                
+                document.getElementById('nextBtn').addEventListener('click', () => {
+                    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+                    this.renderCalendar();
+                });
+                
+                const aiInput = document.getElementById('aiInput');
+                const aiSendBtn = document.getElementById('aiSendBtn');
+                
+                const processInput = () => {
+                    const input = aiInput.value.trim();
+                    if (input) {
+                        this.processAICommand(input);
+                        aiInput.value = '';
+                    }
+                };
+                
+                aiInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        processInput();
+                    }
+                });
+                
+                aiSendBtn.addEventListener('click', processInput);
+            }
+        }
+
+        // Global functions for quick commands
+        function quickCommand(command) {
+            document.getElementById('aiInput').value = command;
+            calendar.processAICommand(command);
+        }
+
+        // Initialize the calendar
+        let calendar;
+        document.addEventListener('DOMContentLoaded', function() {
+            calendar = new AdvancedAICalendar();
+        });
+    </script>
+</body>
+</html>

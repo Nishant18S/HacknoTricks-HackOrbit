@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship Application Portal</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #059669;
+            --error: #dc2626;
+            --warning: #d97706;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius: 0.5rem;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #ece7f0 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: var(--bg-primary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .progress-container {
+            background: var(--bg-secondary);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .form-container {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grid { display: grid; gap: 1rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+        }
+
+        .field label {
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .required { color: var(--error); }
+
+        .input {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .input.valid {
+            border-color: var(--success);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23059669'%3e%3cpath d='M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        .input.error {
+            border-color: var(--error);
+            background-color: #fef2f2;
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: 0.75rem;
+            display: none;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            background: white;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        .upload-zone input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .file-list {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 0.75rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .file-remove {
+            background: var(--error);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .file-remove:hover {
+            background: #b91c1c;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .checkbox-field {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-field input[type="checkbox"] {
+            margin-top: 0.125rem;
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .checkbox-field label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container { margin: 1rem; }
+            .header, .form-container { padding: 1.5rem; }
+            .section { padding: 1rem; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .actions { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 300px; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Scholarship Application</h1>
+            <p>Your gateway to educational excellence</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% Complete</div>
+        </div>
+
+        <div class="form-container">
+            <div class="alert alert-success" id="successAlert">
+                <strong>Success!</strong> Your application has been submitted successfully.
+            </div>
+
+            <form id="scholarshipForm" novalidate>
+                <!-- Personal Information -->
+                <div class="section">
+                    <h2 class="section-title">👤 Personal Information</h2>
+                    <div class="grid grid-2">
+                        <div class="field">
+                            <label for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" class="input" required>
+                            <div class="error-msg">Please enter your first name</div>
+                        </div>
+                        <div class="field">
+                            <label for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" class="input" required>
+                            <div class="error-msg">Please enter your last name</div>
+                        </div>
+                        <div class="field">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" class="input" required>
+                            <div class="error-msg">Please enter a valid email address</div>
+                        </div>
+                        <div class="field">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" class="input" required>
+                            <div class="error-msg">Please enter your phone number</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Background -->
+                <div class="section">
+                    <h2 class="section-title">🎓 Education Background</h2>
+                    <div class="grid grid-2">
+                        <div class="field">
+                            <label for="level">Education Level <span class="required">*</span></label>
+                            <select id="level" name="level" class="input" required>
+                                <option value="">Select level</option>
+                                <option value="undergraduate">Undergraduate</option>
+                                <option value="graduate">Graduate</option>
+                                <option value="postgraduate">Postgraduate</option>
+                            </select>
+                            <div class="error-msg">Please select your education level</div>
+                        </div>
+                        <div class="field">
+                            <label for="field">Field of Study <span class="required">*</span></label>
+                            <input type="text" id="field" name="field" class="input" placeholder="e.g., Computer Science" required>
+                            <div class="error-msg">Please enter your field of study</div>
+                        </div>
+                        <div class="field">
+                            <label for="institution">Institution <span class="required">*</span></label>
+                            <input type="text" id="institution" name="institution" class="input" required>
+                            <div class="error-msg">Please enter your institution</div>
+                        </div>
+                        <div class="field">
+                            <label for="gpa">GPA <span class="required">*</span></label>
+                            <input type="text" id="gpa" name="gpa" class="input" placeholder="e.g., 3.8/4.0" required>
+                            <div class="error-msg">Please enter your GPA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scholarship Details -->
+                <div class="section">
+                    <h2 class="section-title">🏆 Scholarship Details</h2>
+                    <div class="grid">
+                        <div class="field">
+                            <label for="scholarshipType">Scholarship Type <span class="required">*</span></label>
+                            <select id="scholarshipType" name="scholarshipType" class="input" required>
+                                <option value="">Select type</option>
+                                <option value="merit">Merit-Based</option>
+                                <option value="need">Need-Based</option>
+                                <option value="stem">STEM</option>
+                                <option value="minority">Minority</option>
+                            </select>
+                            <div class="error-msg">Please select scholarship type</div>
+                        </div>
+                        <div class="field">
+                            <label for="essay">Personal Statement <span class="required">*</span></label>
+                            <textarea id="essay" name="essay" class="input textarea" placeholder="Tell us about yourself and your goals (500-1000 words)" required></textarea>
+                            <div class="error-msg">Please write your personal statement</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Upload -->
+                <div class="section">
+                    <h2 class="section-title">📄 Required Documents</h2>
+                    <div class="field">
+                        <div class="upload-zone" id="uploadZone">
+                            <div class="upload-icon">📁</div>
+                            <div>Click to upload or drag files here</div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">
+                                PDF, JPG, PNG, DOC (Max 5MB each)
+                            </div>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                        </div>
+                        <div class="file-list" id="fileList"></div>
+                        <div class="error-msg">Please upload at least one document</div>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="section">
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">
+                            I agree to the <a href="#" style="color: var(--primary);">Terms and Conditions</a> and confirm all information is accurate <span class="required">*</span>
+                        </label>
+                    </div>
+                    <div class="error-msg">Please accept the terms and conditions</div>
+                </div>
+
+                <div class="actions">
+                    <button type="button" class="btn btn-secondary" id="saveDraft">
+                        💾 Save Draft
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        🚀 Submit Application
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        class ScholarshipForm {
+            constructor() {
+                this.form = document.getElementById('scholarshipForm');
+                this.files = [];
+                this.validators = {
+                    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    phone: /^[\+]?[\d\s\-\(\)]{10,}$/
+                };
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.updateProgress();
+            }
+
+            bindEvents() {
+                // Form field validation
+                this.form.querySelectorAll('.input').forEach(input => {
+                    input.addEventListener('input', e => this.validateField(e.target));
+                    input.addEventListener('blur', e => this.validateField(e.target));
+                });
+
+                // File upload
+                const uploadZone = document.getElementById('uploadZone');
+                const fileInput = document.getElementById('fileInput');
+                
+                uploadZone.addEventListener('click', () => fileInput.click());
+                uploadZone.addEventListener('dragover', e => this.handleDragOver(e));
+                uploadZone.addEventListener('drop', e => this.handleDrop(e));
+                fileInput.addEventListener('change', e => this.handleFiles(e.target.files));
+
+                // Form submission
+                this.form.addEventListener('submit', e => this.handleSubmit(e));
+                
+                // Save draft
+                document.getElementById('saveDraft').addEventListener('click', () => this.saveDraft());
+            }
+
+            validateField(field) {
+                const value = field.value.trim();
+                const errorMsg = field.parentElement.querySelector('.error-msg');
+                let isValid = true;
+
+                // Required field check
+                if (field.hasAttribute('required') && !value) {
+                    isValid = false;
+                }
+
+                // Specific validations
+                if (value && field.type === 'email' && !this.validators.email.test(value)) {
+                    isValid = false;
+                    errorMsg.textContent = 'Please enter a valid email address';
+                }
+
+                if (value && field.type === 'tel' && !this.validators.phone.test(value)) {
+                    isValid = false;
+                    errorMsg.textContent = 'Please enter a valid phone number';
+                }
+
+                // Update UI
+                field.classList.toggle('valid', isValid && value);
+                field.classList.toggle('error', !isValid && value);
+                errorMsg.style.display = (!isValid && value) ? 'block' : 'none';
+
+                this.updateProgress();
+                return isValid;
+            }
+
+            handleDragOver(e) {
+                e.preventDefault();
+                e.currentTarget.classList.add('dragover');
+            }
+
+            handleDrop(e) {
+                e.preventDefault();
+                e.currentTarget.classList.remove('dragover');
+                this.handleFiles(e.dataTransfer.files);
+            }
+
+            handleFiles(files) {
+                const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                const maxSize = 5 * 1024 * 1024; // 5MB
+
+                Array.from(files).forEach(file => {
+                    if (!allowedTypes.includes(file.type)) {
+                        this.showNotification(`Invalid file type: ${file.name}`, 'error');
+                        return;
+                    }
+
+                    if (file.size > maxSize) {
+                        this.showNotification(`File too large: ${file.name}`, 'error');
+                        return;
+                    }
+
+                    if (this.files.some(f => f.name === file.name)) {
+                        this.showNotification(`File already exists: ${file.name}`, 'warning');
+                        return;
+                    }
+
+                    this.files.push(file);
+                    this.renderFileList();
+                });
+
+                this.updateProgress();
+            }
+
+            renderFileList() {
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = this.files.map((file, index) => `
+                    <div class="file-item">
+                        <div class="file-info">
+                            <span>${this.getFileIcon(file.type)}</span>
+                            <div>
+                                <div style="font-weight: 500;">${file.name}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary);">${this.formatFileSize(file.size)}</div>
+                            </div>
+                        </div>
+                        <button type="button" class="file-remove" onclick="scholarshipForm.removeFile(${index})">
+                            Remove
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            removeFile(index) {
+                this.files.splice(index, 1);
+                this.renderFileList();
+                this.updateProgress();
+            }
+
+            getFileIcon(type) {
+                const icons = {
+                    'application/pdf': '📄',
+                    'image/jpeg': '🖼️',
+                    'image/png': '🖼️',
+                    'application/msword': '📝',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '📝'
+                };
+                return icons[type] || '📎';
+            }
+
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+            }
+
+            updateProgress() {
+                const fields = this.form.querySelectorAll('[required]');
+                const completed = Array.from(fields).filter(field => {
+                    if (field.type === 'checkbox') return field.checked;
+                    return field.value.trim() !== '';
+                }).length;
+                
+                // Add file upload to progress
+                const hasFiles = this.files.length > 0 ? 1 : 0;
+                const total = fields.length + 1;
+                const progress = Math.round(((completed + hasFiles) / total) * 100);
+                
+                document.getElementById('progress').style.width = `${progress}%`;
+                document.getElementById('progressText').textContent = `${progress}% Complete`;
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                // Validate all fields
+                const fields = this.form.querySelectorAll('.input');
+                let isValid = true;
+                
+                fields.forEach(field => {
+                    if (!this.validateField(field)) isValid = false;
+                });
+
+                // Check terms
+                const terms = document.getElementById('terms');
+                if (!terms.checked) {
+                    terms.parentElement.querySelector('.error-msg').style.display = 'block';
+                    isValid = false;
+                }
+
+                // Check files
+                if (this.files.length === 0) {
+                    document.querySelector('#uploadZone').parentElement.querySelector('.error-msg').style.display = 'block';
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    this.showNotification('Please complete all required fields', 'error');
+                    return;
+                }
+
+                // Submit form
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+                try {
+                    await this.simulateSubmission();
+                    this.showSuccess();
+                } catch (error) {
+                    this.showNotification('Submission failed. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '🚀 Submit Application';
+                }
+            }
+
+            simulateSubmission() {
+                return new Promise(resolve => setTimeout(resolve, 2000));
+            }
+
+            showSuccess() {
+                document.getElementById('successAlert').style.display = 'block';
+                this.form.style.display = 'none';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            saveDraft() {
+                const formData = new FormData(this.form);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Store draft data (in memory for this demo)
+                this.draftData = { ...data, files: this.files.map(f => f.name) };
+                this.showNotification('Draft saved successfully!', 'success');
+            }
+
+            showNotification(message, type = 'info') {
+                // Simple notification system
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
+                    color: white;
+                    font-size: 0.875rem;
+                    z-index: 1000;
+                    max-width: 300px;
+                    animation: slideIn 0.3s ease;
+                `;
+                
+                const colors = {
+                    success: '#059669',
+                    error: '#dc2626',
+                    warning: '#d97706',
+                    info: '#2563eb'
+                };
+                
+                notification.style.background = colors[type] || colors.info;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+            }
+        }
+
+        // Initialize form
+        const scholarshipForm = new ScholarshipForm();
+
+        // Add slide-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
