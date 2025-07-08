@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovSeva Assistant - Digital Government Services</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+   <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="loader"></div>
+        <div class="loader-text">Initializing GovSeva Assistant...</div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="bg-canvas"></canvas>
+    </div>
+
+    <div class="noise-overlay"></div>
+
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 10%; font-size: 2rem;">🏛️</div>
+        <div class="floating-element" style="top: 20%; left: 80%; font-size: 1.5rem;">📋</div>
+        <div class="floating-element" style="top: 60%; left: 15%; font-size: 1.8rem;">🔒</div>
+        <div class="floating-element" style="top: 80%; left: 70%; font-size: 1.3rem;">⚡</div>
+        <div class="floating-element" style="top: 40%; left: 85%; font-size: 1.6rem;">🌐</div>
+    </div>
+
+    <div class="sound-toggle" id="soundToggle">
+        <i class="fas fa-volume-up" id="soundIcon"></i>
+    </div>
+
+    <div class="ai-assistant-mini" id="aiAssistantMini">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="ai-assistant" id="aiAssistant">
+        <div class="ai-header">
+            <div class="ai-title">
+                <i class="fas fa-robot"></i>
+                <span>GovSeva Assistant</span>
+            </div>
+            <button class="close-ai" id="closeAi">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="ai-messages" id="aiMessages">
+            <div class="message ai-message">
+                Hello! I'm your GovSeva Assistant. How can I help you today?
+            </div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" class="ai-input" id="aiInput" placeholder="Type your question...">
+            <button class="ai-voice" id="aiVoice">
+                <i class="fas fa-microphone"></i>
+            </button>
+            <button class="ai-send" id="aiSend">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="service-tracker" id="serviceTracker">
+        <div class="tracker-header">
+            <div class="tracker-title">Service Tracker</div>
+            <button class="tracker-close" id="trackerClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="tracker-items" id="trackerItems">
+            <!-- Items will be added dynamically -->
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-bell"></i>
+        <div class="notification-content" id="notificationContent"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-building"></i>
+                    <span>GenAiMitra</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content">
+                    <p class="hero-subtitle">🚀 Next-Generation Government Services</p>
+                    <h1 class="hero-title glitch-effect" data-text="GovSeva Assistant">GovSeva Assistant</h1>
+                    <p class="hero-description">
+                        Experience the future of government services with our AI-powered digital assistant.
+                        Streamline your interactions, access services instantly, and get personalized support 24/7.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="index.html"> <button class="btn btn-primary holographic-btn" id="startButton">
+                                <i class="fas fa-rocket"></i>
+                                Start Your Journey
+                            </button></a>
+                        <a href="#services" class="btn btn-secondary">
+                            <i class="fas fa-explore"></i>
+                            Explore Services
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-indicator">
+                    <span class="scroll-text">Scroll to explore</span>
+                    <i class="fas fa-chevron-down scroll-arrow"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <div class="container">
+                <h2 class="services-title">Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card health">
+                        <div class="service-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3 class="service-title">Health Services</h3>
+                        <p class="service-description">
+                            Access healthcare information, book appointments, and manage your health records with our
+                            comprehensive digital health platform.
+                        </p>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="healthAppointments">1.2M</div>
+                                <div>Appointments</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="healthUsers">3.8M</div>
+                                <div>Users</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-card agriculture">
+                        <div class="service-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="service-title">Agriculture</h3>
+                        <p class="service-description">
+                            Get farming insights, weather updates, crop management tips, and access to agricultural
+                            schemes and subsidies.
+                        </p>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="agriSubsidies">$28M</div>
+                                <div>Subsidies</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="agriUsers">2.1M</div>
+                                <div>Farmers</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-card finance">
+                        <div class="service-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3 class="service-title">Finance & Schemes</h3>
+                        <p class="service-description">
+                            Explore government financial schemes, apply for benefits, and manage your financial
+                            assistance applications.
+                        </p>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="financeApplications">4.5M</div>
+                                <div>Applications</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="financeDisbursed">$1.2B</div>
+                                <div>Disbursed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-card education">
+                        <div class="service-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="service-title">Education</h3>
+                        <p class="service-description">
+                            Access educational resources, scholarship information, and online learning platforms for
+                            continuous growth.
+                        </p>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="eduScholarships">650K</div>
+                                <div>Scholarships</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="eduUsers">5.2M</div>
+                                <div>Students</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-card emergency">
+                        <div class="service-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h3 class="service-title">Emergency</h3>
+                        <p class="service-description">
+                            Quick access to emergency services, disaster management information, and critical support
+                            systems.
+                        </p>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="emergencyResponse">98%</div>
+                                <div>Response Rate</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="emergencyAvgTime">8.2 min</div>
+                                <div>Avg. Response</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="service-card grievance">
+                        <div class="service-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3 class="service-title">Grievance</h3>
+                        <p class="service-description">
+                            Submit complaints, track resolution status, and get help with public service issues through
+                            our grievance portal.
+                        </p>
+                        <div class="service-stats">
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="grievanceResolved">92%</div>
+                                <div>Resolved</div>
+                            </div>
+                            <div class="service-stat">
+                                <div class="service-stat-value" id="grievanceAvgTime">3.5 days</div>
+                                <div>Avg. Resolution</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="services-title">Why Choose GovSeva?</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="feature-title">AI-Powered</h3>
+                        <p class="feature-description">Advanced artificial intelligence to understand and respond to
+                            your needs instantly.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="feature-title">24/7 Available</h3>
+                        <p class="feature-description">Round-the-clock service availability for all your government
+                            service needs.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Secure & Private</h3>
+                        <p class="feature-description">Bank-level security and privacy protection for all your personal
+                            information.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Mobile First</h3>
+                        <p class="feature-description">Optimized for mobile devices with responsive design and intuitive
+                            interface.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats" id="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1000000">0</div>
+                        <div class="stat-label">Citizens Served</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="50">0</div>
+                        <div class="stat-label">Services Available</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="99">0</div>
+                        <div class="stat-label">Uptime %</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="24">0</div>
+                        <div class="stat-label">Hours Support</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GovSeva Assistant</h3>
+                    <p>Transforming government services through AI-powered digital assistance. Making public services
+                        accessible, efficient, and user-friendly for every citizen.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#services">Services</a></p>
+                    <p><a href="#features">Features</a></p>
+                    <p><a href="#about">About Us</a></p>
+                    <p><a href="#contact">Contact</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <p><a href="#health">Health Services</a></p>
+                    <p><a href="#agriculture">Agriculture</a></p>
+                    <p><a href="#finance">Finance & Schemes</a></p>
+                    <p><a href="#education">Education</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <p><a href="#help">Help Center</a></p>
+                    <p><a href="#privacy">Privacy Policy</a></p>
+                    <p><a href="#terms">Terms of Service</a></p>
+                    <p><a href="#feedback">Feedback</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GovSeva Assistant. All rights reserved. | Empowering citizens through digital governance.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced GovSeva Assistant with AI Chat, Service Tracker, and Real-time Features
+
+        // Sound management
+        let soundEnabled = true;
+        let backgroundSound, clickSound, hoverSound;
+
+        // Initialize sounds
+        function initializeSounds() {
+            // Create audio context
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            // Create oscillator-based sounds for better performance
+            function createTone(frequency, duration, type = 'sine') {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = frequency;
+                oscillator.type = type;
+
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration);
+            }
+
+            // Sound effects
+            window.playClickSound = () => {
+                if (soundEnabled) createTone(800, 0.1, 'square');
+            };
+
+            window.playHoverSound = () => {
+                if (soundEnabled) createTone(600, 0.05, 'sine');
+            };
+
+            window.playStartSound = () => {
+                if (soundEnabled) {
+                    createTone(523.25, 0.2, 'sine'); // C5
+                    setTimeout(() => createTone(659.25, 0.2, 'sine'), 100); // E5
+                    setTimeout(() => createTone(783.99, 0.3, 'sine'), 200); // G5
+                }
+            };
+        }
+
+        // Three.js Background Animation
+        function initThreeJS() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById('bg-canvas'),
+                alpha: true,
+                antialias: true
+            });
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Create particle system
+            const particleCount = 3000;
+            const particles = new THREE.BufferGeometry();
+            const particlePositions = new Float32Array(particleCount * 3);
+            const particleColors = new Float32Array(particleCount * 3);
+            const particleVelocities = new Float32Array(particleCount * 3);
+            const particleSizes = new Float32Array(particleCount);
+
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                particlePositions[i3] = (Math.random() - 0.5) * 2000;
+                particlePositions[i3 + 1] = (Math.random() - 0.5) * 2000;
+                particlePositions[i3 + 2] = (Math.random() - 0.5) * 2000;
+
+                // Color variations
+                const colorChoice = Math.random();
+                if (colorChoice < 0.33) {
+                    particleColors[i3] = 0.2; // R
+                    particleColors[i3 + 1] = 0.6; // G
+                    particleColors[i3 + 2] = 1.0; // B
+                } else if (colorChoice < 0.66) {
+                    particleColors[i3] = 0.1;
+                    particleColors[i3 + 1] = 0.8;
+                    particleColors[i3 + 2] = 0.5;
+                } else {
+                    particleColors[i3] = 0.9;
+                    particleColors[i3 + 1] = 0.3;
+                    particleColors[i3 + 2] = 0.7;
+                }
+
+                particleVelocities[i3] = (Math.random() - 0.5) * 0.5;
+                particleVelocities[i3 + 1] = (Math.random() - 0.5) * 0.5;
+                particleVelocities[i3 + 2] = (Math.random() - 0.5) * 0.5;
+
+                particleSizes[i] = Math.random() * 5 + 1;
+            }
+
+            particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+            particles.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 3,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending,
+                sizeAttenuation: true
+            });
+
+            const particleSystem = new THREE.Points(particles, particleMaterial);
+            scene.add(particleSystem);
+
+            // Create geometric shapes with dynamic animations
+            const geometries = [
+                new THREE.TetrahedronGeometry(30, 0),
+                new THREE.OctahedronGeometry(25, 0),
+                new THREE.IcosahedronGeometry(35, 0)
+            ];
+
+            const materials = [
+                new THREE.MeshBasicMaterial({ color: 0x2563eb, wireframe: true, transparent: true, opacity: 0.3 }),
+                new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.3 }),
+                new THREE.MeshBasicMaterial({ color: 0xf59e0b, wireframe: true, transparent: true, opacity: 0.3 })
+            ];
+
+            const shapes = [];
+            for (let i = 0; i < 15; i++) {
+                const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+                const material = materials[Math.floor(Math.random() * materials.length)];
+                const shape = new THREE.Mesh(geometry, material);
+
+                shape.position.x = (Math.random() - 0.5) * 1000;
+                shape.position.y = (Math.random() - 0.5) * 1000;
+                shape.position.z = (Math.random() - 0.5) * 1000;
+
+                shape.rotation.x = Math.random() * Math.PI;
+                shape.rotation.y = Math.random() * Math.PI;
+
+                // Add animation properties
+                shape.userData = {
+                    rotationSpeedX: (Math.random() - 0.5) * 0.01,
+                    rotationSpeedY: (Math.random() - 0.5) * 0.01,
+                    rotationSpeedZ: (Math.random() - 0.5) * 0.01,
+                    pulseSpeed: Math.random() * 0.01,
+                    pulseDirection: 1,
+                    originalScale: 1 + Math.random() * 0.5
+                };
+
+                shape.scale.set(
+                    shape.userData.originalScale,
+                    shape.userData.originalScale,
+                    shape.userData.originalScale
+                );
+
+                shapes.push(shape);
+                scene.add(shape);
+            }
+
+            camera.position.z = 100;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Update particles
+                const positions = particleSystem.geometry.attributes.position.array;
+                for (let i = 0; i < particleCount; i++) {
+                    const i3 = i * 3;
+                    positions[i3] += particleVelocities[i3];
+                    positions[i3 + 1] += particleVelocities[i3 + 1];
+                    positions[i3 + 2] += particleVelocities[i3 + 2];
+
+                    // Boundary check
+                    if (Math.abs(positions[i3]) > 1000) particleVelocities[i3] *= -1;
+                    if (Math.abs(positions[i3 + 1]) > 1000) particleVelocities[i3 + 1] *= -1;
+                    if (Math.abs(positions[i3 + 2]) > 1000) particleVelocities[i3 + 2] *= -1;
+                }
+                particleSystem.geometry.attributes.position.needsUpdate = true;
+
+                // Rotate and pulse shapes
+                shapes.forEach(shape => {
+                    shape.rotation.x += shape.userData.rotationSpeedX;
+                    shape.rotation.y += shape.userData.rotationSpeedY;
+                    shape.rotation.z += shape.userData.rotationSpeedZ;
+
+                    // Pulse animation
+                    shape.userData.pulseDirection += shape.userData.pulseSpeed;
+                    if (shape.userData.pulseDirection > 1) {
+                        shape.userData.pulseDirection = -1;
+                    } else if (shape.userData.pulseDirection < -1) {
+                        shape.userData.pulseDirection = 1;
+                    }
+
+                    const scaleFactor = 1 + Math.sin(Date.now() * 0.001 * shape.userData.pulseSpeed) * 0.2;
+                    shape.scale.set(
+                        shape.userData.originalScale * scaleFactor,
+                        shape.userData.originalScale * scaleFactor,
+                        shape.userData.originalScale * scaleFactor
+                    );
+                });
+
+                // Camera movement
+                camera.position.x = Math.sin(Date.now() * 0.0005) * 50;
+                camera.position.y = Math.cos(Date.now() * 0.0003) * 30;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // GSAP Animations
+        function initAnimations() {
+            // Preloader animation
+            gsap.to('.preloader', {
+                opacity: 0,
+                duration: 1,
+                delay: 2,
+                onComplete: () => {
+                    document.querySelector('.preloader').style.display = 'none';
+                }
+            });
+
+            // Navbar animation
+            gsap.to('.navbar', {
+                y: 0,
+                duration: 1,
+                delay: 2.5,
+                ease: 'power2.out'
+            });
+
+            // Hero content animations
+            const heroTimeline = gsap.timeline({ delay: 3 });
+            heroTimeline
+                .to('.hero-subtitle', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
+                .to('.hero-title', { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, '-=0.5')
+                .to('.hero-description', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+                .to('.cta-buttons', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+                .to('.scroll-indicator', { opacity: 1, duration: 0.5 }, '-=0.3');
+
+            // Service cards animation
+            gsap.set('.service-card', { opacity: 0, y: 50 });
+
+            ScrollTrigger.create({
+                trigger: '.services-grid',
+                start: 'top 80%',
+                onEnter: () => {
+                    gsap.to('.service-card', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        stagger: 0.2,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+
+            // Feature items animation
+            gsap.set('.feature-item', { opacity: 0, scale: 0.8 });
+
+            ScrollTrigger.create({
+                trigger: '.features-grid',
+                start: 'top 80%',
+                onEnter: () => {
+                    gsap.to('.feature-item', {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.8,
+                        stagger: 0.15,
+                        ease: 'back.out(1.7)'
+                    });
+                }
+            });
+
+            // Stats counter animation
+            function animateCounter(element) {
+                const target = parseInt(element.dataset.target);
+                const duration = 2000;
+                const start = 0;
+                const increment = target / (duration / 16);
+                let current = start;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current).toLocaleString();
+                }, 16);
+            }
+
+            ScrollTrigger.create({
+                trigger: '.stats',
+                start: 'top 80%',
+                onEnter: () => {
+                    document.querySelectorAll('.stat-number').forEach(animateCounter);
+                }
+            });
+
+            // Parallax effects
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.utils.toArray('.service-card').forEach(card => {
+                gsap.to(card, {
+                    y: -50,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+            });
+        }
+
+        // AI Assistant functionality
+        function initAIAssistant() {
+            const aiAssistant = document.getElementById('aiAssistant');
+            const aiMessages = document.getElementById('aiMessages');
+            const aiInput = document.getElementById('aiInput');
+            const aiSend = document.getElementById('aiSend');
+            const aiVoice = document.getElementById('aiVoice');
+            const aiMini = document.getElementById('aiAssistantMini');
+            const closeAi = document.getElementById('closeAi');
+            const serviceTracker = document.getElementById('serviceTracker');
+            const trackerItems = document.getElementById('trackerItems');
+            const trackerClose = document.getElementById('trackerClose');
+
+            // Toggle AI assistant
+            function toggleAssistant() {
+                aiAssistant.classList.toggle('active');
+                if (window.playClickSound) window.playClickSound();
+            }
+
+            aiMini.addEventListener('click', toggleAssistant);
+            closeAi.addEventListener('click', toggleAssistant);
+            trackerClose.addEventListener('click', () => {
+                serviceTracker.classList.remove('active');
+            });
+
+            // AI responses
+            const aiResponses = [
+                "I can help you with government services like health, agriculture, finance, education, emergency, and grievance.",
+                "To apply for a service, simply navigate to the relevant section and follow the instructions.",
+                "You can track your service applications in the Service Tracker panel.",
+                "The GovSeva Assistant is available 24/7 to help you with any government service needs.",
+                "Your data is securely stored and protected with bank-level encryption.",
+                "You can use voice commands by clicking the microphone button.",
+                "The average response time for emergency services is 8.2 minutes.",
+                "Over 92% of grievances are resolved within 3.5 days through our platform.",
+                "You can access educational resources and scholarship information in the Education section."
+            ];
+
+            const serviceCommands = {
+                "health": "health services",
+                "agriculture": "agriculture",
+                "finance": "finance",
+                "education": "education",
+                "emergency": "emergency",
+                "grievance": "grievance",
+                "tracker": "service tracker"
+            };
+
+            // Send message
+            function sendMessage() {
+                const message = aiInput.value.trim();
+                if (message) {
+                    // Add user message
+                    addMessage(message, 'user');
+                    aiInput.value = '';
+
+                    // Simulate AI thinking
+                    const typing = document.createElement('div');
+                    typing.className = 'ai-typing';
+                    typing.innerHTML = `
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    `;
+                    aiMessages.appendChild(typing);
+                    aiMessages.scrollTop = aiMessages.scrollHeight;
+
+                    // Process command
+                    let found = false;
+                    const lowerMsg = message.toLowerCase();
+
+                    for (const [key, value] of Object.entries(serviceCommands)) {
+                        if (lowerMsg.includes(key)) {
+                            found = true;
+                            setTimeout(() => {
+                                aiMessages.removeChild(typing);
+                                addMessage(`I see you're interested in ${value}. I can help you with that!`, 'ai');
+
+                                if (key === 'tracker') {
+                                    serviceTracker.classList.add('active');
+                                }
+                            }, 1500);
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        // Random response
+                        setTimeout(() => {
+                            aiMessages.removeChild(typing);
+                            const response = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+                            addMessage(response, 'ai');
+                        }, 1500);
+                    }
+                }
+            }
+
+            // Add message to chat
+            function addMessage(text, type) {
+                const message = document.createElement('div');
+                message.className = `message ${type}-message`;
+                message.textContent = text;
+                aiMessages.appendChild(message);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+            }
+
+            // Voice recognition
+            let recognition;
+            try {
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                aiVoice.addEventListener('click', () => {
+                    if (aiVoice.classList.contains('listening')) {
+                        recognition.stop();
+                        aiVoice.classList.remove('listening');
+                    } else {
+                        recognition.start();
+                        aiVoice.classList.add('listening');
+                    }
+                });
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    aiInput.value = transcript;
+                    sendMessage();
+                    aiVoice.classList.remove('listening');
+                };
+
+                recognition.onerror = () => {
+                    aiVoice.classList.remove('listening');
+                };
+
+                recognition.onend = () => {
+                    aiVoice.classList.remove('listening');
+                };
+            } catch (e) {
+                aiVoice.style.display = 'none';
+                console.log("Speech recognition not supported");
+            }
+
+            // Event listeners
+            aiSend.addEventListener('click', sendMessage);
+            aiInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Add initial message
+            addMessage("Hello! I'm your GovSeva Assistant. How can I help you today?", 'ai');
+
+            // Service tracker functionality
+            const services = [
+                { id: 1, name: "Health Card Application", status: 75, icon: "fas fa-heartbeat" },
+                { id: 2, name: "Agriculture Subsidy", status: 40, icon: "fas fa-leaf" },
+                { id: 3, name: "Education Scholarship", status: 90, icon: "fas fa-graduation-cap" },
+                { id: 4, name: "Tax Refund", status: 25, icon: "fas fa-coins" }
+            ];
+
+            services.forEach(service => {
+                const item = document.createElement('div');
+                item.className = 'tracker-item';
+                item.innerHTML = `
+                    <div class="tracker-icon">
+                        <i class="${service.icon}"></i>
+                    </div>
+                    <div class="tracker-info">
+                        <div class="tracker-name">${service.name}</div>
+                        <div class="tracker-status">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${service.status}%"></div>
+                            </div>
+                            ${service.status}%
+                        </div>
+                    </div>
+                    <button class="tracker-action">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                `;
+                trackerItems.appendChild(item);
+            });
+        }
+
+        // Real-time data updates
+        function initRealTimeUpdates() {
+            const stats = {
+                healthAppointments: 1200000,
+                healthUsers: 3800000,
+                agriSubsidies: 28000000,
+                agriUsers: 2100000,
+                financeApplications: 4500000,
+                financeDisbursed: 1200000000,
+                eduScholarships: 650000,
+                eduUsers: 5200000,
+                emergencyResponse: 98,
+                emergencyAvgTime: 8.2,
+                grievanceResolved: 92,
+                grievanceAvgTime: 3.5
+            };
+
+            // Initialize values
+            for (const key in stats) {
+                document.getElementById(key).textContent = formatStat(stats[key]);
+            }
+
+            // Simulate real-time updates
+            setInterval(() => {
+                for (const key in stats) {
+                    // Generate a small increment
+                    const increment = Math.floor(Math.random() *
+                        (key.includes('Time') ? 0.1 : (key.includes('Resolved') || key.includes('Response') ? 0.05 :
+                            (key.includes('Users') || key.includes('Scholarships') ? 100 :
+                                (key.includes('Applications') || key.includes('Appointments') ? 500 :
+                                    (key.includes('Subsidies') || key.includes('Disbursed') ? 10000 : 0))))));
+
+                    stats[key] += increment;
+                    document.getElementById(key).textContent = formatStat(stats[key]);
+                }
+
+                // Occasionally show notification
+                if (Math.random() > 0.8) {
+                    showNotification("New service update available! Check the latest government schemes.");
+                }
+            }, 5000);
+
+            function formatStat(value) {
+                if (value > 1000000) {
+                    return (value / 1000000).toFixed(1) + 'M';
+                } else if (value > 1000) {
+                    return (value / 1000).toFixed(1) + 'K';
+                } else if (Number.isInteger(value)) {
+                    return value.toLocaleString();
+                } else {
+                    return value;
+                }
+            }
+        }
+
+        // Notification system
+        function showNotification(text) {
+            const notification = document.getElementById('notification');
+            const content = document.getElementById('notificationContent');
+
+            content.textContent = text;
+            notification.classList.add('active');
+
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 5000);
+        }
+
+        // Event listeners
+        function initEventListeners() {
+            // Sound toggle
+            document.getElementById('soundToggle').addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                const icon = document.getElementById('soundIcon');
+                icon.className = soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+                if (window.playClickSound) window.playClickSound();
+            });
+
+            // Start button
+            document.getElementById('startButton').addEventListener('click', () => {
+                if (window.playStartSound) window.playStartSound();
+
+                // Create ripple effect
+                const button = document.getElementById('startButton');
+                const ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.marginLeft = '-10px';
+                ripple.style.marginTop = '-10px';
+
+                button.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+
+                // Show AI assistant
+                document.getElementById('aiAssistant').classList.add('active');
+                document.getElementById('serviceTracker').classList.add('active');
+            });
+
+            // Add hover effects to buttons
+            document.querySelectorAll('.btn, .service-card').forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    if (window.playHoverSound) window.playHoverSound();
+                });
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+                
+                .holographic-btn {
+                    position: relative;
+                    overflow: hidden;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Mouse trail effect
+        function initMouseTrail() {
+            const trail = [];
+            const trailLength = 20;
+
+            for (let i = 0; i < trailLength; i++) {
+                const dot = document.createElement('div');
+                dot.style.position = 'fixed';
+                dot.style.width = '4px';
+                dot.style.height = '4px';
+                dot.style.backgroundColor = '#2563eb';
+                dot.style.borderRadius = '50%';
+                dot.style.pointerEvents = 'none';
+                dot.style.zIndex = '9999';
+                dot.style.opacity = '0';
+                dot.style.transition = 'opacity 0.3s ease';
+                document.body.appendChild(dot);
+                trail.push(dot);
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                trail.forEach((dot, index) => {
+                    setTimeout(() => {
+                        dot.style.left = e.clientX + 'px';
+                        dot.style.top = e.clientY + 'px';
+                        dot.style.opacity = (trailLength - index) / trailLength;
+                    }, index * 50);
+                });
+            });
+        }
+
+        // Keyboard shortcuts
+        function initKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.target === document.body) {
+                    document.getElementById('startButton').click();
+                }
+                if (e.key === 'm' || e.key === 'M') {
+                    document.getElementById('soundToggle').click();
+                }
+                if (e.key === 'a' || e.key === 'A') {
+                    document.getElementById('aiAssistantMini').click();
+                }
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSounds();
+            initThreeJS();
+            initAnimations();
+            initEventListeners();
+            initMouseTrail();
+            initKeyboardShortcuts();
+            initAIAssistant();
+            initRealTimeUpdates();
+
+            // Add loading class to body
+            document.body.classList.add('loaded');
+
+            // Auto-play welcome sound after delay
+            setTimeout(() => {
+                if (soundEnabled && window.playStartSound) {
+                    window.playStartSound();
+                }
+            }, 4000);
+        });
+
+        // Performance optimization
+        let ticking = false;
+        function updateAnimations() {
+            // Update any frame-based animations here
+            if (!ticking) {
+                requestAnimationFrame(updateAnimations);
+                ticking = true;
+            }
+            ticking = false;
+        }
+
+        // Start animation loop
+        updateAnimations();
+
+        // Add intersection observer for better performance
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animations
+        document.querySelectorAll('.service-card, .feature-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add some Easter eggs
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                // Easter egg activated!
+                document.body.style.filter = 'hue-rotate(180deg)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 3000);
+
+                if (window.playStartSound) {
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(() => window.playStartSound(), i * 200);
+                    }
+                }
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
