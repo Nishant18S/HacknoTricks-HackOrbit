@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Government Loan Portal - Apply for loans, track applications, and manage your financial journey.">
+    <meta name="keywords" content="government loan, loan application, financial services, loan schemes, loan dashboard">
+    <meta name="author" content="Government Financial Portal">
+    <title>Government Loan Portal | FinGov Portal</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": "Government Loan Portal",
+        "description": "Apply for government loans, track applications, and manage your financial journey.",
+        "serviceType": "Loan"
+    }
+    </script>
+    <link rel="stylesheet" href="loan.css">
+    <script src="chatbot.js"></script>
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">FinGov Portal</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="loan.html">Loan</a></li>
+                <li><a href="schemes.html">Schemes</a></li>
+                <li><a href="insurance.html">Insurance</a></li>
+                <li><a href="investors.html">Investors</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <button class="mobile-menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="loan-hero">
+        <div class="hero-container">
+            <h1>Government Loan Portal</h1>
+            <p>Apply for government loans, track applications, and manage your financial journey.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Apply for Loan</a>
+                <a href="#" class="btn btn-secondary">Check Eligibility</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Loan Schemes Section -->
+        <section class="section">
+            <h2 class="section-title">Available Loan Schemes</h2>
+            <div class="loan-grid">
+                <div class="loan-card">
+                    <div class="loan-icon">🎓</div>
+                    <h3>Education Loan</h3>
+                    <ul class="loan-features">
+                        <li>Coverage for all courses</li>
+                        <li>Low interest rates</li>
+                        <li>Flexible repayment</li>
+                    </ul>
+                    <a href="#" class="loan-apply">Apply Now</a>
+                </div>
+                <div class="loan-card">
+                    <div class="loan-icon">🏢</div>
+                    <h3>Business Loan</h3>
+                    <ul class="loan-features">
+                        <li>Start-up and expansion</li>
+                        <li>Collateral-free options</li>
+                        <li>Special schemes for women</li>
+                    </ul>
+                    <a href="#" class="loan-apply">Apply Now</a>
+                </div>
+                <div class="loan-card">
+                    <div class="loan-icon">🌾</div>
+                    <h3>Agriculture Loan</h3>
+                    <ul class="loan-features">
+                        <li>Subsidized interest rates</li>
+                        <li>Seasonal and long-term loans</li>
+                        <li>Support for farmers</li>
+                    </ul>
+                    <a href="#" class="loan-apply">Apply Now</a>
+                </div>
+                <div class="loan-card">
+                    <div class="loan-icon">🏠</div>
+                    <h3>Housing Loan</h3>
+                    <ul class="loan-features">
+                        <li>Affordable housing schemes</li>
+                        <li>Low down payment</li>
+                        <li>Special rates for first-time buyers</li>
+                    </ul>
+                    <a href="#" class="loan-apply">Apply Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loan Benefits Carousel -->
+        <section class="section animated-section">
+            <h2 class="section-title">How Loans Can Transform Your Life</h2>
+            <div class="benefits-carousel">
+                <h3 class="carousel-title">Unlock New Opportunities</h3>
+                <button class="carousel-btn carousel-prev">❮</button>
+                <button class="carousel-btn carousel-next">❯</button>
+                <div class="carousel-container">
+                    <div class="carousel-slide">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🚀</div>
+                            <h3>Grow Your Business</h3>
+                            <p>Access capital to expand operations, purchase inventory, or upgrade equipment. Government
+                                loans offer competitive rates to help your business thrive.</p>
+                            <a href="#" class="dashboard-link">Explore Business Loans</a>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🏡</div>
+                            <h3>Own Your Dream Home</h3>
+                            <p>Affordable housing loans with flexible repayment options make home ownership achievable
+                                for everyone, with special schemes for first-time buyers.</p>
+                            <a href="#" class="dashboard-link">View Housing Schemes</a>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🎓</div>
+                            <h3>Invest in Education</h3>
+                            <p>Secure your future with education loans that cover tuition, accommodation, and other
+                                expenses for domestic and international studies.</p>
+                            <a href="#" class="dashboard-link">Learn About Education Loans</a>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🌱</div>
+                            <h3>Modernize Agriculture</h3>
+                            <p>Special agricultural loans help farmers adopt new technologies, purchase equipment, and
+                                improve productivity with subsidized interest rates.</p>
+                            <a href="#" class="dashboard-link">Discover Agri Loans</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <div class="carousel-dot active"></div>
+                    <div class="carousel-dot"></div>
+                    <div class="carousel-dot"></div>
+                    <div class="carousel-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Eligibility Calculator Section -->
+        <section class="section">
+            <h2 class="section-title">Loan Eligibility Calculator</h2>
+            <div class="calculator">
+                <h3 class="calculator-title">Check Your Loan Eligibility</h3>
+                <div class="form-group">
+                    <label class="form-label">Loan Type</label>
+                    <select class="form-control">
+                        <option>Education Loan</option>
+                        <option>Business Loan</option>
+                        <option>Agriculture Loan</option>
+                        <option>Housing Loan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Monthly Income (₹)</label>
+                    <input type="number" class="form-control" placeholder="Enter your income">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Loan Amount (₹)</label>
+                    <input type="number" class="form-control" placeholder="Enter loan amount">
+                </div>
+                <button class="btn btn-primary" onclick="calculateEligibility()">Check Eligibility</button>
+                <div class="calculator-result" id="eligibilityResult">
+                    <h4>Eligibility Result</h4>
+                    <p>Based on your details, you are eligible for a loan of up to <span id="eligibleAmount">₹0</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loan Information Image Section -->
+        <section class="section animated-section loan-info-section">
+            <h2 class="section-title">Loan Information & Resources</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                        alt="Business Loan Information" class="info-image">
+                    <div class="info-content">
+                        <h3>Business Loan Guide</h3>
+                        <p>Learn how to apply for business loans, understand eligibility criteria, and discover special
+                            schemes for entrepreneurs and startups.</p>
+                        <a href="#" class="info-link">Read More <span>→</span></a>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                        alt="Home Loan Information" class="info-image">
+                    <div class="info-content">
+                        <h3>Home Loan Process</h3>
+                        <p>Step-by-step guide to applying for home loans, understanding interest rates, and government
+                            housing schemes available.</p>
+                        <a href="#" class="info-link">Read More <span>→</span></a>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                        alt="Education Loan Information" class="info-image">
+                    <div class="info-content">
+                        <h3>Education Loan FAQs</h3>
+                        <p>Everything you need to know about education loans, repayment options, and special programs
+                            for students.</p>
+                        <a href="#" class="info-link">Read More <span>→</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Steps Section -->
+        <section class="section">
+            <h2 class="section-title">Loan Application Process</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h4>Select Scheme</h4>
+                    <p>Choose the loan scheme that fits your needs.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h4>Fill Application</h4>
+                    <p>Complete the online application form.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h4>Upload Documents</h4>
+                    <p>Submit required documents for verification.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h4>Approval & Disbursement</h4>
+                    <p>Get approval and receive your loan amount.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personalized Recommendations Section -->
+        <section class="section animated-section">
+            <h2 class="section-title">Recommended for You</h2>
+            <div class="recommendations-grid">
+                <div class="recommendation-card">
+                    <span>🏠</span>
+                    <h4>Upgrade Your Housing Loan</h4>
+                    <p>You may be eligible for a higher loan amount or better interest rates based on your profile.</p>
+                    <a href="#" class="dashboard-link">Learn More</a>
+                </div>
+                <div class="recommendation-card">
+                    <span>📈</span>
+                    <h4>Financial Literacy Webinar</h4>
+                    <p>Join our upcoming webinar and boost your financial skills. Free for registered users!</p>
+                    <a href="#" class="dashboard-link">Register</a>
+                </div>
+                <div class="recommendation-card">
+                    <span>👩‍🎓</span>
+                    <h4>Education Loan Top-up</h4>
+                    <p>Extend your education loan to cover additional expenses.</p>
+                    <a href="#" class="dashboard-link">Apply Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">How do I apply for a government loan?</div>
+                <div class="faq-answer">
+                    <p>You can apply online through this portal by selecting your desired loan scheme, filling out the
+                        application form, and uploading the required documents.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What documents are required?</div>
+                <div class="faq-answer">
+                    <p>Required documents typically include proof of identity, proof of address, income proof, and
+                        scheme-specific documents. The exact list will be shown during the application process.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">How long does approval take?</div>
+                <div class="faq-answer">
+                    <p>Approval time varies by scheme and completeness of documentation, but most applications are
+                        processed within 7-14 working days.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🏛️ FinGov Portal</h3>
+                    <p>Empowering financial transparency between citizens and government through digital innovation and
+                        accessible services.</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Twitter">🐦</a>
+                        <a href="#" title="LinkedIn">💼</a>
+                        <a href="#" title="YouTube">📺</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Financial Services</h3>
+                    <ul>
+                        <li><a href="#loan">Government Loans</a></li>
+                        <li><a href="#schemes">Welfare Schemes</a></li>
+                        <li><a href="#insurance">Insurance Programs</a></li>
+                        <li><a href="#investment">Investment Options</a></li>
+                        <li><a href="#tax">Tax Services</a></li>
+                        <li><a href="#subsidy">Subsidies</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#gdp">GDP Reports</a></li>
+                        <li><a href="#budget">Budget Documents</a></li>
+                        <li><a href="#statistics">Economic Statistics</a></li>
+                        <li><a href="#downloads">Downloads</a></li>
+                        <li><a href="#forms">Application Forms</a></li>
+                        <li><a href="#calculator">Financial Calculators</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support & Information</h3>
+                    <ul>
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#tutorial">Tutorials</a></li>
+                        <li><a href="#status">Service Status</a></li>
+                        <li><a href="#feedback">Feedback</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#dashboard">User Dashboard</a></li>
+                        <li><a href="#register">Register</a></li>
+                        <li><a href="#login">Login</a></li>
+                        <li><a href="#investors">Foreign Investors</a></li>
+                        <li><a href="#mobile-app">Mobile App</a></li>
+                        <li><a href="#accessibility">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                    <a href="#security">Security</a>
+                    <a href="#disclaimer">Disclaimer</a>
+                    <a href="#sitemap">Site Map</a>
+                </div>
+                <p>&copy; 2025 Government Financial Portal. All rights reserved. | Official Government Website</p>
+            </div>
+        </div>
+    </footer>
+
+            <!-- Chatbot Toggle Button -->
+        <div class="chatbot-toggle" id="chatbotToggle">
+            <div class="chatbot-icon">💬</div>
+            <div class="chatbot-notification hidden" id="chatbotNotification">1</div>
+        </div>
+
+        <!-- Chatbot Container -->
+        <div class="chatbot-container" id="chatbotContainer">
+            <!-- Chatbot Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar">🏛️</div>
+                    <div class="chatbot-details">
+                        <div class="chatbot-name">FinGov Assistant</div>
+                        <div class="chatbot-status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <button class="chatbot-minimize" id="chatbotMinimize">−</button>
+            </div>
+
+            <!-- Chatbot Messages -->
+            <div class="chatbot-messages" id="chatbotMessages">
+                <!-- Messages will be dynamically added here -->
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="chatbot-quick-actions" id="quickActions">
+                <button class="quick-action-btn" data-action="loan">💰 Loan Info</button>
+                <button class="quick-action-btn" data-action="schemes">🎯 Schemes</button>
+                <button class="quick-action-btn" data-action="insurance">🛡️ Insurance</button>
+                <button class="quick-action-btn" data-action="contact">📞 Contact</button>
+            </div>
+
+            <!-- Chatbot Input -->
+            <div class="chatbot-input-container">
+                <div class="chatbot-input-wrapper">
+                    <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message here..."
+                        maxlength="500" />
+                    <button class="chatbot-send-btn" id="chatbotSend" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="chatbot-typing-indicator" id="typingIndicator">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span class="typing-text">FinGov Assistant is typing...</span>
+                </div>
+            </div>
+        </div>
+
+
+
+    <script src="loan.js"></script>
+</body>
+
+</html>
