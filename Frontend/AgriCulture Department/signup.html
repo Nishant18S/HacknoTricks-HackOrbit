@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AgroConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .register-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .register-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        .form-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2E7D32;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2E7D32;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            background: white;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 2.2rem;
+            color: #4CAF50;
+            font-size: 1.2rem;
+        }
+
+        .register-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .register-btn:hover::before {
+            left: 100%;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .register-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #666;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+        }
+
+        .divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .login-link {
+            text-align: center;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #2E7D32;
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .farmer-type {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .type-option {
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .type-option:hover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .type-option.selected {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+            color: #2E7D32;
+        }
+
+        .type-option input[type="radio"] {
+            display: none;
+        }
+
+        .type-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .register-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .back-btn {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Success animation */
+        .success-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(76, 175, 80, 0.95);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: successPop 0.5s ease-out forwards;
+        }
+
+        @keyframes successPop {
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-btn" onclick="goBack()">← Back to Home</a>
+    
+    <div class="register-container">
+        <div class="form-content">
+            <div class="logo-section">
+                <div class="logo">🌱</div>
+                <div class="logo-text">AgroConnect</div>
+                <div class="subtitle">Join our farming community</div>
+            </div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>I am a:</label>
+                    <div class="farmer-type">
+                        <label class="type-option selected">
+                            <input type="radio" name="farmerType" value="individual" checked>
+                            <div class="type-icon">👨‍🌾</div>
+                            <div>Individual Farmer</div>
+                        </label>
+                        <label class="type-option">
+                            <input type="radio" name="farmerType" value="organization">
+                            <div class="type-icon">🏢</div>
+                            <div>Organization</div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <div class="input-icon">👤</div>
+                    <input type="text" id="fullName" class="form-input" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-icon">📧</div>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Mobile Number</label>
+                    <div class="input-icon">📱</div>
+                    <input type="tel" id="phone" class="form-input" placeholder="Enter your mobile number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Farm Location</label>
+                    <div class="input-icon">📍</div>
+                    <input type="text" id="location" class="form-input" placeholder="Village, District, State" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-icon">🔒</div>
+                    <input type="password" id="password" class="form-input" placeholder="Create a strong password" required>
+                </div>
+
+                <button type="submit" class="register-btn">
+                    🚀 Create My Account
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>Already have an account?</span>
+            </div>
+
+            <div class="login-link">
+                <a href="#" onclick="showLogin()">Sign in to your account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Farmer type selection
+        document.querySelectorAll('.type-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.type-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input[type="radio"]').checked = true;
+            });
+        });
+
+        // Form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get all form values
+            const formData = {
+                farmerType: document.querySelector('input[name="farmerType"]:checked').value,
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                password: document.getElementById('password').value
+            };
+
+            // Simple validation
+            if (!formData.fullName || !formData.email || !formData.phone || !formData.location || !formData.password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            // Phone validation (basic)
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(formData.phone.replace(/\D/g, ''))) {
+                alert('Please enter a valid 10-digit mobile number');
+                return;
+            }
+
+            // Show success animation
+            showSuccess();
+            
+            // Store user data (in real app, this would be sent to server)
+            console.log('Registration data:', formData);
+        });
+
+        function showSuccess() {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-animation';
+            successDiv.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                <h3>Registration Successful!</h3>
+                <p>Welcome to AgroConnect family</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">Redirecting to dashboard...</p>
+            `;
+            
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.remove();
+                // In real app, redirect to dashboard
+                alert('Redirecting to farmer dashboard...');
+            }, 3000);
+        }
+
+        function goBack() {
+            // In real app, this would navigate back
+            alert('Returning to homepage...');
+        }
+
+        function showLogin() {
+            // In real app, this would navigate to login page
+            alert('Redirecting to login page...');
+        }
+
+        // Input focus animations
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Auto-format phone number
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 10) {
+                e.target.value = value;
+            }
+        });
+    </script>
+</body>
+</html>
