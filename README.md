@@ -21,3 +21,8 @@ This is the **Frontend** part of the HacknoTricks HackOrbit project. It includes
 1. Clone the repository:
    ```bash
    git clone https://github.com/Nishant18S/HacknoTricks-HackOrbit.git
+
+2. PPT Template
+   [Hack Orbit_11zon.pdf](https://github.com/user-attachments/files/21118080/Hack.Orbit_11zon.pdf)
+
+   
