@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - AgriConnect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%);
+            color: #2d4a2d;
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            padding: 60px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(45, 74, 45, 0.1);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #2d5a2d 0%, #4a7c4a 100%);
+            color: white;
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20 50 Q30 20 50 50 Q70 80 80 50" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/><circle cx="50" cy="30" r="8" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="60" r="6" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="70" r="4" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat;
+            opacity: 0.3;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 20px;
+        }
+
+        .contact-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .contact-details span {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .contact-form {
+            padding: 50px 40px;
+            background: white;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-header h3 {
+            font-size: 2rem;
+            color: #2d5a2d;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d5a2d;
+            font-size: 0.95rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e8e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafcfa;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #4a7c4a;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(74, 124, 74, 0.1);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #4a7c4a 0%, #2d5a2d 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(74, 124, 74, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .agriculture-icons {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            display: flex;
+            gap: 15px;
+            opacity: 0.3;
+        }
+
+        .ag-icon {
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .ag-icon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .ag-icon:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                margin: 20px;
+            }
+            
+            .contact-info, .contact-form {
+                padding: 30px 25px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .contact-info h2 {
+                font-size: 2rem;
+            }
+            
+            .form-header h3 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Get In Touch</h2>
+                <p>Connect with our agricultural experts for farming solutions, crop guidance, and sustainable agriculture practices.</p>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-details">
+                        <h4>Visit Our Farm</h4>
+                        <span>123 Green Valley Road, Agricultural District</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-details">
+                        <h4>Call Us</h4>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-details">
+                        <h4>Email Us</h4>
+                        <span>info@agriconnect.farm</span>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div class="contact-details">
+                        <h4>Working Hours</h4>
+                        <span>Mon - Fri: 8:00 AM - 6:00 PM</span>
+                    </div>
+                </div>
+                
+                <div class="agriculture-icons">
+                    <div class="ag-icon">🌾</div>
+                    <div class="ag-icon">🚜</div>
+                    <div class="ag-icon">🌱</div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <div class="form-header">
+                    <h3>Send Us a Message</h3>
+                    <p>We'd love to hear from you and help with your agricultural needs</p>
+                </div>
+                
+                <div class="success-message" id="successMessage">
+                    Thank you for your message! We'll get back to you soon.
+                </div>
+                
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a topic...</option>
+                            <option value="crop-consultation">Crop Consultation</option>
+                            <option value="equipment-rental">Equipment Rental</option>
+                            <option value="organic-farming">Organic Farming</option>
+                            <option value="pest-control">Pest Control</option>
+                            <option value="soil-testing">Soil Testing</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your farming needs, questions, or how we can help you..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        Send Message 🌾
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate form submission
+            const submitBtn = document.querySelector('.submit-btn');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Change button text temporarily
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Sending... 📤';
+            submitBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Show success message
+                successMessage.style.display = 'block';
+                
+                // Reset form
+                this.reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+                
+                // Scroll to success message
+                successMessage.scrollIntoView({ behavior: 'smooth' });
+            }, 2000);
+        });
+
+        // Add floating animation to form inputs on focus
+        document.querySelectorAll('input, textarea, select').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
