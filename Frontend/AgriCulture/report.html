@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 Soil & Weather Reports Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0f1c;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, #1a4b3a 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, #2d5a3d 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, #1e3a2e 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-card {
+            background: linear-gradient(135deg, rgba(26, 75, 58, 0.3), rgba(45, 90, 61, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(76, 175, 80, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .file-upload.dragover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        label {
+            display: block;
+            color: #4CAF50;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            width: 100%;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 10px;
+            padding: 0.8rem;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .btn-secondary:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .weather-day {
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .weather-icon {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, rgba(26, 75, 58, 0.3), rgba(45, 90, 61, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            height: 400px;
+            position: relative;
+        }
+
+        .chart-container canvas {
+            max-height: 300px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .suggestions {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4CAF50;
+            border-radius: 0 10px 10px 0;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .error-message {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            color: #ff6b6b;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid,
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="page-title">🌾 Soil & Weather Reports Dashboard</h1>
+            <p style="color: rgba(255, 255, 255, 0.7);">Comprehensive agricultural analysis and forecasting</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Soil Test Section -->
+            <div class="section-card">
+                <h2 class="section-title">🧪 Soil Analysis</h2>
+                
+                <div class="file-upload" id="fileUpload">
+                    <div style="font-size: 3rem;">📄</div>
+                    <div class="upload-text">
+                        <strong>Drop PDF soil test here</strong><br>
+                        or click to browse
+                    </div>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf">
+                </div>
+
+                <div style="text-align: center; margin: 1rem 0; color: rgba(255,255,255,0.5);">OR</div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div>
+                            <label>pH Level</label>
+                            <input type="number" id="ph" step="0.1" min="0" max="14" placeholder="6.5">
+                        </div>
+                        <div>
+                            <label>Nitrogen (kg/ha)</label>
+                            <input type="number" id="nitrogen" placeholder="120">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <label>Phosphorus (kg/ha)</label>
+                            <input type="number" id="phosphorus" placeholder="25">
+                        </div>
+                        <div>
+                            <label>Potassium (kg/ha)</label>
+                            <input type="number" id="potassium" placeholder="150">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <label>Organic Carbon (%)</label>
+                            <input type="number" id="carbon" step="0.1" placeholder="0.8">
+                        </div>
+                        <div>
+                            <label>Soil Type</label>
+                            <select id="soilType">
+                                <option value="">Select Type</option>
+                                <option value="clay">Clay</option>
+                                <option value="loam">Loam</option>
+                                <option value="sandy">Sandy</option>
+                                <option value="silt">Silt</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="analyzeSoil()">Analyze Soil</button>
+                
+                <div id="soilResults" class="suggestions" style="display: none;">
+                    <h4 style="color: #4CAF50; margin-bottom: 1rem;">🌱 Crop Recommendations</h4>
+                    <div id="cropSuggestions"></div>
+                </div>
+            </div>
+
+            <!-- Weather Section -->
+            <div class="section-card">
+                <h2 class="section-title">🌤️ Weather Forecast</h2>
+                
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="location" placeholder="Enter city name" value="Bhubaneswar">
+                    <button class="btn" onclick="getWeather()" style="margin-top: 1rem; width: 100%;">Get Weather</button>
+                </div>
+
+                <div id="weatherResults" class="loading" style="display: none;">
+                    Loading weather data...
+                </div>
+
+                <div id="weatherForecast" class="weather-grid" style="display: none;"></div>
+                <div id="weatherError" class="error-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="section-card full-width">
+            <h2 class="section-title">📊 Agricultural Statistics</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProduction">125.8M</div>
+                    <div class="stat-label">Total Crop Production (MT)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalExport">45.2M</div>
+                    <div class="stat-label">Total Exports (MT)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalImport">12.8M</div>
+                    <div class="stat-label">Total Imports (MT)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgPrice">₹2,450</div>
+                    <div class="stat-label">Average Crop Price (per quintal)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3 style="color: #4CAF50; margin-bottom: 1rem;">📈 Crop Production Trends</h3>
+                <canvas id="productionChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="color: #4CAF50; margin-bottom: 1rem;">💰 Price Trends</h3>
+                <canvas id="priceChart"></canvas>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3 style="color: #4CAF50; margin-bottom: 1rem;">🌍 Import/Export Analysis</h3>
+                <canvas id="tradeChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="color: #4CAF50; margin-bottom: 1rem;">🥕 Crop Distribution</h3>
+                <canvas id="cropChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Export Controls -->
+        <div class="section-card full-width" style="text-align: center;">
+            <h2 class="section-title">📄 Export Reports</h2>
+            <button class="btn" onclick="exportPDF()">📄 Export Full Report as PDF</button>
+            <button class="btn btn-secondary" onclick="refreshData()">🔄 Refresh All Data</button>
+        </div>
+    </div>
+
+    <script>
+        
+        
+        // Chart instances storage
+        let charts = {};
+
+        // Soil analysis data
+        const soilData = {
+            ph: { min: 6.0, max: 7.5, optimal: 6.8 },
+            nitrogen: { min: 100, max: 200, optimal: 150 },
+            phosphorus: { min: 20, max: 40, optimal: 30 },
+            potassium: { min: 120, max: 180, optimal: 150 },
+            carbon: { min: 0.5, max: 1.5, optimal: 1.0 }
+        };
+
+        const cropRecommendations = {
+            'high_ph': ['Rice', 'Wheat', 'Barley'],
+            'low_ph': ['Potato', 'Tomato', 'Blueberry'],
+            'high_nitrogen': ['Leafy Greens', 'Corn', 'Wheat'],
+            'low_nitrogen': ['Legumes', 'Peas', 'Beans'],
+            'clay': ['Rice', 'Wheat', 'Cotton'],
+            'loam': ['Tomato', 'Corn', 'Potato'],
+            'sandy': ['Carrot', 'Radish', 'Peanut'],
+            'silt': ['Lettuce', 'Spinach', 'Cabbage']
+        };
+
+        // Weather icon mapping
+        const weatherIcons = {
+            '01d': '☀️', '01n': '🌙', '02d': '⛅', '02n': '☁️',
+            '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
+            '09d': '🌦️', '09n': '🌧️', '10d': '🌦️', '10n': '🌧️',
+            '11d': '⛈️', '11n': '⛈️', '13d': '❄️', '13n': '❄️',
+            '50d': '🌫️', '50n': '🌫️'
+        };
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            setupFileUpload();
+        });
+
+        function setupFileUpload() {
+            const fileUpload = document.getElementById('fileUpload');
+            const fileInput = document.getElementById('fileInput');
+
+            fileUpload.addEventListener('click', () => fileInput.click());
+
+            fileUpload.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUpload.classList.add('dragover');
+            });
+
+            fileUpload.addEventListener('dragleave', () => {
+                fileUpload.classList.remove('dragover');
+            });
+
+            fileUpload.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUpload.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type === 'application/pdf') {
+                    handleFileUpload(files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileUpload(e.target.files[0]);
+                }
+            });
+        }
+
+        function handleFileUpload(file) {
+            const fileUpload = document.getElementById('fileUpload');
+            
+            fileUpload.innerHTML = `
+                <div style="font-size: 3rem;">✅</div>
+                <div class="upload-text">
+                    <strong>${file.name}</strong><br>
+                    Processing... Please wait
+                </div>
+            `;
+
+            setTimeout(() => {
+                // Simulate extracted values
+                document.getElementById('ph').value = '6.8';
+                document.getElementById('nitrogen').value = '145';
+                document.getElementById('phosphorus').value = '28';
+                document.getElementById('potassium').value = '160';
+                document.getElementById('carbon').value = '0.9';
+                document.getElementById('soilType').value = 'loam';
+                
+                fileUpload.innerHTML = `
+                    <div style="font-size: 3rem;">📊</div>
+                    <div class="upload-text">
+                        <strong>Data Extracted Successfully!</strong><br>
+                        Values populated below
+                    </div>
+                `;
+                
+                analyzeSoil();
+            }, 2000);
+        }
+
+        function analyzeSoil() {
+            const ph = parseFloat(document.getElementById('ph').value);
+            const nitrogen = parseFloat(document.getElementById('nitrogen').value);
+            const phosphorus = parseFloat(document.getElementById('phosphorus').value);
+            const potassium = parseFloat(document.getElementById('potassium').value);
+            const carbon = parseFloat(document.getElementById('carbon').value);
+            const soilType = document.getElementById('soilType').value;
+
+            if (!ph || !nitrogen || !phosphorus || !potassium || !carbon || !soilType) {
+                alert('Please fill all soil parameters');
+                return;
+            }
+
+            const suggestions = [];
+            
+            // pH-based recommendations
+            if (ph > 7.0) {
+                suggestions.push(...cropRecommendations.high_ph);
+            } else if (ph < 6.5) {
+                suggestions.push(...cropRecommendations.low_ph);
+            }
+
+            // Nitrogen-based recommendations
+            if (nitrogen > 150) {
+                suggestions.push(...cropRecommendations.high_nitrogen);
+            } else if (nitrogen < 120) {
+                suggestions.push(...cropRecommendations.low_nitrogen);
+            }
+
+            // Soil type recommendations
+            suggestions.push(...cropRecommendations[soilType]);
+
+            // Remove duplicates and get top 5
+            const uniqueSuggestions = [...new Set(suggestions)].slice(0, 5);
+
+            const resultsDiv = document.getElementById('soilResults');
+            const suggestionsDiv = document.getElementById('cropSuggestions');
+            
+            suggestionsDiv.innerHTML = uniqueSuggestions.map(crop => 
+                `<div style="background: rgba(76, 175, 80, 0.2); padding: 0.5rem 1rem; margin: 0.5rem 0; border-radius: 10px; display: inline-block;">${crop}</div>`
+            ).join('');
+
+            // Add soil health assessment
+            let healthScore = 0;
+            let recommendations = [];
+
+            if (ph >= 6.0 && ph <= 7.5) healthScore += 20; else recommendations.push('Adjust soil pH');
+            if (nitrogen >= 100 && nitrogen <= 200) healthScore += 20; else recommendations.push('Balance nitrogen levels');
+            if (phosphorus >= 20 && phosphorus <= 40) healthScore += 20; else recommendations.push('Optimize phosphorus content');
+            if (potassium >= 120 && potassium <= 180) healthScore += 20; else recommendations.push('Manage potassium levels');
+            if (carbon >= 0.5 && carbon <= 1.5) healthScore += 20; else recommendations.push('Increase organic matter');
+
+            suggestionsDiv.innerHTML += `
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(76, 175, 80, 0.3);">
+                    <strong>Soil Health Score: ${healthScore}/100</strong>
+                    ${recommendations.length > 0 ? `<br><small>Recommendations: ${recommendations.join(', ')}</small>` : ''}
+                </div>
+            `;
+
+            resultsDiv.style.display = 'block';
+        }
+
+        async function getWeather() {
+            const location = document.getElementById('location').value.trim();
+            if (!location) {
+                alert('Please enter a location');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('weatherResults');
+            const forecastDiv = document.getElementById('weatherForecast');
+            const errorDiv = document.getElementById('weatherError');
+            
+            // Reset displays
+            resultsDiv.style.display = 'block';
+            forecastDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${WEATHER_API_KEY}&units=metric`);
+                
+                if (!response.ok) {
+                    throw new Error(`Weather data not found for "${location}"`);
+                }
+
+                const data = await response.json();
+                
+                // Process forecast data (take one forecast per day)
+                const dailyForecasts = [];
+                const processedDates = new Set();
+
+                for (const item of data.list) {
+                    const date = new Date(item.dt * 1000).toDateString();
+                    
+                    if (!processedDates.has(date) && dailyForecasts.length < 5) {
+                        processedDates.add(date);
+                        dailyForecasts.push({
+                            date: date,
+                            temp: Math.round(item.main.temp),
+                            description: item.weather[0].description,
+                            icon: item.weather[0].icon,
+                            humidity: item.main.humidity
+                        });
+                    }
+                }
+
+                // Display forecast
+                forecastDiv.innerHTML = dailyForecasts.map((day, index) => {
+                    const dayLabel = index === 0 ? 'Today' : 
+                                   index === 1 ? 'Tomorrow' : 
+                                   `Day ${index + 1}`;
+                    
+                    return `
+                        <div class="weather-day">
+                            <div style="font-size: 0.9rem; font-weight: 600; color: #4CAF50;">${dayLabel}</div>
+                            <div class="weather-icon">${weatherIcons[day.icon] || '🌤️'}</div>
+                            <div style="font-size: 1.2rem; font-weight: 700;">${day.temp}°C</div>
+                            <div style="font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: capitalize;">${day.description}</div>
+                            <div style="font-size: 0.7rem; color: rgba(255,255,255,0.5);">💧 ${day.humidity}%</div>
+                        </div>
+                    `;
+                }).join('');
+
+                resultsDiv.style.display = 'none';
+                forecastDiv.style.display = 'grid';
+
+            } catch (error) {
+                console.error('Weather API Error:', error);
+                resultsDiv.style.display = 'none';
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = `❌ ${error.message}. Please check the city name and try again.`;
+            }
+        }
+
+        function initCharts() {
+            // Production Chart
+            const productionCtx = document.getElementById('productionChart').getContext('2d');
+            charts.production = new Chart(productionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'Production (Million MT)',
+                        data: [108.2, 115.6, 118.4, 122.8, 125.8, 128.5],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#4CAF50',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { 
+                            labels: { color: 'white' } 
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            ticks: { color: 'rgba(255,255,255,0.7)' }, 
+                            grid: { color: 'rgba(255,255,255,0.1)' } 
+                        },
+                        y: { 
+                            ticks: { color: 'rgba(255,255,255,0.7)' }, 
+                            grid: { color: 'rgba(255,255,255,0.1)' } 
+                        }
+                    }
+                }
+            });
+
+            // Price Chart
+            const priceCtx = document.getElementById('priceChart').getContext('2d');
+            charts.price = new Chart(priceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Wheat', 'Rice', 'Corn', 'Cotton', 'Sugarcane'],
+                    datasets: [{
+                        label: 'Price (₹/Quintal)',
+                        data: [2100, 1850, 1750, 6200, 380],
+                        backgroundColor: ['#4CAF50', '#81C784', '#66BB6A', '#A5D6A7', '#C8E6C9'],
+                        borderColor: '#4CAF50',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { 
+                            labels: { color: 'white' } 
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            ticks: { color: 'rgba(255,255,255,0.7)' }, 
+                            grid: { color: 'rgba(255,255,255,0.1)' } 
+                        },
+                        y: { 
+                            ticks: { color: 'rgba(255,255,255,0.7)' }, 
+                            grid: { color: 'rgba(255,255,255,0.1)' } 
+                        }
+                    }
+                }
+            });
+
+            // Trade Chart
+            const tradeCtx = document.getElementById('tradeChart').getContext('2d');
+            charts.trade = new Chart(tradeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Exports', 'Imports', 'Domestic Use'],
+                    datasets: [{
+                        data: [45.2, 12.8, 67.8],
+                        backgroundColor: ['#4CAF50', '#FF9800', '#2196F3'],
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });
+            // Crop Distribution Chart
+            const cropCtx = document.getElementById('cropChart').getContext('2d');
+            charts.crop = new Chart(cropCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Wheat', 'Rice', 'Corn', 'Cotton', 'Sugarcane'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: ['#4CAF50', '#81C784', '#66BB6A', '#A5D6A7', '#C8E6C9'],
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });     
+
+        }
+        function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFont('Inter', 'normal');
+            doc.setFontSize(20);
+            doc.text('Soil & Weather Reports Dashboard', 20, 20);
+
+            doc.setFontSize(14);
+            doc.text('Soil Analysis:', 20, 40);
+            doc.text(`pH Level: ${document.getElementById('ph').value}`, 20, 50);
+            doc.text(`Nitrogen: ${document.getElementById('nitrogen').value} kg/ha`, 20, 60);
+            doc.text(`Phosphorus: ${document.getElementById('phosphorus').value} kg/ha`, 20, 70);
+            doc.text(`Potassium: ${document.getElementById('potassium').value} kg/ha`, 20, 80);
+            doc.text(`Organic Carbon: ${document.getElementById('carbon').value}%`, 20, 90);
+            doc.text(`Soil Type: ${document.getElementById('soilType').value}`, 20, 100);
+
+            const cropSuggestions = document.getElementById('cropSuggestions').innerText;
+            if (cropSuggestions) {
+                doc.text('Crop Recommendations:', 20, 110);
+                doc.text(cropSuggestions, 20, 120);
+            }
+
+            doc.addPage();
+            doc.text('Weather Forecast:', 20, 20);
+
+            const weatherResults = document.getElementById('weatherForecast');
+            if (weatherResults.style.display === 'grid') {
+                const days = weatherResults.querySelectorAll('.weather-day');
+                days.forEach((day, index) => {
+                    const date = day.querySelector('div').innerText;
+                    const temp = day.querySelector('.weather-icon + div').innerText;
+                    const description = day.querySelector('.weather-icon + div + div').innerText;
+                    const humidity = day.querySelector('.weather-icon + div + div + div').innerText;
+
+                    doc.text(`${date}: ${temp}, ${description}, ${humidity}`, 20, 30 + (index * 10));
+                });
+            } else {
+                doc.text('No weather data available.', 20, 30);
+            }
+
+            // Add charts
+            Object.keys(charts).forEach((key, index) => {
+                const chartCanvas = document.getElementById(`${key}Chart`);
+                if (chartCanvas) {
+                    const imgData = chartCanvas.toDataURL('image/png');
+                    doc.addImage(imgData, 'PNG', 20, 150 + (index * 60), 170, 80);
+                }
+            });
+            doc.save('soil_weather_report.pdf');
+        }
+        function refreshData() {
+            // Reset soil inputs
+            document.getElementById('ph').value = '';
+            document.getElementById('nitrogen').value = '';
+            document.getElementById('phosphorus').value = '';
+            document.getElementById('potassium').value = '';
+            document.getElementById('carbon').value = '';
+            document.getElementById('soilType').value = '';
+
+            // Clear results
+            document.getElementById('soilResults').style.display = 'none';
+            document.getElementById('cropSuggestions').innerHTML = '';
+
+            // Reset weather
+            document.getElementById('location').value = 'Bhubaneswar';
+            document.getElementById('weatherResults').style.display = 'block';
+            document.getElementById('weatherForecast').style.display = 'none';
+            document.getElementById('weatherError').style.display = 'none';
+
+            // Reinitialize charts
+            initCharts();
+        }
+        // Load Inter font
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
+        document.head.appendChild(link);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
