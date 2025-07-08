@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Services - Medical Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafbfc;
+            color: #2d3748;
+            min-height: 100vh;
+        }
+
+        /* Critical Emergency Bar */
+        .critical-alert {
+            background: #dc2626;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { background: #dc2626; }
+            50% { background: #b91c1c; }
+        }
+
+        .critical-alert::before {
+            content: "🚨 ";
+            font-size: 18px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-bottom: 3px solid #dc2626;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 16px 0;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .emergency-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .call-911 {
+            background: #dc2626;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: glow-red 1.5s infinite;
+        }
+
+        @keyframes glow-red {
+            0%, 100% { box-shadow: 0 0 5px rgba(220, 38, 38, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.8); }
+        }
+
+        /* Main Emergency Content */
+        .emergency-main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .emergency-hero {
+            background: white;
+            border-radius: 16px;
+            border: 3px solid #dc2626;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
+        }
+
+        .emergency-icon {
+            font-size: 80px;
+            color: #dc2626;
+            margin-bottom: 20px;
+            animation: emergency-pulse 1s infinite;
+        }
+
+        @keyframes emergency-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .emergency-hero h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+
+        .emergency-hero p {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .emergency-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            padding: 16px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-emergency {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-emergency:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        .btn-urgent {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-urgent:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+
+        /* Emergency Services Grid */
+        .emergency-services {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.15);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .service-card h3 {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Contact Info */
+        .emergency-contact {
+            background: #f9fafb;
+            border: 2px solid #059669;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: 20px;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: #059669;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .contact-text {
+            color: #1f2937;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .contact-subtext {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Simple Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            background: #059669;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+            transition: all 0.3s;
+        }
+
+        .chatbot-toggle:hover {
+            background: #047857;
+            transform: scale(1.1);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+        }
+
+        .chatbot-header {
+            background: #059669;
+            color: white;
+            padding: 16px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.bot {
+            background: #f0f9ff;
+            border: 1px solid #e0f2fe;
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: #059669;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chatbot-input {
+            padding: 16px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 8px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chatbot-send {
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .emergency-actions,
+            .emergency-services,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .emergency-hero h1 {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .call-911 {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .chatbot-window {
+                width: 280px;
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Critical Alert -->
+    <div class="critical-alert">
+        MEDICAL EMERGENCY? CALL 911 IMMEDIATELY
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="emergency-logo">
+                <div class="logo-icon">🏥</div>
+                <div>
+                    <div class="logo-text">Emergency Services</div>
+                </div>
+            </div>
+            <a href="tel:911" class="call-911">
+                📞 CALL 911
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="emergency-main">
+        <!-- Emergency Hero -->
+        <section class="emergency-hero">
+            <div class="emergency-icon">🚨</div>
+            <h1>Medical Emergency</h1>
+            <p>Immediate medical attention available 24/7. Our emergency team is ready to provide life-saving care when you need it most.</p>
+            
+            <div class="emergency-actions">
+                <a href="tel:911" class="action-btn btn-emergency">
+                    🚑 Call 911
+                </a>
+                <a href="tel:555-0123" class="action-btn btn-urgent">
+                    🏥 Emergency Line
+                </a>
+            </div>
+            
+            <div style="background: #fef2f2; padding: 16px; border-radius: 8px; border-left: 4px solid #dc2626; margin-top: 20px;">
+                <strong style="color: #dc2626;">Life-threatening emergencies:</strong> 
+                <span style="color: #6b7280;">Chest pain, difficulty breathing, severe bleeding, loss of consciousness, stroke symptoms</span>
+            </div>
+        </section>
+
+        <!-- Emergency Services -->
+        <section class="emergency-services">
+            <div class="service-card">
+                <div class="service-icon">🚑</div>
+                <h3>Trauma Care</h3>
+                <p>Advanced life support for critical injuries and medical emergencies with immediate intervention.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">❤️</div>
+                <h3>Cardiac Care</h3>
+                <p>Specialized cardiac emergency treatment including heart attack and arrhythmia management.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧠</div>
+                <h3>Stroke Center</h3>
+                <p>Rapid stroke assessment and treatment to minimize brain damage and improve outcomes.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👶</div>
+                <h3>Pediatric ER</h3>
+                <p>Specialized emergency care for children with pediatric-trained staff and equipment.</p>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="emergency-contact">
+            <h2 class="contact-title">Emergency Contact Information</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-text">Emergency Hotline</div>
+                    <div class="contact-subtext">555-EMERGENCY</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-text">Emergency Entrance</div>
+                    <div class="contact-subtext">Main Hospital, Level 1</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Simple Chatbot -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChat()">💬</button>
+        <div class="chatbot-window" id="chatWindow">
+            <div class="chatbot-header">
+                <span class="chatbot-title">Emergency Assistant</span>
+                <button class="chatbot-close" onclick="toggleChat()">×</button>
+            </div>
+            <div class="chatbot-messages" id="chatMessages">
+                <div class="message bot">Hello! I'm here to help with emergency guidance. What's your situation?</div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Type your emergency..." onkeypress="handleKeyPress(event)">
+                <button class="chatbot-send" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click tracking for emergency buttons
+        document.querySelectorAll('.action-btn, .call-911').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Flash effect on click
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add urgent blinking for critical situations
+        let isBlinking = false;
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !isBlinking) {
+                isBlinking = true;
+                document.querySelector('.critical-alert').style.animation = 'pulse-red 0.5s infinite';
+                setTimeout(() => {
+                    document.querySelector('.critical-alert').style.animation = 'pulse-red 2s infinite';
+                    isBlinking = false;
+                }, 5000);
+            }
+        });
+
+        // Simple Chatbot Functionality
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                setTimeout(() => generateResponse(message), 500);
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function generateResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            let response = '';
+
+            if (lowerMessage.includes('chest pain') || lowerMessage.includes('heart')) {
+                response = '🚨 CHEST PAIN IS SERIOUS! Call 911 immediately. Do not drive yourself. Chew an aspirin if available and not allergic.';
+            } else if (lowerMessage.includes('breathing') || lowerMessage.includes('breath')) {
+                response = '🚨 BREATHING DIFFICULTY! Call 911 now. Sit upright, stay calm, and remove tight clothing.';
+            } else if (lowerMessage.includes('bleeding') || lowerMessage.includes('blood')) {
+                response = '🩸 For severe bleeding: Apply direct pressure with clean cloth. Elevate if possible. Call 911 if bleeding won\'t stop.';
+            } else if (lowerMessage.includes('unconscious') || lowerMessage.includes('passed out')) {
+                response = '🚨 UNCONSCIOUS PERSON! Call 911 immediately. Check for breathing. If trained, start CPR if no pulse.';
+            } else if (lowerMessage.includes('stroke') || lowerMessage.includes('face drooping')) {
+                response = '🧠 POSSIBLE STROKE! Call 911 now. Note time symptoms started. Check: Face drooping, Arm weakness, Speech difficulty.';
+            } else if (lowerMessage.includes('burn') || lowerMessage.includes('fire')) {
+                response = '🔥 For burns: Cool with water for 10-20 minutes. Remove from heat source. Call 911 for severe burns.';
+            } else if (lowerMessage.includes('poison') || lowerMessage.includes('overdose')) {
+                response = '☠️ POISONING! Call 911 and Poison Control: 1-800-222-1222. Do NOT induce vomiting unless instructed.';
+            } else if (lowerMessage.includes('seizure') || lowerMessage.includes('convulsion')) {
+                response = '🧠 SEIZURE: Keep person safe, time the seizure, don\'t restrain. Call 911 if over 5 minutes or first seizure.';
+            } else {
+                response = 'For any life-threatening emergency, call 911 immediately. Can you describe your specific symptoms?';
+            }
+
+            addMessage(response, 'bot');
+        }
+    </script>
+</body>
+</html>

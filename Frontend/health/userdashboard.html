@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Dashboard - Healthcare Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafbfc;
+            color: #2d3748;
+        }
+
+        .emergency-bar {
+            background: #dc2626;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .emergency-bar::before {
+            content: "🚨 ";
+        }
+
+        header {
+            background: white;
+            border-bottom: 3px solid #059669;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .medical-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            color: #1f2937;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            color: #6b7280;
+            font-size: 12px;
+            display: block;
+            margin-top: -2px;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr 320px;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            margin: 0 auto 12px;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .user-id {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .health-score {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+
+        .score-number {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .vital-item {
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .vital-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .vital-label {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .vital-normal { border-left: 4px solid #10b981; }
+        .vital-warning { border-left: 4px solid #f59e0b; }
+        .vital-critical { border-left: 4px solid #dc2626; }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #059669;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .appointments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .appointment-item {
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid #059669;
+        }
+
+        .appointment-date {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .appointment-doctor {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .medications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .medication-item {
+            background: #f9fafb;
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .med-info {
+            flex: 1;
+        }
+
+        .med-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .med-dosage {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .med-time {
+            background: #059669;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .schemes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .scheme-item {
+            background: #f0fdf4;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #bbf7d0;
+        }
+
+        .scheme-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .scheme-status {
+            font-size: 12px;
+            color: #059669;
+            font-weight: 500;
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.3);
+            transition: all 0.3s;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 2px solid #e5e7eb;
+            display: none;
+            flex-direction: column;
+        }
+
+        .chatbot-window.active {
+            display: flex;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+            padding: 16px;
+            border-radius: 14px 14px 0 0;
+            font-weight: 600;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .message.bot {
+            background: #f3f4f6;
+            color: #374151;
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: #059669;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chatbot-input {
+            padding: 16px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 8px;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quick-action {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-action:hover {
+            border-color: #059669;
+            background: #f0fdf4;
+        }
+
+        .notification-item {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .emergency-contact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .contact-relation {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .contact-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+            }
+            
+            .sidebar, .right-panel {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="emergency-bar">
+        Emergency Helpline: 102 | COVID Helpline: 1075
+    </div>
+
+    <header>
+        <div class="header-content">
+            <div class="medical-logo">
+                <div class="logo-icon">🏥</div>
+                <div>
+                    <div class="logo-text">HealthCare Portal</div>
+                    <span class="logo-subtitle">Digital India Health Mission</span>
+                </div>
+            </div>
+            <button class="btn btn-primary">🚨 Emergency</button>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="user-profile">
+                <div class="user-avatar">👤</div>
+                <div class="user-name">Rajesh Kumar</div>
+                <div class="user-id">Health ID: 91-1234-5678-9012</div>
+                <div class="user-id">Age: 45 | Gender: Male</div>
+                <div class="health-score">
+                    <div>Health Score</div>
+                    <div class="score-number">85/100</div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <div class="quick-action" onclick="showSection('appointments')">
+                    📅<br>Book Appointment
+                </div>
+                <div class="quick-action" onclick="showSection('records')">
+                    📋<br>Medical Records
+                </div>
+                <div class="quick-action" onclick="showSection('prescriptions')">
+                    💊<br>Prescriptions
+                </div>
+                <div class="quick-action" onclick="showSection('schemes')">
+                    🏛️<br>Govt Schemes
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 12px;">Update Profile</button>
+            <button class="btn btn-secondary" style="width: 100%;">Download Health Card</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Health Overview -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">❤️</div>
+                    <div class="card-title">Health Overview</div>
+                </div>
+                <div class="vitals-grid">
+                    <div class="vital-item vital-normal">
+                        <div class="vital-value">120/80</div>
+                        <div class="vital-label">Blood Pressure</div>
+                    </div>
+                    <div class="vital-item vital-normal">
+                        <div class="vital-value">72 bpm</div>
+                        <div class="vital-label">Heart Rate</div>
+                    </div>
+                    <div class="vital-item vital-warning">
+                        <div class="vital-value">26.5</div>
+                        <div class="vital-label">BMI</div>
+                    </div>
+                    <div class="vital-item vital-critical">
+                        <div class="vital-value">180 mg/dL</div>
+                        <div class="vital-label">Blood Sugar</div>
+                    </div>
+                </div>
+                <div style="margin-top: 16px; padding: 12px; background: #fef2f2; border-radius: 8px; border-left: 4px solid #dc2626;">
+                    ⚠️ High blood sugar detected. Please consult your doctor immediately.
+                </div>
+            </div>
+
+            <!-- Appointments Section -->
+            <div class="card" id="appointments-section">
+                <div class="card-header">
+                    <div class="card-icon">📅</div>
+                    <div class="card-title">Upcoming Appointments</div>
+                </div>
+                <div class="appointments-list">
+                    <div class="appointment-item">
+                        <div class="appointment-date">Tomorrow, 10:00 AM</div>
+                        <div class="appointment-doctor">Dr. Priya Sharma - Cardiologist</div>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-date">25th June, 3:00 PM</div>
+                        <div class="appointment-doctor">Dr. Amit Singh - General Physician</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 16px;">📅 Book New Appointment</button>
+            </div>
+
+            <!-- Medical Records -->
+            <div class="card" id="records-section">
+                <div class="card-header">
+                    <div class="card-icon">📋</div>
+                    <div class="card-title">Medical Records</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <button class="btn btn-secondary">📄 Lab Reports</button>
+                    <button class="btn btn-secondary">💉 Vaccination Records</button>
+                    <button class="btn btn-secondary">🏥 Hospital Records</button>
+                    <button class="btn btn-secondary">📊 Download PDF</button>
+                </div>
+                <div style="margin-top: 16px; padding: 12px; background: #f0fdf4; border-radius: 8px;">
+                    Latest Report: Blood Test - 20th June 2025 ✅
+                </div>
+            </div>
+
+            <!-- Health Schemes -->
+            <div class="card" id="schemes-section">
+                <div class="card-header">
+                    <div class="card-icon">🏛️</div>
+                    <div class="card-title">Government Health Schemes</div>
+                </div>
+                <div class="schemes-list">
+                    <div class="scheme-item">
+                        <div class="scheme-name">Ayushman Bharat - PMJAY</div>
+                        <div class="scheme-status">✅ Eligible - Apply Now</div>
+                    </div>
+                    <div class="scheme-item">
+                        <div class="scheme-name">Pradhan Mantri Suraksha Bima Yojana</div>
+                        <div class="scheme-status">✅ Active - Premium Due: 31st Dec</div>
+                    </div>
+                    <div class="scheme-item">
+                        <div class="scheme-name">State Health Insurance Scheme</div>
+                        <div class="scheme-status">⏳ Under Review</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grievance Section -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">Grievance & Feedback</div>
+                </div>
+                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                    <button class="btn btn-primary">📝 File Complaint</button>
+                    <button class="btn btn-secondary">📊 Track Status</button>
+                </div>
+                <div style="padding: 12px; background: #f9fafb; border-radius: 8px;">
+                    Recent Complaint: Hospital Service Quality - Status: <span style="color: #059669; font-weight: 600;">Resolved</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <!-- Prescription Tracker -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💊</div>
+                    <div class="card-title">Current Medications</div>
+                </div>
+                <div class="medications-list">
+                    <div class="medication-item">
+                        <div class="med-info">
+                            <div class="med-name">Metformin</div>
+                            <div class="med-dosage">500mg - After meals</div>
+                        </div>
+                        <div class="med-time">8:00 AM</div>
+                    </div>
+                    <div class="medication-item">
+                        <div class="med-info">
+                            <div class="med-name">Lisinopril</div>
+                            <div class="med-dosage">10mg - Morning</div>
+                        </div>
+                        <div class="med-time">7:00 AM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contacts -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🚨</div>
+                    <div class="card-title">Emergency Contacts</div>
+                </div>
+                <div class="emergency-contact">
+                    <div class="contact-info">
+                        <div class="contact-name">Sunita Kumar</div>
+                        <div class="contact-relation">Wife</div>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="contact-btn">📞</button>
+                        <button class="contact-btn">📧</button>
+                    </div>
+                </div>
+                <div class="emergency-contact">
+                    <div class="contact-info">
+                        <div class="contact-name">Dr. Priya Sharma</div>
+                        <div class="contact-relation">Primary Doctor</div>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="contact-btn">📞</button>
+                        <button class="contact-btn">📧</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🔔</div>
+                    <div class="card-title">Notifications</div>
+                </div>
+                <div class="notification-item">
+                    💊 Medicine reminder: Metformin in 2 hours
+                </div>
+                <div class="notification-item">
+                    📅 Appointment tomorrow with Dr. Priya Sharma
+                </div>
+                <div class="notification-item">
+                    📋 Lab report ready for download
+                </div>
+            </div>
+
+            <!-- Insurance Panel -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-title">Insurance</div>
+                </div>
+                <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <div style="font-weight: 600;">Star Health Insurance</div>
+                    <div style="font-size: 14px; color: #6b7280;">Premium Due: 15th July 2025</div>
+                    <div style="font-size: 12px; color: #059669;">Coverage: ₹5,00,000</div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%;">View Claims History</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" onclick="toggleChatbot()">🤖</button>
+        <div class="chatbot-window" id="chatbot">
+            <div class="chatbot-header">
+                🤖 Health Assistant
+            </div>
+            <div class="chatbot-messages" id="chatMessages">
+                <div class="message bot">
+                    Hello! I'm your health assistant. How can I help you today?
+                </div>
+                <div class="message bot">
+                    I can help you with:
+                    <br>• Symptom checking
+                    <br>• Finding nearby doctors
+                    <br>• Health scheme eligibility
+                    <br>• General health questions
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleChatEnter(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Advanced Medical Dashboard JavaScript
+// Medical Dashboard JavaScript - All Functions Working
+class MedicalDashboard {
+    constructor() {
+        this.userData = {
+            name: 'Rajesh Kumar',
+            healthId: '91-1234-5678-9012',
+            vitals: {
+                bloodPressure: { systolic: 120, diastolic: 80, status: 'normal' },
+                heartRate: { value: 72, status: 'normal' },
+                bmi: { value: 26.5, status: 'warning' },
+                bloodSugar: { value: 180, status: 'critical' }
+            },
+            medications: [
+                { name: 'Metformin', dosage: '500mg', time: '8:00 AM', remaining: 15 },
+                { name: 'Lisinopril', dosage: '10mg', time: '7:00 AM', remaining: 8 }
+            ],
+            appointments: [],
+            emergencyContacts: [
+                { name: 'Sunita Kumar', relation: 'Wife', phone: '+91-9876543210' },
+                { name: 'Dr. Priya Sharma', relation: 'Primary Doctor', phone: '+91-9876543211' }
+            ]
+        };
+        
+        this.notifications = [];
+        this.chatHistory = [];
+        this.currentModal = null;
+        this.init();
+    }
+
+    init() {
+        this.setupEventListeners();
+        this.createInitialNotifications();
+        this.checkCriticalAlerts();
+    }
+
+    setupEventListeners() {
+        // Quick actions
+        document.querySelectorAll('.quick-action').forEach(action => {
+            action.addEventListener('click', (e) => {
+                const text = e.currentTarget.textContent.trim();
+                if (text.includes('Book Appointment')) this.showSection('appointments');
+                else if (text.includes('Medical Records')) this.showSection('records');
+                else if (text.includes('Prescriptions')) this.showSection('prescriptions');
+                else if (text.includes('Govt Schemes')) this.showSection('schemes');
+            });
+        });
+
+        // Emergency contacts
+        document.querySelectorAll('.contact-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleEmergencyContact(e));
+        });
+
+        // All buttons
+        document.querySelectorAll('button').forEach(btn => {
+            if (!btn.onclick && !btn.classList.contains('contact-btn')) {
+                btn.addEventListener('click', (e) => this.handleButtonClick(e));
+            }
+        });
+    }
+
+    createInitialNotifications() {
+        this.addNotification('💊 Medicine reminder: Metformin in 2 hours');
+        this.addNotification('📅 Appointment tomorrow with Dr. Priya Sharma');
+        this.addNotification('📋 Lab report ready for download');
+    }
+
+    checkCriticalAlerts() {
+        if (this.userData.vitals.bloodSugar.status === 'critical') {
+            this.addNotification('🚨 High blood sugar detected. Please consult your doctor immediately.');
+        }
+    }
+
+    showSection(section) {
+        const sectionElement = document.getElementById(section + '-section');
+        if (sectionElement) {
+            sectionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            this.highlightElement(sectionElement);
+        }
+    }
+
+    highlightElement(element) {
+        element.style.transition = 'all 0.3s ease';
+        element.style.border = '2px solid #059669';
+        element.style.boxShadow = '0 0 20px rgba(5, 150, 105, 0.3)';
+        
+        setTimeout(() => {
+            element.style.border = '';
+            element.style.boxShadow = '';
+        }, 2000);
+    }
+
+    handleButtonClick(event) {
+        const buttonText = event.target.textContent.trim();
+        
+        switch (true) {
+            case buttonText.includes('Emergency'):
+                this.handleEmergency();
+                break;
+            case buttonText.includes('Book New Appointment') || buttonText.includes('Book Appointment'):
+                this.bookAppointment();
+                break;
+            case buttonText.includes('Update Profile'):
+                this.updateProfile();
+                break;
+            case buttonText.includes('Download Health Card'):
+                this.downloadHealthCard();
+                break;
+            case buttonText.includes('Lab Reports'):
+                this.showLabReports();
+                break;
+            case buttonText.includes('Vaccination Records'):
+                this.showVaccination();
+                break;
+            case buttonText.includes('Hospital Records'):
+                this.showHospitalRecords();
+                break;
+            case buttonText.includes('Download PDF'):
+                this.downloadPDF();
+                break;
+            case buttonText.includes('File Complaint'):
+                this.fileComplaint();
+                break;
+            case buttonText.includes('Track Status'):
+                this.trackStatus();
+                break;
+            case buttonText.includes('View Claims'):
+                this.viewClaims();
+                break;
+        }
+    }
+
+    handleEmergency() {
+        this.showModal('🚨 Emergency Services', 
+            'Emergency services activated!\n\n📞 Calling emergency contacts...\n🚑 Ambulance dispatched\n🏥 Nearest hospital: City General (2.3 km)',
+            [
+                { text: 'Cancel', action: () => this.closeModal() },
+                { text: 'Confirm Emergency', action: () => this.confirmEmergency() }
+            ]
+        );
+    }
+
+    confirmEmergency() {
+        this.addNotification('🚨 Emergency services contacted successfully');
+        this.closeModal();
+    }
+
+    bookAppointment() {
+        const slots = [
+            { date: 'Tomorrow', time: '10:00 AM', doctor: 'Dr. Priya Sharma' },
+            { date: '25th June', time: '2:00 PM', doctor: 'Dr. Amit Singh' },
+            { date: '26th June', time: '11:00 AM', doctor: 'Dr. Ravi Patel' }
+        ];
+        
+        let content = '📅 Available Slots:\n\n';
+        slots.forEach((slot, i) => {
+            content += `${i + 1}. ${slot.date} at ${slot.time} - ${slot.doctor}\n`;
+        });
+        
+        this.showModal('Book Appointment', content, [
+            { text: 'Cancel', action: () => this.closeModal() },
+            { text: 'Book Slot 1', action: () => this.confirmAppointment(slots[0]) }
+        ]);
+    }
+
+    confirmAppointment(slot) {
+        this.userData.appointments.push(slot);
+        this.addNotification(`✅ Appointment booked with ${slot.doctor} on ${slot.date} at ${slot.time}`);
+        this.closeModal();
+    }
+
+    updateProfile() {
+        this.showModal('Update Profile', 
+            'Profile update form:\n\n• Personal Information\n• Emergency Contacts\n• Medical History\n• Insurance Details',
+            [
+                { text: 'Cancel', action: () => this.closeModal() },
+                { text: 'Save Changes', action: () => this.saveProfile() }
+            ]
+        );
+    }
+
+    saveProfile() {
+        this.addNotification('✅ Profile updated successfully');
+        this.closeModal();
+    }
+
+    downloadHealthCard() {
+        this.addNotification('📥 Downloading Digital Health Card...');
+        setTimeout(() => {
+            this.addNotification('✅ Health Card downloaded successfully!');
+        }, 1500);
+    }
+
+    showLabReports() {
+        this.showModal('📄 Lab Reports', 
+            'Your lab reports:\n\n• Blood Test - June 20, 2025 ✅\n• Urine Analysis - June 18, 2025 ✅\n• Lipid Profile - June 15, 2025 ✅\n\nAll reports are normal.',
+            [
+                { text: 'Close', action: () => this.closeModal() },
+                { text: 'Download', action: () => this.downloadReport('Lab Reports') }
+            ]
+        );
+    }
+
+    showVaccination() {
+        this.showModal('💉 Vaccination Records', 
+            'Vaccination history:\n\n• COVID-19 Booster - March 2025 ✅\n• Flu Shot - October 2024 ✅\n• Hepatitis B - 2020 ✅\n\nNext due: Annual flu shot in October 2025',
+            [
+                { text: 'Close', action: () => this.closeModal() },
+                { text: 'Download', action: () => this.downloadReport('Vaccination Records') }
+            ]
+        );
+    }
+
+    showHospitalRecords() {
+        this.showModal('🏥 Hospital Records', 
+            'Hospital visit history:\n\n• City General Hospital - June 2025\n• Apollo Clinic - May 2025\n• Emergency visit - March 2025\n\nTotal visits this year: 3',
+            [
+                { text: 'Close', action: () => this.closeModal() },
+                { text: 'View Details', action: () => this.viewHospitalDetails() }
+            ]
+        );
+    }
+
+    downloadPDF() {
+        this.addNotification('📥 Generating comprehensive health PDF...');
+        setTimeout(() => {
+            this.addNotification('✅ Health summary PDF downloaded successfully!');
+        }, 2000);
+    }
+
+    fileComplaint() {
+        this.showModal('📝 File Complaint', 
+            'Complaint categories:\n\n• Hospital Service Quality\n• Staff Behavior\n• Billing Issues\n• Appointment Delays\n• Medical Equipment\n\nSelect a category to proceed.',
+            [
+                { text: 'Cancel', action: () => this.closeModal() },
+                { text: 'Submit Complaint', action: () => this.submitComplaint() }
+            ]
+        );
+    }
+
+    submitComplaint() {
+        this.addNotification('✅ Complaint submitted successfully. Tracking ID: #HC2025001');
+        this.closeModal();
+    }
+
+    trackStatus() {
+        this.showModal('📊 Track Complaint Status', 
+            'Complaint Tracking:\n\nComplaint ID: #HC2025001\nStatus: Under Review\nSubmitted: June 20, 2025\nExpected Resolution: June 27, 2025\n\nOur team is working on your complaint.',
+            [
+                { text: 'Close', action: () => this.closeModal() }
+            ]
+        );
+    }
+
+    viewClaims() {
+        this.showModal('💰 Claims History', 
+            'Insurance claims:\n\n• Claim #12345 - ₹10,000 - Approved ✅\n• Claim #67890 - ₹5,000 - Processing ⏳\n• Claim #11111 - ₹15,000 - Rejected ❌\n\nTotal Approved: ₹10,000',
+            [
+                { text: 'Close', action: () => this.closeModal() },
+                { text: 'New Claim', action: () => this.newClaim() }
+            ]
+        );
+    }
+
+    newClaim() {
+        this.addNotification('📄 New insurance claim form opened');
+        this.closeModal();
+    }
+
+    handleEmergencyContact(event) {
+        const contactElement = event.target.closest('.emergency-contact');
+        const contactName = contactElement.querySelector('.contact-name').textContent;
+        const contact = this.userData.emergencyContacts.find(c => c.name === contactName);
+        
+        if (event.target.textContent === '📞') {
+            this.makeCall(contact.phone, contactName);
+        } else if (event.target.textContent === '📧') {
+            this.sendEmail(contactName);
+        }
+    }
+
+    makeCall(phone, name) {
+        this.showModal(`📞 Calling ${name}`, 
+            `Dialing ${phone}...\n\nCall connecting...`,
+            [
+                { text: 'End Call', action: () => this.endCall() }
+            ]
+        );
+        
+        setTimeout(() => {
+            this.updateModalContent('Call Connected', `Speaking with ${name}\nCall duration: 00:30`);
+        }, 2000);
+    }
+
+    endCall() {
+        this.addNotification('📞 Call ended');
+        this.closeModal();
+    }
+
+    sendEmail(name) {
+        this.addNotification(`📧 Email sent to ${name} with health summary`);
+    }
+
+    downloadReport(type) {
+        this.addNotification(`📥 Downloading ${type}...`);
+        setTimeout(() => {
+            this.addNotification(`✅ ${type} downloaded successfully!`);
+        }, 1500);
+    }
+
+    viewHospitalDetails() {
+        this.addNotification('🏥 Opening detailed hospital records');
+        this.closeModal();
+    }
+
+    showModal(title, content, actions = []) {
+        if (this.currentModal) this.currentModal.remove();
+
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: flex; align-items: center;
+            justify-content: center; z-index: 1000;
+        `;
+
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: white; border-radius: 16px; padding: 24px;
+            max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;
+        `;
+
+        const modalTitle = document.createElement('h3');
+        modalTitle.textContent = title;
+        modalTitle.style.cssText = `margin-bottom: 16px; color: #1f2937; font-size: 18px; font-weight: 600;`;
+
+        const modalBody = document.createElement('div');
+        modalBody.innerHTML = content.replace(/\n/g, '<br>');
+        modalBody.style.cssText = `margin-bottom: 20px; line-height: 1.6; color: #374151;`;
+
+        const modalActions = document.createElement('div');
+        modalActions.style.cssText = `display: flex; gap: 12px; justify-content: flex-end;`;
+
+        actions.forEach(action => {
+            const button = document.createElement('button');
+            button.textContent = action.text;
+            button.style.cssText = `
+                padding: 8px 16px; border: none; border-radius: 8px;
+                cursor: pointer; font-weight: 600;
+                ${action.text === 'Cancel' || action.text === 'Close' ? 
+                    'background: #f3f4f6; color: #374151;' : 
+                    'background: #059669; color: white;'}
+            `;
+            button.addEventListener('click', action.action);
+            modalActions.appendChild(button);
+        });
+
+        modalContent.appendChild(modalTitle);
+        modalContent.appendChild(modalBody);
+        modalContent.appendChild(modalActions);
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+        this.currentModal = modal;
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) this.closeModal();
+        });
+    }
+
+    closeModal() {
+        if (this.currentModal) {
+            this.currentModal.remove();
+            this.currentModal = null;
+        }
+    }
+
+    updateModalContent(title, content) {
+        if (this.currentModal) {
+            const modalTitle = this.currentModal.querySelector('h3');
+            const modalBody = this.currentModal.querySelector('div div');
+            if (modalTitle) modalTitle.textContent = title;
+            if (modalBody) modalBody.innerHTML = content.replace(/\n/g, '<br>');
+        }
+    }
+
+    addNotification(message, type = 'info') {
+        this.notifications.unshift({ message, type, timestamp: new Date() });
+        this.updateNotificationsDisplay();
+    }
+
+    updateNotificationsDisplay() {
+        const notificationItems = document.querySelectorAll('.notification-item');
+        if (notificationItems.length > 0 && this.notifications.length > 0) {
+            notificationItems[0].textContent = this.notifications[0].message;
+        }
+    }
+}
+
+// Chatbot Functions
+function toggleChatbot() {
+    const chatbot = document.getElementById('chatbot');
+    chatbot.classList.toggle('active');
+}
+
+function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    addChatMessage('user', message);
+    input.value = '';
+    
+    setTimeout(() => {
+        const response = getBotResponse(message);
+        addChatMessage('bot', response);
+    }, 1000);
+}
+
+function addChatMessage(type, message) {
+    const messages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    messageDiv.innerHTML = message;
+    messages.appendChild(messageDiv);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function getBotResponse(message) {
+    const msg = message.toLowerCase();
+    
+    if (msg.includes('appointment') || msg.includes('book')) {
+        return '📅 I can help you book an appointment. Your next available slots are:<br>• Tomorrow 10:00 AM with Dr. Priya Sharma<br>• 25th June 2:00 PM with Dr. Amit Singh<br><br>Would you like me to book one of these?';
+    }
+    
+    if (msg.includes('medicine') || msg.includes('medication')) {
+        return '💊 Your current medications:<br>• Metformin 500mg at 8:00 AM (15 pills remaining)<br>• Lisinopril 10mg at 7:00 AM (8 pills remaining)<br><br>Next reminder: Metformin in 2 hours';
+    }
+    
+    if (msg.includes('blood sugar') || msg.includes('diabetes')) {
+        return '⚠️ Your current blood sugar level is 180 mg/dL, which is elevated. Please:<br>• Take your Metformin as prescribed<br>• Monitor your diet<br>• Contact Dr. Priya Sharma if it remains high<br>• Consider scheduling an immediate consultation';
+    }
+    
+    if (msg.includes('report') || msg.includes('lab')) {
+        return '📋 Your latest reports:<br>• Blood Test - June 20, 2025 ✅<br>• All parameters within normal range<br>• Available for download<br><br>Would you like me to prepare a summary?';
+    }
+    
+    if (msg.includes('scheme') || msg.includes('insurance')) {
+        return '🏛️ Government schemes available:<br>• Ayushman Bharat PMJAY - Eligible (Apply Now)<br>• PM Suraksha Bima - Active<br>• State Health Scheme - Under Review<br><br>Need help with applications?';
+    }
+    
+    return 'I\'m here to help with your health queries. You can ask me about:<br>• Booking appointments<br>• Managing medications<br>• Checking reports<br>• Government health schemes<br>• General health questions';
+}
+
+function handleChatEnter(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+function showSection(sectionName) {
+    if (window.dashboard) {
+        window.dashboard.showSection(sectionName);
+    }
+}
+
+// Initialize dashboard when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    window.dashboard = new MedicalDashboard();
+    
+    // Add some dynamic behavior
+    setInterval(() => {
+        if (window.dashboard && Math.random() > 0.95) {
+            const randomNotifications = [
+                '💊 Medicine reminder coming up',
+                '📱 Health app updated',
+                '🏥 New doctor available',
+                '📊 Weekly health summary ready'
+            ];
+            const randomNotif = randomNotifications[Math.floor(Math.random() * randomNotifications.length)];
+            window.dashboard.addNotification(randomNotif);
+        }
+    }, 30000);
+});
+
+// Global functions for HTML onclick attributes
+window.toggleChatbot = toggleChatbot;
+window.sendMessage = sendMessage;
+window.handleChatEnter = handleChatEnter;
+window.showSection = showSection;
+    </script>
+</body>
+</html>

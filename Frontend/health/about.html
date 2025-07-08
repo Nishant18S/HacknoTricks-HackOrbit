@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - MediCare Plus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafbfc;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-bottom: 3px solid #059669;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .medical-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            color: #1f2937;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #059669;
+            border-bottom-color: #059669;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-radius: 20px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: #6b7280;
+        }
+
+        .about-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .section-content {
+            color: #374151;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #059669;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .team-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            border-color: #059669;
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.15);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            margin: 0 auto 16px;
+        }
+
+        .team-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .team-role {
+            color: #059669;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .team-desc {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .contact-cta {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-cta h3 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .contact-cta p {
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #059669;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .about-section {
+                padding: 24px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="medical-logo">
+                <div class="logo-icon">⚕️</div>
+                <div>
+                    <div class="logo-text">MediCare Plus</div>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about" class="active">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">About MediCare Plus</h1>
+            <p class="page-subtitle">Your trusted partner in healthcare excellence</p>
+        </div>
+
+        <!-- Our Story -->
+        <div class="about-section">
+            <h2 class="section-title">
+                <div class="section-icon">📖</div>
+                Our Story
+            </h2>
+            <div class="section-content">
+                <p>Founded in 2010, MediCare Plus has been at the forefront of providing exceptional healthcare services to our community. What started as a small clinic has grown into a comprehensive healthcare facility, serving thousands of patients with dedication and compassion.</p>
+                <p style="margin-top: 16px;">Our journey began with a simple mission: to make quality healthcare accessible, affordable, and patient-centered. Today, we continue to uphold these values while embracing modern medical technologies and treatments.</p>
+            </div>
+        </div>
+
+        <!-- Our Mission -->
+        <div class="about-section">
+            <h2 class="section-title">
+                <div class="section-icon">🎯</div>
+                Our Mission
+            </h2>
+            <div class="section-content">
+                <p>To provide comprehensive, compassionate, and cutting-edge healthcare services that improve the quality of life for our patients and strengthen our community's health and wellbeing.</p>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="about-section">
+            <h2 class="section-title">
+                <div class="section-icon">📊</div>
+                Our Impact
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Patients Served</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Medical Specialists</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Emergency Care</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Team -->
+        <div class="about-section">
+            <h2 class="section-title">
+                <div class="section-icon">👥</div>
+                Our Team
+            </h2>
+            <div class="section-content">
+                <p>Our dedicated team of healthcare professionals brings together decades of experience and expertise to provide you with the best possible care.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">👨‍⚕️</div>
+                    <div class="team-name">Dr. Sarah Johnson</div>
+                    <div class="team-role">Chief Medical Officer</div>
+                    <div class="team-desc">20+ years in internal medicine and patient care excellence</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩‍⚕️</div>
+                    <div class="team-name">Dr. Michael Chen</div>
+                    <div class="team-role">Head of Cardiology</div>
+                    <div class="team-desc">Leading specialist in cardiovascular health and preventive care</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩‍⚕️</div>
+                    <div class="team-name">Dr. Emily Rodriguez</div>
+                    <div class="team-role">Pediatric Specialist</div>
+                    <div class="team-desc">Dedicated to providing compassionate care for children and families</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Ready to Experience Better Healthcare?</h3>
+            <p>Join thousands of satisfied patients who trust MediCare Plus for their healthcare needs.</p>
+            <a href="#contact" class="btn-primary">Schedule Appointment</a>
+        </div>
+    </div>
+
+    <script>
+        // Simple smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to stats
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'countUp 1s ease-out';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes countUp {
+                from { transform: translateY(20px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
