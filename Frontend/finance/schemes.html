@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Government Schemes Portal - Explore various government schemes for citizens, farmers, businesses, and more.">
+    <meta name="keywords"
+        content="government schemes, citizen schemes, farmer schemes, business schemes, health schemes">
+    <meta name="author" content="Government Financial Portal">
+    <title>Government Schemes | Financial Portal</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "GovernmentService",
+        "name": "Government Schemes",
+        "description": "Official government portal for accessing various schemes",
+        "serviceType": "Government Schemes"
+    }
+    </script>
+    <link rel="stylesheet" href="schemes.css">
+    <script src="chatbot.js"></script>
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+
+<body>
+    <!-- Loading Animation -->
+    <div class="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading Government Schemes Portal</div>
+            <div class="loader-subtext">Empowering citizens with financial transparency</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Government Financial Portal</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="loan.html">Loan</a></li>
+                <li><a href="schemes.html">Schemes</a></li>
+                <li><a href="insurance.html">Insurance</a></li>
+                <li><a href="investors.html">Investors</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <button class="mobile-menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="schemes-hero">
+        <div class="hero-container">
+            <h1>Government Schemes</h1>
+            <p>Explore various government schemes for citizens, farmers, businesses, and more.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Explore Schemes</a>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schemes Section -->
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Available Schemes</h2>
+            <div class="schemes-grid">
+                <div class="scheme-card">
+                    <div class="scheme-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Citizen Welfare Schemes</h3>
+                    <ul class="scheme-features">
+                        <li>Financial assistance for low-income families</li>
+                        <li>Healthcare and education support</li>
+                        <li>Disability and senior citizen benefits</li>
+                    </ul>
+                    <a href="#" class="scheme-apply">Apply Now</a>
+                </div>
+                <div class="scheme-card">
+                    <div class="scheme-icon">🌾</div>
+                    <h3>Farmer Support Schemes</h3>
+                    <ul class="scheme-features">
+                        <li>Subsidized seeds and fertilizers</li>
+                        <li>Crop insurance and loan waivers</li>
+                        <li>Irrigation and technology support</li>
+                    </ul>
+                    <a href="#" class="scheme-apply">Apply Now</a>
+                </div>
+                <div class="scheme-card">
+                    <div class="scheme-icon">🏢</div>
+                    <h3>Business Development Schemes</h3>
+                    <ul class="scheme-features">
+                        <li>Start-up and MSME support</li>
+                        <li>Skill development and training</li>
+                        <li>Export promotion and incentives</li>
+                    </ul>
+                    <a href="#" class="scheme-apply">Apply Now</a>
+                </div>
+                <div class="scheme-card">
+                    <div class="scheme-icon">🏥</div>
+                    <h3>Health & Wellness Schemes</h3>
+                    <ul class="scheme-features">
+                        <li>Free and subsidized healthcare</li>
+                        <li>Insurance for critical illnesses</li>
+                        <li>Maternal and child health programs</li>
+                    </ul>
+                    <a href="#" class="scheme-apply">Apply Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Eligibility Calculator Section -->
+        <section class="section">
+            <h2 class="section-title">Check Scheme Eligibility</h2>
+            <div class="calculator">
+                <h3 class="calculator-title">Find Eligible Schemes</h3>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-control">
+                        <option>Citizen Welfare</option>
+                        <option>Farmer Support</option>
+                        <option>Business Development</option>
+                        <option>Health & Wellness</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Monthly Income (₹)</label>
+                    <input type="number" class="form-control" placeholder="Enter your income">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-control" placeholder="Enter your location">
+                </div>
+                <button class="btn btn-primary" onclick="checkEligibility()">Check Eligibility</button>
+                <div class="calculator-result" id="eligibilityResult">
+                    <h4>Eligibility Result</h4>
+                    <p>Based on your details, you are eligible for the following schemes: <span
+                            id="eligibleSchemes">Citizen Welfare, Health & Wellness</span>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Steps Section -->
+        <section class="section">
+            <h2 class="section-title">Scheme Application Process</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h4>Select Scheme</h4>
+                    <p>Choose the scheme that fits your needs.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h4>Fill Application</h4>
+                    <p>Complete the online application form.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h4>Upload Documents</h4>
+                    <p>Submit required documents for verification.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h4>Approval & Benefits</h4>
+                    <p>Get approval and receive your scheme benefits.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">How do I apply for a government scheme?</div>
+                <div class="faq-answer">
+                    <p>You can apply online through this portal by selecting your desired scheme, filling out the
+                        application form, and uploading the required documents.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">What documents are required?</div>
+                <div class="faq-answer">
+                    <p>Required documents typically include proof of identity, proof of address, income proof, and
+                        scheme-specific documents. The exact list will be shown during the application process.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">How long does approval take?</div>
+                <div class="faq-answer">
+                    <p>Approval time varies by scheme and completeness of documentation, but most applications are
+                        processed within 7-14 working days.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🏛️ FinGov Portal</h3>
+                    <p>Empowering financial transparency between citizens and government through digital innovation and
+                        accessible services.</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook">📘</a>
+                        <a href="#" title="Twitter">🐦</a>
+                        <a href="#" title="LinkedIn">💼</a>
+                        <a href="#" title="YouTube">📺</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Financial Services</h3>
+                    <ul>
+                        <li><a href="#loan">Government Loans</a></li>
+                        <li><a href="#schemes">Welfare Schemes</a></li>
+                        <li><a href="#insurance">Insurance Programs</a></li>
+                        <li><a href="#investment">Investment Options</a></li>
+                        <li><a href="#tax">Tax Services</a></li>
+                        <li><a href="#subsidy">Subsidies</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#gdp">GDP Reports</a></li>
+                        <li><a href="#budget">Budget Documents</a></li>
+                        <li><a href="#statistics">Economic Statistics</a></li>
+                        <li><a href="#downloads">Downloads</a></li>
+                        <li><a href="#forms">Application Forms</a></li>
+                        <li><a href="#calculator">Financial Calculators</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Support & Information</h3>
+                    <ul>
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#tutorial">Tutorials</a></li>
+                        <li><a href="#status">Service Status</a></li>
+                        <li><a href="#feedback">Feedback</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#dashboard">User Dashboard</a></li>
+                        <li><a href="#register">Register</a></li>
+                        <li><a href="#login">Login</a></li>
+                        <li><a href="#investors">Foreign Investors</a></li>
+                        <li><a href="#mobile-app">Mobile App</a></li>
+                        <li><a href="#accessibility">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                    <a href="#security">Security</a>
+                    <a href="#disclaimer">Disclaimer</a>
+                    <a href="#sitemap">Site Map</a>
+                </div>
+                <p>&copy; 2025 Government Financial Portal. All rights reserved. | Official Government Website</p>
+            </div>
+        </div>
+    </footer>
+
+            <!-- Chatbot Toggle Button -->
+        <div class="chatbot-toggle" id="chatbotToggle">
+            <div class="chatbot-icon">💬</div>
+            <div class="chatbot-notification hidden" id="chatbotNotification">1</div>
+        </div>
+
+        <!-- Chatbot Container -->
+        <div class="chatbot-container" id="chatbotContainer">
+            <!-- Chatbot Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar">🏛️</div>
+                    <div class="chatbot-details">
+                        <div class="chatbot-name">FinGov Assistant</div>
+                        <div class="chatbot-status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <button class="chatbot-minimize" id="chatbotMinimize">−</button>
+            </div>
+
+            <!-- Chatbot Messages -->
+            <div class="chatbot-messages" id="chatbotMessages">
+                <!-- Messages will be dynamically added here -->
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="chatbot-quick-actions" id="quickActions">
+                <button class="quick-action-btn" data-action="loan">💰 Loan Info</button>
+                <button class="quick-action-btn" data-action="schemes">🎯 Schemes</button>
+                <button class="quick-action-btn" data-action="insurance">🛡️ Insurance</button>
+                <button class="quick-action-btn" data-action="contact">📞 Contact</button>
+            </div>
+
+            <!-- Chatbot Input -->
+            <div class="chatbot-input-container">
+                <div class="chatbot-input-wrapper">
+                    <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message here..."
+                        maxlength="500" />
+                    <button class="chatbot-send-btn" id="chatbotSend" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="chatbot-typing-indicator" id="typingIndicator">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span class="typing-text">FinGov Assistant is typing...</span>
+                </div>
+            </div>
+        </div>
+
+
+    <script src="schemes.js"></script>
+</body>
+
+</html>
