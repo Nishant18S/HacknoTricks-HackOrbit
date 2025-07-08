@@ -246,7 +246,7 @@ class FinGovChatbot {
         this.messageHistory = [];
         this.selectedOption = null;
         this.currentScheme = null;
-        this.apiKey = 'AIzaSyAgWjKWKykKrXjzblRzR4SAcKX18y9SRrc'; // Replace with your actual API key
+        // this.apiKey = 'AIzaSyAgWjKWKykKrXjzblRzR4SAcKX18y9SRrc'; // Replace with your actual API key
         this.apiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`;
 
         // Scheme database (minimal hardcoding)
