@@ -1,0 +1,4997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriTech - Agriculture Department</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #008b8b;
+            --primary-dark: #006666;
+            --secondary: #00ced1;
+            --accent: #20b2aa;
+            --light: #e0ffff;
+            --dark: #004c4c;
+            --text-light: #f0ffff;
+            --text-dark: #003333;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f7f7;
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(to bottom, var(--dark), var(--primary-dark));
+            color: var(--text-light);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+            overflow-y: auto;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sidebar-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            padding: 8px;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding-left: 25px;
+        }
+
+        .menu-item:hover::before, .menu-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--secondary);
+        }
+
+        .menu-item i {
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-text {
+            flex-grow: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: var(--transition);
+        }
+
+        /* Topbar */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            transition: var(--transition);
+        }
+
+        .search-container input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(0, 139, 139, 0.25);
+            outline: none;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-title i {
+            color: var(--primary);
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            width: 100%;
+            background: var(--primary);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Sections */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .grid-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        /* Weather Section */
+        .weather-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .weather-icon {
+            font-size: 3rem;
+            color: var(--accent);
+        }
+
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .weather-detail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weather-detail i {
+            color: var(--primary);
+        }
+
+        /* Market Prices */
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .market-table th {
+            text-align: left;
+            padding: 12px 10px;
+            background: var(--light);
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .market-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .market-table tr:hover {
+            background: rgba(0, 206, 209, 0.05);
+        }
+
+        .trend-up {
+            color: #28a745;
+        }
+
+        .trend-down {
+            color: #dc3545;
+        }
+
+        /* Crop Progress */
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-value {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        /* Recent Activity */
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 139, 139, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Section content */
+        .section-content {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+        
+        .section-content h3 {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+        
+        .crop-list, .resource-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .crop-card, .resource-card {
+            background: #f8fafa;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            transition: var(--transition);
+        }
+        
+        .crop-card:hover, .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .crop-card h4, .resource-card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .crop-card p, .resource-card p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .setting-group {
+            background: #f8fafa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .setting-group h4 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .support-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .support-card {
+            background: #f8fafa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .support-card:hover {
+            background: var(--light);
+            transform: translateY(-5px);
+        }
+        
+        .support-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .support-card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-container {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .topbar {
+                padding: 15px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .search-container {
+                width: 40px;
+            }
+            
+            .search-container input {
+                width: 0;
+                padding: 10px;
+                opacity: 0;
+                transition: var(--transition);
+            }
+            
+            .search-container.active input {
+                width: 200px;
+                padding: 10px 15px 10px 40px;
+                opacity: 1;
+            }
+        }
+        .section-content {
+    margin-top: 30px;
+}
+
+.section-content h3 {
+    font-size: 1.5rem;
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    canvas#priceTrendChart {
+        height: 300px !important;
+    }
+}
+h2, h3 {
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    thead {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    #generateBtn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    #graphSection {
+      display: none;
+      background: #f8fafa;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      height: 400px;
+    }
+
+    .equipment-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: 280px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+.equipment-card:hover {
+    transform: translateY(-5px);
+}
+.equipment-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 700px;
+    position: relative;
+}
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    cursor: pointer;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
+/* Animation Styles */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-pop {
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.animate-grow {
+    animation: growIn 0.4s ease-out forwards;
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.animate-pulse {
+    animation: pulse 1s ease;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes popIn {
+    0% { 
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    80% {
+        transform: scale(1.02);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes growIn {
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Current Weather Styles */
+.weather-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+    border-radius: 12px;
+}
+
+.weather-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.weather-temp-container {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.weather-temp {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--dark);
+}
+
+.weather-feelslike {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.weather-condition {
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin-top: 5px;
+}
+
+.weather-icon {
+    font-size: 3rem;
+    color: #ffb347;
+}
+
+.weather-icon-sunny {
+    color: #ffb347;
+}
+
+.weather-icon-rain {
+    color: #6bb9f0;
+}
+
+.weather-icon-cloudy {
+    color: #a4b0be;
+}
+
+/* Weather Details Styles */
+.weather-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.weather-detail {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.detail-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    background: rgba(70, 130, 180, 0.1);
+    color: var(--primary);
+}
+
+.detail-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+.weather-update-time {
+    font-size: 0.8rem;
+    color: #666;
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* 7-Day Forecast Styles */
+.forecast-container {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-top: 15px;
+}
+
+.forecast-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.forecast-day {
+    min-width: 90px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    flex-shrink: 0;
+}
+
+.day-name {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.day-icon {
+    font-size: 1.5rem;
+    margin: 8px 0;
+    color: var(--primary);
+}
+
+.day-temp {
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+.temp-low {
+    color: #666;
+    margin-left: 4px;
+}
+
+.day-condition {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.forecast-note {
+    background: #e3f2fd;
+    color: #0d47a1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Weather Impact Styles */
+.weather-impact-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.impact-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.impact-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.impact-icon.temp-impact {
+    background: rgba(239, 83, 80, 0.1);
+    color: #ef5350;
+}
+
+.impact-icon.rain-impact {
+    background: rgba(66, 165, 245, 0.1);
+    color: #42a5f5;
+}
+
+.impact-icon.wind-impact {
+    background: rgba(121, 134, 203, 0.1);
+    color: #7986cb;
+}
+
+.impact-content h4 {
+    margin: 0 0 8px 0;
+    color: var(--dark);
+}
+
+.impact-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .weather-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .weather-temp {
+        font-size: 2.5rem;
+    }
+    
+    .weather-impact-container {
+        grid-template-columns: 1fr;
+    }
+}
+/* Animation Styles */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-pop {
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes popIn {
+    0% { 
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    80% {
+        transform: scale(1.02);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Language Selector */
+.language-selector {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.language-selector label {
+    font-weight: 500;
+    color: #555;
+}
+
+.language-selector select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: white;
+}
+
+/* Resource Cards */
+.resource-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.resource-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.resource-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.resource-title {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.resource-desc {
+    margin: 0 0 15px 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.resource-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* Resource Icons */
+.pdf-icon {
+    color: #e74c3c;
+    font-size: 1.5rem;
+}
+
+.video-icon {
+    color: #3498db;
+    font-size: 1.5rem;
+}
+
+.doc-icon {
+    color: #2ecc71;
+    font-size: 1.5rem;
+}
+
+.calc-icon {
+    color: #9b59b6;
+    font-size: 1.5rem;
+}
+
+/* Language Buttons */
+.language-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.lang-btn {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.lang-btn:hover {
+    opacity: 0.9;
+}
+
+.english-btn {
+    background: #3498db;
+    color: white;
+}
+
+.hindi-btn {
+    background: #f39c12;
+    color: white;
+}
+
+.odia-btn {
+    background: #27ae60;
+    color: white;
+}
+
+.view-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.view-btn:hover {
+    background: #0056b3;
+}
+
+/* Schemes Container */
+.schemes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.scheme-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.scheme-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.scheme-image {
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+}
+
+.scheme-content {
+    padding: 15px;
+}
+
+.scheme-title {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.scheme-desc {
+    margin: 0 0 12px 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.scheme-details {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.scheme-status {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.active-badge {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.scheme-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.details-btn, .apply-btn {
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.details-btn {
+    background: #f8f9fa;
+    color: var(--dark);
+    border: 1px solid #ddd;
+}
+
+.details-btn:hover {
+    background: #e9ecef;
+}
+
+.apply-btn {
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    border: none;
+}
+
+.apply-btn:hover {
+    background: #0056b3;
+    color: white;
+}
+
+/* Scheme Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 25px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 700px;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close-btn:hover {
+    color: #555;
+}
+
+.scheme-detail-item {
+    margin-bottom: 20px;
+}
+
+.scheme-detail-item h4 {
+    margin: 0 0 8px 0;
+    color: var(--dark);
+}
+
+.scheme-detail-item p {
+    margin: 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.scheme-modal-actions {
+    margin-top: 25px;
+    text-align: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .resource-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .schemes-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 90%;
+    }
+}
+
+  /* Crop Card Styles */
+    .crop-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        padding: 15px;
+        margin-bottom: 20px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-left: 4px solid #4CAF50;
+    }
+    
+    .crop-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .crop-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .crop-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: white;
+        font-size: 18px;
+    }
+    
+    .wheat-bg { background: #8BC34A; }
+    .rice-bg { background: #4CAF50; }
+    .maize-bg { background: #FFC107; }
+    .potato-bg { background: #FF9800; }
+    
+    .health-status {
+        margin-left: auto;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .health-status.excellent { background: #4CAF50; color: white; }
+    .health-status.good { background: #8BC34A; color: white; }
+    .health-status.moderate { background: #FFC107; color: #333; }
+    .health-status.poor { background: #FF9800; color: white; }
+    .health-status.critical { background: #F44336; color: white; }
+    
+    .crop-details p {
+        margin: 8px 0;
+        color: #555;
+    }
+    
+    .progress-container {
+        height: 6px;
+        background: #f0f0f0;
+        border-radius: 3px;
+        margin: 10px 0;
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        border-radius: 3px;
+    }
+    
+    .crop-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 15px;
+    }
+    
+    .btn-action {
+        background: #f5f5f5;
+        border: none;
+        padding: 8px 12px;
+        margin-left: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .btn-action:hover {
+        background: #e0e0e0;
+    }
+    
+    .btn-action.warning {
+        background: #FFF3E0;
+        color: #E65100;
+    }
+    
+    /* Health Dashboard Styles */
+    .health-dashboard {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .health-chart-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .chart-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+    
+    .chart-area {
+        height: 200px;
+        position: relative;
+    }
+    
+    .health-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .metric-card {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+    }
+    
+    .metric-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: white;
+        font-size: 18px;
+    }
+    
+    .ndvi-bg { background: #4CAF50; }
+    .moisture-bg { background: #2196F3; }
+    .temp-bg { background: #FF9800; }
+    .pest-bg { background: #F44336; }
+    
+    .metric-value {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 5px 0;
+    }
+    
+    .metric-change {
+        font-size: 12px;
+    }
+    
+    .positive { color: #4CAF50; }
+    .negative { color: #F44336; }
+    .neutral { color: #607D8B; }
+    
+    /* Timeline Styles */
+    .activity-timeline {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .timeline-item {
+        display: flex;
+        padding: 15px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .timeline-item:last-child {
+        border-bottom: none;
+    }
+    
+    .timeline-badge {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: white;
+        font-size: 14px;
+    }
+    
+    .irrigation { background: #2196F3; }
+    .alert { background: #F44336; }
+    .fertilizer { background: #FF9800; }
+    .harvest { background: #4CAF50; }
+    
+    .timeline-content h5 {
+        margin: 0 0 5px 0;
+    }
+    
+    .timeline-content p {
+        margin: 0;
+        color: #666;
+    }
+    
+    .timeline-content small {
+        color: #999;
+        font-size: 12px;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slideInLeft {
+        from { 
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to { 
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .animated {
+        animation-duration: 0.5s;
+        animation-fill-mode: both;
+    }
+    
+    .fadeIn { animation-name: fadeIn; }
+    .slideInLeft { animation-name: slideInLeft; }
+    
+    /* Section Header */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .time-filter {
+        display: flex;
+    }
+    
+    .time-btn {
+        background: #f5f5f5;
+        border: none;
+        padding: 5px 10px;
+        margin-left: 5px;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+    
+    .time-btn.active {
+        background: var(--primary);
+        color: white;
+    }
+</style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://cdn.dotpe.in/longtail/store-logo/7850459/iDR6kSPm.jpeg">
+                <div class="sidebar-title">AgriConnect</div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <div class="menu-text">Dashboard</div>
+                </div>
+                <div class="menu-item" data-section="crop-management">
+                    <i class="fas fa-seedling"></i>
+                    <div class="menu-text">Crop Management</div>
+                </div>
+                <div class="menu-item" data-section="irrigation">
+                    <i class="fas fa-tint"></i>
+                    <div class="menu-text">Irrigation</div>
+                </div>
+                <div class="menu-item" data-section="weather">
+                    <i class="fas fa-cloud-sun"></i>
+                    <div class="menu-text">Weather</div>
+                </div>
+                <div class="menu-item" data-section="market-prices">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="menu-text">Market Prices</div>
+                </div>
+                <div class="menu-item" data-section="equipment">
+                    <i class="fas fa-tractor"></i>
+                    <div class="menu-text">Equipment</div>
+                </div>
+                <div class="menu-item" data-section="resources">
+                    <i class="fas fa-book"></i>
+                    <div class="menu-text">Resources</div>
+                </div>
+                <div class="menu-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <div class="menu-text">Settings</div>
+                </div>
+                <div class="menu-item" data-section="support">
+                    <i class="fas fa-question-circle"></i>
+                    <div class="menu-text">Support</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="left-section">
+                    <div class="hamburger" id="hamburger">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+                
+                <div class="search-container" id="searchContainer" style="margin-bottom: 20px;">
+  <i class="fas fa-search"></i>
+  <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchDashboard()">
+</div>
+<script>
+  function searchDashboard() {
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toLowerCase();
+    const searchableItems = document.querySelectorAll(".searchable");
+
+    searchableItems.forEach(item => {
+      const text = item.innerText.toLowerCase();
+      if (text.includes(filter)) {
+        item.style.display = "block"; // show match
+      } else {
+        item.style.display = "none"; // hide non-match
+      }
+    });
+  }
+</script>
+
+                
+                <div class="user-info">
+                    <div class="user-name">Farmer Rajesh</div>
+                    <div class="user-avatar">RJ</div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="content-section active">
+                    <h1 class="dashboard-title">
+                        <i class="fas fa-tractor"></i> Agriculture Dashboard
+                    </h1>
+                    
+                    <!-- Stats Cards -->
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-farm"></i>
+                            </div>
+                            <div class="stat-value">12,500</div>
+                            <div class="stat-label">Total Acres Managed</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Active Crops</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-cloud-rain"></i>
+                            </div>
+                            <div class="stat-value">72%</div>
+                            <div class="stat-label">Soil Moisture</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-rupee-sign"></i>
+                            </div>
+                            <div class="stat-value">₹1.8M</div>
+                            <div class="stat-label">Projected Revenue</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dashboard Grid -->
+                    <div class="dashboard-grid">
+                        <!-- Weather Widget -->
+                        <div class="grid-item">
+                            <h2 class="section-title searchable
+                                <i class="fas fa-cloud-sun"></i> Weather Forecast
+                            </h2>
+                            
+                            <div class="weather-info">
+                                <div>
+                                    <div class="weather-temp">32°C</div>
+                                    <div>Bhubaneswar, Odisha</div>
+                                </div>
+                                <div class="weather-icon">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="weather-details">
+                                <div class="weather-detail">
+                                    <i class="fas fa-wind"></i>
+                                    <div>Wind: 12 km/h</div>
+                                </div>
+                                <div class="weather-detail">
+                                    <i class="fas fa-tint"></i>
+                                    <div>Humidity: 65%</div>
+                                </div>
+                                <div class="weather-detail">
+                                    <i class="fas fa-cloud-rain"></i>
+                                    <div>Rain: 10%</div>
+                                </div>
+                                <div class="weather-detail">
+                                    <i class="fas fa-sun"></i>
+                                    <div>UV Index: 7</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Market Prices -->
+                        <div class="grid-item searchable">
+                            <h2 class="section-title">
+                                <i class="fas fa-chart-line"></i> Market Prices
+                            </h2>
+                            
+                            <table class="market-table">
+                                <thead>
+                                    <tr>
+                                        <th>Crop</th>
+                                        <th>Price (₹/Quintal)</th>
+                                        <th>Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Wheat</td>
+                                        <td>2,100</td>
+                                        <td class="trend-up">↑ 2.5%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Paddy</td>
+                                        <td>1,860</td>
+                                        <td class="trend-up">↑ 1.8%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maize</td>
+                                        <td>1,950</td>
+                                        <td class="trend-down">↓ 0.9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sugarcane</td>
+                                        <td>310</td>
+                                        <td class="trend-up">↑ 3.2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Potato</td>
+                                        <td>1,200</td>
+                                        <td class="trend-down">↓ 1.5%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Crop Progress -->
+                        <div class="grid-item">
+                            <h2 class="section-title">
+                                <i class="fas fa-seedling"></i> Crop Progress
+                            </h2>
+                            
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Wheat</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 65%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Paddy</span>
+                                    <span>42%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 42%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Maize</span>
+                                    <span>78%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 78%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Potato</span>
+                                    <span>35%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 35%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Activity -->
+                        <div class="grid-item">
+                            <h2 class="section-title">
+                                <i class="fas fa-bell"></i> Recent Activity
+                            </h2>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Irrigation System Activated</div>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-cloud-rain"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Rain forecast for tomorrow</div>
+                                    <div class="activity-time">5 hours ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New fertilizer order placed</div>
+                                    <div class="activity-time">Yesterday</div>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-tractor"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Tractor maintenance completed</div>
+                                    <div class="activity-time">2 days ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Full Width Section -->
+<div class="grid-item">
+  <h2 class="section-title">
+    <i class="fas fa-map"></i> Farm & Cold Storage Locations
+  </h2>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 30px; background: linear-gradient(rgba(0, 139, 139, 0.1), rgba(0, 206, 209, 0.1)); border-radius: 10px; padding: 20px; justify-content: center;">
+
+    <!-- Google Map Embed -->
+    <div style="width: 100%; max-width: 600px; height: 450px; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18973315.174781248!2d68.08703044343008!3d21.273777802059417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1750442936841!5m2!1sen!2sin" 
+        width="100%" 
+        height="100%" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+    <!-- Graph -->
+    <div style="width: 100%; max-width: 600px; height: 450px; background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+      <canvas id="storageChart" width="560" height="410"></canvas>
+    </div>
+
+  </div>
+</div>
+
+<!-- External Libraries -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart Script -->
+<script>
+  const ctx = document.getElementById('storageChart').getContext('2d');
+  const storageChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Odisha', 'Maharashtra', 'Punjab', 'Uttar Pradesh'],
+      datasets: [{
+        label: 'Cold Storage Capacity (in MT)',
+        data: [5000, 8000, 6000, 9000],
+        backgroundColor: ['darkcyan', 'green', 'red', 'navy']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Cold Storage Capacity by State'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Metric Tons (MT)' }
+        }
+      }
+    }
+  });
+</script>
+
+
+
+
+
+
+<div class="grid-item">
+    <h2 class="section-title">
+        <i class="fas fa-eye"></i> Jan AI Mitra - Vision Core
+    </h2>
+    
+    <div id="3d-visualization-container" style="height: 600px; border-radius: 10px; position: relative; background: #000;">
+        <!-- Loading spinner -->
+        <div id="3d-loading" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 10;">
+            <div style="text-align: center;">
+                <div class="cyber-spinner"></div>
+                <h3 style="margin-top: 15px; color: #0ff; font-family: 'Courier New', monospace;">INITIALIZING VISION CORE</h3>
+                <p style="color: #0ff; font-family: 'Courier New', monospace;">Loading neural matrices...</p>
+            </div>
+        </div>
+        
+        <!-- Info and Controls -->
+        <div id="3d-info" style="position: absolute; top: 10px; width: 100%; text-align: center; 
+            color: #0ff; font-family: 'Courier New', monospace; pointer-events: none; z-index: 5; 
+            text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;">
+            JAN AI MITRA :: VISION CORE v2.3.5
+        </div>
+        <div id="3d-controls" style="position: absolute; bottom: 10px; left: 10px; 
+            background: rgba(0,255,255,0.1); padding: 5px; border-radius: 3px; z-index: 5;
+            border: 1px solid #0ff; box-shadow: 0 0 10px #0ff;">
+            <button id="animateBtn" style="background: transparent; color: #0ff; border: 1px solid #0ff; 
+                padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;
+                font-family: 'Courier New', monospace; text-shadow: 0 0 5px #0ff;">
+                [ENABLE ANIMATION]
+            </button>
+            <button id="resetBtn" style="background: transparent; color: #0ff; border: 1px solid #0ff; 
+                padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;
+                font-family: 'Courier New', monospace; text-shadow: 0 0 5px #0ff;">
+                [RESET VIEWPORT]
+            </button>
+            <button id="scanBtn" style="background: transparent; color: #f0f; border: 1px solid #f0f; 
+                padding: 5px 10px; border-radius: 3px; cursor: pointer;
+                font-family: 'Courier New', monospace; text-shadow: 0 0 5px #f0f;">
+                [ACTIVATE SCAN]
+            </button>
+        </div>
+    </div>
+
+    <style>
+        /* Cyber spinner animation */
+        .cyber-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid transparent;
+            border-top: 3px solid #0ff;
+            border-right: 3px solid #f0f;
+            border-radius: 50%;
+            animation: cyber-spin 1s linear infinite;
+            margin: 0 auto;
+            box-shadow: 0 0 10px #0ff, 0 0 20px #f0f;
+        }
+        
+        @keyframes cyber-spin {
+            0% { transform: rotate(0deg); border-top-color: #0ff; border-right-color: #f0f; }
+            50% { border-top-color: #f0f; border-right-color: #0ff; }
+            100% { transform: rotate(360deg); border-top-color: #0ff; border-right-color: #f0f; }
+        }
+        
+        /* Canvas styling */
+        #3d-visualization-container canvas {
+            border-radius: 10px;
+            display: block;
+            width: 100%!important;
+            height: 100%!important;
+        }
+        
+        /* Button hover effects */
+        #animateBtn:hover, #resetBtn:hover {
+            background: rgba(0,255,255,0.2);
+            box-shadow: 0 0 15px #0ff;
+        }
+        
+        #scanBtn:hover {
+            background: rgba(255,0,255,0.2);
+            box-shadow: 0 0 15px #f0f;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only load on larger screens
+            if (window.innerWidth < 768) {
+                document.getElementById('3d-loading').innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <i class="fas fa-mobile-alt" style="font-size: 3rem; color: #0ff;"></i>
+                        <h3 style="margin-top: 15px; color: #0ff; font-family: 'Courier New', monospace;">TERMINAL ERROR</h3>
+                        <p style="color: #0ff; font-family: 'Courier New', monospace;">SYSTEM REQUIREMENTS NOT MET</p>
+                        <p style="color: #666;">Switch to desktop for full neural interface</p>
+                    </div>`;
+                document.getElementById('3d-info').style.display = 'none';
+                document.getElementById('3d-controls').style.display = 'none';
+                return;
+            }
+
+            // Load Three.js dynamically
+            const loadScript = (url) => {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            };
+
+            Promise.all([
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/EffectComposer.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/RenderPass.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/ShaderPass.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/OutlinePass.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/CopyShader.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/FXAAShader.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/shaders/LuminosityHighPassShader.js'),
+                loadScript('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/postprocessing/UnrealBloomPass.js')
+            ]).then(() => {
+                initializeCyberVisualization();
+            }).catch(() => {
+                document.getElementById('3d-loading').innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <i class="fas fa-skull" style="font-size: 3rem; color: #f00;"></i>
+                        <h3 style="margin-top: 15px; color: #f00; font-family: 'Courier New', monospace;">SYSTEM FAILURE</h3>
+                        <p style="color: #f00; font-family: 'Courier New', monospace;">CORE COMPONENTS CORRUPTED</p>
+                        <p style="color: #666;">Refresh terminal to reinitialize</p>
+                    </div>`;
+                document.getElementById('3d-info').style.display = 'none';
+                document.getElementById('3d-controls').style.display = 'none';
+            });
+
+            function initializeCyberVisualization() {
+                const container = document.getElementById('3d-visualization-container');
+                
+                // Scene setup
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x000000);
+                scene.fog = new THREE.FogExp2(0x000000, 0.002);
+                
+                // Camera setup
+                const camera = new THREE.PerspectiveCamera(
+                    60, 
+                    container.clientWidth / container.clientHeight, 
+                    0.1, 
+                    1000
+                );
+                camera.position.set(0, 2, 5);
+                
+                // Renderer setup
+                const renderer = new THREE.WebGLRenderer({ 
+                    antialias: true,
+                    alpha: false,
+                    powerPreference: "high-performance"
+                });
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                renderer.toneMapping = THREE.ReinhardToneMapping;
+                renderer.toneMappingExposure = 1.5;
+                container.appendChild(renderer.domElement);
+                
+                // Controls
+                const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.minDistance = 3;
+                controls.maxDistance = 15;
+                controls.maxPolarAngle = Math.PI * 0.9;
+                
+                // Bloom effect
+                const bloomParams = {
+                    exposure: 1,
+                    bloomStrength: 1.5,
+                    bloomThreshold: 0,
+                    bloomRadius: 0.5
+                };
+                
+                const renderScene = new THREE.RenderPass(scene, camera);
+                const bloomPass = new THREE.UnrealBloomPass(
+                    new THREE.Vector2(container.clientWidth, container.clientHeight),
+                    bloomParams.bloomStrength,
+                    bloomParams.bloomRadius,
+                    bloomParams.bloomThreshold
+                );
+                
+                const composer = new THREE.EffectComposer(renderer);
+                composer.addPass(renderScene);
+                composer.addPass(bloomPass);
+                
+                // Outline effect
+                const outlinePass = new THREE.OutlinePass(
+                    new THREE.Vector2(container.clientWidth, container.clientHeight),
+                    scene, 
+                    camera
+                );
+                outlinePass.edgeStrength = 5.0;
+                outlinePass.edgeGlow = 1.0;
+                outlinePass.edgeThickness = 2.0;
+                outlinePass.pulsePeriod = 2;
+                outlinePass.visibleEdgeColor.set(0x00ffff);
+                outlinePass.hiddenEdgeColor.set(0xff00ff);
+                composer.addPass(outlinePass);
+                
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0x222222);
+                scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+                directionalLight.position.set(5, 10, 7);
+                directionalLight.castShadow = true;
+                directionalLight.shadow.mapSize.width = 1024;
+                directionalLight.shadow.mapSize.height = 1024;
+                scene.add(directionalLight);
+                
+                // Neon lights
+                const neonLight1 = new THREE.PointLight(0x00ffff, 2, 10);
+                neonLight1.position.set(2, 3, 2);
+                scene.add(neonLight1);
+                
+                const neonLight2 = new THREE.PointLight(0xff00ff, 2, 10);
+                neonLight2.position.set(-2, 3, -2);
+                scene.add(neonLight2);
+                
+                // Grid floor
+                const gridHelper = new THREE.GridHelper(20, 20, 0x00ffff, 0x444444);
+                gridHelper.position.y = -0.5;
+                scene.add(gridHelper);
+                
+                // Create cyber core (central AI)
+                const cyberCore = createCyberCore(scene);
+                scene.add(cyberCore);
+                
+                // Create floating data nodes
+                const dataNodes = [];
+                const nodeColors = [0x00ffff, 0xff00ff, 0xffff00, 0xff6600, 0x9900ff];
+                const nodeTypes = ["VISION", "SPEECH", "ANALYTICS", "NETWORK", "MEMORY"];
+                
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i / 5) * Math.PI * 2;
+                    const distance = 3 + Math.random() * 2;
+                    const height = 1 + Math.random() * 2;
+                    
+                    const node = createDataNode(
+                        nodeTypes[i], 
+                        nodeColors[i], 
+                        [Math.cos(angle) * distance, height, Math.sin(angle) * distance]
+                    );
+                    
+                    scene.add(node.group);
+                    dataNodes.push(node);
+                }
+                
+                // Create holographic displays
+                const displays = [
+                    { title: "OBJECT TRACKING", data: ["12 ACTIVE", "98% ACCURACY"], position: [5, 3, 0] },
+                    { title: "FACIAL RECOG", data: ["87% MATCH", "3 ALERTS"], position: [-5, 3, 0] },
+                    { title: "SCHEME ANALYSIS", data: ["PM-KISAN: 92%", "UJJWALA: 88%"], position: [0, 3, 5] }
+                ];
+                
+                const holograms = [];
+                displays.forEach(display => {
+                    const hologram = createHologram(display.title, display.data, display.position);
+                    holograms.push(hologram);
+                    scene.add(hologram);
+                });
+                
+                // Create scanning beam
+                const scanBeam = new THREE.Group();
+                const beamGeometry = new THREE.ConeGeometry(0.5, 3, 32);
+                const beamMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x00ffff,
+                    transparent: true,
+                    opacity: 0.7,
+                    wireframe: true
+                });
+                const beam = new THREE.Mesh(beamGeometry, beamMaterial);
+                beam.rotation.x = Math.PI;
+                beam.position.y = 4;
+                scanBeam.add(beam);
+                scanBeam.visible = false;
+                scene.add(scanBeam);
+                
+                // Create data streams
+                const dataStreams = [];
+                for (let i = 0; i < 3; i++) {
+                    const stream = createDataStream();
+                    scene.add(stream);
+                    dataStreams.push(stream);
+                }
+                
+                // Animation state
+                let animationPlaying = false;
+                let scanActive = false;
+                let scanProgress = 0;
+                
+                document.getElementById('animateBtn').addEventListener('click', function() {
+                    animationPlaying = !animationPlaying;
+                    this.textContent = animationPlaying ? '[PAUSE ANIMATION]' : '[ENABLE ANIMATION]';
+                });
+                
+                document.getElementById('resetBtn').addEventListener('click', function() {
+                    controls.reset();
+                    camera.position.set(0, 2, 5);
+                    camera.lookAt(0, 1, 0);
+                });
+                
+                document.getElementById('scanBtn').addEventListener('click', function() {
+                    scanActive = !scanActive;
+                    scanBeam.visible = scanActive;
+                    this.textContent = scanActive ? '[SCAN ACTIVE]' : '[ACTIVATE SCAN]';
+                    scanProgress = 0;
+                });
+                
+                // Animation loop
+                function animate() {
+                    requestAnimationFrame(animate);
+                    
+                    const delta = clock.getDelta();
+                    const time = clock.getElapsedTime();
+                    
+                    // Update cyber core
+                    cyberCore.rotation.y = time * 0.2;
+                    cyberCore.children[0].material.uniforms.time.value = time;
+                    
+                    // Update data nodes
+                    if (animationPlaying) {
+                        dataNodes.forEach((node, index) => {
+                            node.group.position.y = node.originalPosition[1] + Math.sin(time * 2 + index) * 0.2;
+                            node.group.rotation.y = time * 0.5;
+                            node.innerCube.rotation.x = time * 0.3;
+                            node.innerCube.rotation.y = time * 0.4;
+                        });
+                        
+                        // Update holograms
+                        holograms.forEach(hologram => {
+                            hologram.rotation.y = time * 0.1;
+                            hologram.children.forEach(child => {
+                                if (child.material) {
+                                    child.material.opacity = 0.5 + Math.sin(time * 2) * 0.2;
+                                }
+                            });
+                        });
+                    }
+                    
+                    // Update scan beam
+                    if (scanActive) {
+                        scanProgress += delta;
+                        scanBeam.rotation.y = scanProgress * 2;
+                        scanBeam.position.x = Math.sin(scanProgress * 3) * 3;
+                        scanBeam.position.z = Math.cos(scanProgress * 3) * 3;
+                        
+                        if (scanProgress > 6) {
+                            scanActive = false;
+                            scanBeam.visible = false;
+                            document.getElementById('scanBtn').textContent = '[ACTIVATE SCAN]';
+                        }
+                    }
+                    
+                    // Update data streams
+                    dataStreams.forEach((stream, i) => {
+                        stream.children[0].material.uniforms.time.value = time * (0.5 + i * 0.2);
+                    });
+                    
+                    controls.update();
+                    composer.render();
+                }
+                
+                // Clock for animations
+                const clock = new THREE.Clock();
+                
+                // Handle resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = container.clientWidth / container.clientHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                    composer.setSize(container.clientWidth, container.clientHeight);
+                    outlinePass.setSize(container.clientWidth, container.clientHeight);
+                    bloomPass.setSize(container.clientWidth, container.clientHeight);
+                });
+                
+                // Start animation and hide loader
+                animate();
+                document.getElementById('3d-loading').style.display = 'none';
+            }
+            
+            function createCyberCore() {
+                const group = new THREE.Group();
+                
+                // Main core structure
+                const coreGeometry = new THREE.IcosahedronGeometry(1, 3);
+                const coreMaterial = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: { value: 0 },
+                        color1: { value: new THREE.Color(0x00ffff) },
+                        color2: { value: new THREE.Color(0xff00ff) }
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform float time;
+                        uniform vec3 color1;
+                        uniform vec3 color2;
+                        varying vec2 vUv;
+                        
+                        void main() {
+                            vec3 color = mix(color1, color2, sin(vUv.x * 10.0 + time * 2.0) * 0.5 + 0.5);
+                            float edge = smoothstep(0.2, 0.8, abs(sin(vUv.y * 20.0 + time * 3.0)));
+                            gl_FragColor = vec4(color * edge, 0.8);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    wireframe: false
+                });
+                const core = new THREE.Mesh(coreGeometry, coreMaterial);
+                group.add(core);
+                
+                // Inner structure
+                const innerGeometry = new THREE.OctahedronGeometry(0.6, 2);
+                const innerMaterial = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                const inner = new THREE.Mesh(innerGeometry, innerMaterial);
+                group.add(inner);
+                
+                // Data rings
+                const ringGeometry = new THREE.TorusGeometry(1.5, 0.05, 16, 100);
+                const ringMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x00ffff,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                
+                const ring1 = new THREE.Mesh(ringGeometry, ringMaterial);
+                ring1.rotation.x = Math.PI / 2;
+                group.add(ring1);
+                
+                const ring2 = new THREE.Mesh(ringGeometry, ringMaterial);
+                ring2.rotation.z = Math.PI / 2;
+                group.add(ring2);
+                
+                // Energy pulses
+                const pulseGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+                const pulseMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x00ffff,
+                    transparent: true
+                });
+                
+                for (let i = 0; i < 8; i++) {
+                    const angle = (i / 8) * Math.PI * 2;
+                    const pulse = new THREE.Mesh(pulseGeometry, pulseMaterial);
+                    pulse.position.set(Math.cos(angle) * 1.5, 0, Math.sin(angle) * 1.5);
+                    group.add(pulse);
+                }
+                
+                return group;
+            }
+            
+            function createDataNode(type, color, position) {
+                const group = new THREE.Group();
+                group.position.set(position[0], position[1], position[2]);
+                
+                // Outer frame
+                const frameGeometry = new THREE.BoxGeometry(1, 1, 1);
+                const frameMaterial = new THREE.MeshBasicMaterial({
+                    color: color,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.7
+                });
+                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+                group.add(frame);
+                
+                // Inner cube
+                const innerGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+                const innerMaterial = new THREE.MeshPhongMaterial({
+                    color: color,
+                    emissive: color,
+                    emissiveIntensity: 0.3,
+                    specular: 0x111111,
+                    shininess: 30
+                });
+                const innerCube = new THREE.Mesh(innerGeometry, innerMaterial);
+                group.add(innerCube);
+                
+                // Type label
+                const label = createCyberText(type, 0, -0.8, 0, color);
+                group.add(label);
+                
+                // Data connections
+                const connectorGeometry = new THREE.CylinderGeometry(0.02, 0.02, 1, 8);
+                const connectorMaterial = new THREE.MeshBasicMaterial({ color: color });
+                
+                const connector1 = new THREE.Mesh(connectorGeometry, connectorMaterial);
+                connector1.position.set(0, 0.5, 0);
+                connector1.rotation.z = Math.PI / 2;
+                group.add(connector1);
+                
+                const connector2 = new THREE.Mesh(connectorGeometry, connectorMaterial);
+                connector2.position.set(0, -0.5, 0);
+                connector2.rotation.z = Math.PI / 2;
+                group.add(connector2);
+                
+                return {
+                    group: group,
+                    innerCube: innerCube,
+                    originalPosition: position
+                };
+            }
+            
+            function createHologram(title, data, position) {
+                const group = new THREE.Group();
+                group.position.set(position[0], position[1], position[2]);
+                
+                // Main display
+                const displayGeometry = new THREE.PlaneGeometry(3, 2);
+                const displayMaterial = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: { value: 0 },
+                        color: { value: new THREE.Color(0x00ffff) }
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform float time;
+                        uniform vec3 color;
+                        varying vec2 vUv;
+                        
+                        void main() {
+                            float grid = max(
+                                step(0.98, mod(vUv.x * 20.0 + time * 0.5, 1.0)),
+                                step(0.98, mod(vUv.y * 20.0 + time * 0.5, 1.0))
+                            );
+                            float pulse = sin(vUv.x * 10.0 + time * 2.0) * 0.5 + 0.5;
+                            gl_FragColor = vec4(color * max(grid, pulse * 0.3), 0.3);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    wireframe: false
+                });
+                const display = new THREE.Mesh(displayGeometry, displayMaterial);
+                group.add(display);
+                
+                // Border
+                const borderGeometry = new THREE.TorusGeometry(1.8, 0.05, 8, 32, Math.PI);
+                const borderMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x00ffff,
+                    transparent: true,
+                    opacity: 0.7
+                });
+                const border = new THREE.Mesh(borderGeometry, borderMaterial);
+                border.rotation.x = Math.PI / 2;
+                border.position.y = 0.1;
+                group.add(border);
+                
+                // Title
+                const titleLabel = createCyberText(title, 0, 0.7, 0.01, 0x00ffff);
+                group.add(titleLabel);
+                
+                // Data items
+                data.forEach((item, index) => {
+                    const itemLabel = createCyberText(item, 0, 0.2 - (index * 0.4), 0.01, 0xffffff);
+                    group.add(itemLabel);
+                });
+                
+                return group;
+            }
+            
+            function createDataStream() {
+                const group = new THREE.Group();
+                
+                const geometry = new THREE.BufferGeometry();
+                const count = 100;
+                const positions = new Float32Array(count * 3);
+                const scales = new Float32Array(count);
+                
+                for (let i = 0; i < count; i++) {
+                    const i3 = i * 3;
+                    positions[i3] = (Math.random() - 0.5) * 10;
+                    positions[i3 + 1] = Math.random() * 5;
+                    positions[i3 + 2] = (Math.random() - 0.5) * 10;
+                    
+                    scales[i] = Math.random();
+                }
+                
+                geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+                
+                const material = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: { value: 0 },
+                        size: { value: 0.1 },
+                        color: { value: new THREE.Color(0x00ffff) }
+                    },
+                    vertexShader: `
+                        attribute float scale;
+                        uniform float time;
+                        uniform float size;
+                        
+                        void main() {
+                            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                            gl_PointSize = size * (scale + 0.1) * (300.0 / -mvPosition.z) * (sin(time + scale * 10.0) * 0.5 + 0.5);
+                            gl_Position = projectionMatrix * mvPosition;
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform vec3 color;
+                        
+                        void main() {
+                            float r = 0.0;
+                            vec2 cxy = 2.0 * gl_PointCoord - 1.0;
+                            r = dot(cxy, cxy);
+                            if (r > 1.0) {
+                                discard;
+                            }
+                            gl_FragColor = vec4(color, 1.0 - r);
+                        }
+                    `,
+                    transparent: true,
+                    depthWrite: false
+                });
+                
+                const points = new THREE.Points(geometry, material);
+                group.add(points);
+                
+                return group;
+            }
+            
+            function createCyberText(text, x, y, z, color) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 512;
+                canvas.height = 256;
+                const context = canvas.getContext('2d');
+                
+                // Background
+                context.fillStyle = 'rgba(0, 0, 0, 0)';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Text glow
+                const hexColor = '#' + color.toString(16).padStart(6, '0');
+                context.shadowColor = hexColor;
+                context.shadowBlur = 15;
+                context.shadowOffsetX = 0;
+                context.shadowOffsetY = 0;
+                
+                // Text
+                context.font = 'Bold 24px "Courier New", monospace';
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.fillStyle = hexColor;
+                context.fillText(text, canvas.width / 2, canvas.height / 2);
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                const material = new THREE.SpriteMaterial({ 
+                    map: texture,
+                    transparent: true,
+                    depthTest: false
+                });
+                const sprite = new THREE.Sprite(material);
+                sprite.position.set(x, y, z);
+                sprite.scale.set(1.5, 0.75, 1);
+                sprite.center.set(0.5, 0.5);
+                
+                return sprite;
+            }
+        });
+    </script>
+</div>
+
+
+
+
+                    
+                    <!-- Footer -->
+                    <div class="dashboard-footer">
+                        <p>© 2025 AgriTech - Agriculture Department. All rights reserved.</p>
+                    </div>
+                </div>
+                
+                <!-- Crop Management Section -->
+<div id="crop-management" class="content-section">
+    <h1 class="dashboard-title">
+        <i class="fas fa-seedling"></i> Crop Management
+    </h1>
+    
+    <div class="section-content animated fadeIn">
+        <div class="section-header">
+            <h3>Active Crops</h3>
+            <button id="add-crop-btn" class="btn-primary">
+                <i class="fas fa-plus"></i> Add New Crop
+            </button>
+        </div>
+        
+        <div class="crop-list">
+            <!-- Wheat -->
+            <div class="crop-card animated slideInLeft" style="animation-delay: 0.1s;">
+                <div class="crop-header">
+                    <div class="crop-icon wheat-bg">
+                        <i class="fas fa-wheat"></i>
+                    </div>
+                    <h4>Wheat</h4>
+                    <span class="health-status good">Good</span>
+                </div>
+                <div class="crop-details">
+                    <p><i class="fas fa-map-marked-alt"></i> <strong>Area:</strong> 250 acres (Field A1-A5)</p>
+                    <p><i class="fas fa-calendar-alt"></i> <strong>Planting Date:</strong> 15 Nov 2024</p>
+                    <p><i class="fas fa-tasks"></i> <strong>Stage:</strong> Flowering (Day 45/110)</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 41%; background-color: #4CAF50;"></div>
+                    </div>
+                    <p><i class="fas fa-tint"></i> <strong>Irrigation:</strong> Next in 2 days</p>
+                    <p><i class="fas fa-bug"></i> <strong>Pests:</strong> Low risk</p>
+                </div>
+                <div class="crop-actions">
+                    <button class="btn-action"><i class="fas fa-chart-line"></i> Stats</button>
+                    <button class="btn-action"><i class="fas fa-tasks"></i> Tasks</button>
+                    <button class="btn-action"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+            </div>
+            
+            <!-- Paddy -->
+            <div class="crop-card animated slideInLeft" style="animation-delay: 0.2s;">
+                <div class="crop-header">
+                    <div class="crop-icon rice-bg">
+                        <i class="fas fa-rice"></i>
+                    </div>
+                    <h4>Paddy</h4>
+                    <span class="health-status excellent">Excellent</span>
+                </div>
+                <div class="crop-details">
+                    <p><i class="fas fa-map-marked-alt"></i> <strong>Area:</strong> 180 acres (Field B1-B3)</p>
+                    <p><i class="fas fa-calendar-alt"></i> <strong>Planting Date:</strong> 20 Nov 2024</p>
+                    <p><i class="fas fa-tasks"></i> <strong>Stage:</strong> Tillering (Day 40/120)</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 33%; background-color: #8BC34A;"></div>
+                    </div>
+                    <p><i class="fas fa-tint"></i> <strong>Irrigation:</strong> Flooded (5cm depth)</p>
+                    <p><i class="fas fa-bug"></i> <strong>Pests:</strong> No threats detected</p>
+                </div>
+                <div class="crop-actions">
+                    <button class="btn-action"><i class="fas fa-chart-line"></i> Stats</button>
+                    <button class="btn-action"><i class="fas fa-tasks"></i> Tasks</button>
+                    <button class="btn-action"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+            </div>
+            
+            <!-- Maize -->
+            <div class="crop-card animated slideInLeft" style="animation-delay: 0.3s;">
+                <div class="crop-header">
+                    <div class="crop-icon maize-bg">
+                        <i class="fas fa-corn"></i>
+                    </div>
+                    <h4>Maize</h4>
+                    <span class="health-status moderate">Moderate</span>
+                </div>
+                <div class="crop-details">
+                    <p><i class="fas fa-map-marked-alt"></i> <strong>Area:</strong> 150 acres (Field C1-C4)</p>
+                    <p><i class="fas fa-calendar-alt"></i> <strong>Planting Date:</strong> 10 Dec 2024</p>
+                    <p><i class="fas fa-tasks"></i> <strong>Stage:</strong> Vegetative (Day 25/90)</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 28%; background-color: #FFC107;"></div>
+                    </div>
+                    <p><i class="fas fa-tint"></i> <strong>Irrigation:</strong> Drip irrigation active</p>
+                    <p><i class="fas fa-bug"></i> <strong>Pests:</strong> Armyworm detected</p>
+                </div>
+                <div class="crop-actions">
+                    <button class="btn-action warning"><i class="fas fa-exclamation-triangle"></i> Alert</button>
+                    <button class="btn-action"><i class="fas fa-tasks"></i> Tasks</button>
+                    <button class="btn-action"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+            </div>
+            
+            <!-- Potato -->
+            <div class="crop-card animated slideInLeft" style="animation-delay: 0.4s;">
+                <div class="crop-header">
+                    <div class="crop-icon potato-bg">
+                        <i class="fas fa-carrot"></i>
+                    </div>
+                    <h4>Potato</h4>
+                    <span class="health-status good">Good</span>
+                </div>
+                <div class="crop-details">
+                    <p><i class="fas fa-map-marked-alt"></i> <strong>Area:</strong> 75 acres (Field D1-D2)</p>
+                    <p><i class="fas fa-calendar-alt"></i> <strong>Planting Date:</strong> 05 Dec 2024</p>
+                    <p><i class="fas fa-tasks"></i> <strong>Stage:</strong> Tuber Formation (Day 35/80)</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 44%; background-color: #4CAF50;"></div>
+                    </div>
+                    <p><i class="fas fa-tint"></i> <strong>Irrigation:</strong> Sprinkler scheduled</p>
+                    <p><i class="fas fa-bug"></i> <strong>Pests:</strong> Late blight warning</p>
+                </div>
+                <div class="crop-actions">
+                    <button class="btn-action"><i class="fas fa-chart-line"></i> Stats</button>
+                    <button class="btn-action warning"><i class="fas fa-spray-can"></i> Treat</button>
+                    <button class="btn-action"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section-content animated fadeIn">
+        <div class="section-header">
+            <h3>Crop Health Monitoring</h3>
+            <div class="time-filter">
+                <button class="time-btn active">7D</button>
+                <button class="time-btn">1M</button>
+                <button class="time-btn">3M</button>
+                <button class="time-btn">All</button>
+            </div>
+        </div>
+        
+        <div class="health-dashboard">
+            <div class="health-chart-container">
+                <div class="chart-header">
+                    <h4><i class="fas fa-heartbeat"></i> Overall Health Index</h4>
+                    <span class="chart-value">82.4 <small>/100</small></span>
+                </div>
+                <div id="health-trend-chart" class="chart-area">
+                    <!-- Chart will be rendered here -->
+                    <canvas id="healthChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="health-metrics">
+                <div class="metric-card">
+                    <div class="metric-icon ndvi-bg">
+                        <i class="fas fa-satellite-dish"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h5>NDVI</h5>
+                        <p class="metric-value">0.68</p>
+                        <p class="metric-change positive"><i class="fas fa-arrow-up"></i> 12%</p>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon moisture-bg">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h5>Soil Moisture</h5>
+                        <p class="metric-value">42%</p>
+                        <p class="metric-change negative"><i class="fas fa-arrow-down"></i> 5%</p>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon temp-bg">
+                        <i class="fas fa-temperature-high"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h5>Canopy Temp</h5>
+                        <p class="metric-value">24.3°C</p>
+                        <p class="metric-change neutral"><i class="fas fa-equals"></i> Stable</p>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon pest-bg">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h5>Pest Risk</h5>
+                        <p class="metric-value">Medium</p>
+                        <p class="metric-change positive"><i class="fas fa-arrow-up"></i> 8%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section-content animated fadeIn">
+        <h3>Recent Activities</h3>
+        <div class="activity-timeline">
+            <div class="timeline-item">
+                <div class="timeline-badge irrigation"></div>
+                <div class="timeline-content">
+                    <h5>Irrigation Completed</h5>
+                    <p>Field A1-A3 watered for 45 minutes</p>
+                    <small><i class="fas fa-clock"></i> 2 hours ago</small>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-badge alert"></div>
+                <div class="timeline-content">
+                    <h5>Pest Alert</h5>
+                    <p>Armyworm detected in Maize field C2</p>
+                    <small><i class="fas fa-clock"></i> 5 hours ago</small>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-badge fertilizer"></div>
+                <div class="timeline-content">
+                    <h5>Fertilizer Applied</h5>
+                    <p>NPK 20-10-10 applied to Wheat fields</p>
+                    <small><i class="fas fa-clock"></i> Yesterday, 3:45 PM</small>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-badge harvest"></div>
+                <div class="timeline-content">
+                    <h5>Harvest Scheduled</h5>
+                    <p>Potato harvest planned for Feb 20-25</p>
+                    <small><i class="fas fa-clock"></i> Yesterday, 10:30 AM</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <style>
+  
+</style> -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load Chart.js dynamically
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.onload = function() {
+        initializeCharts();
+    };
+    document.head.appendChild(script);
+    
+    function initializeCharts() {
+        // Health Trend Chart
+        const healthCtx = document.getElementById('healthChart').getContext('2d');
+        const healthChart = new Chart(healthCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan 1', 'Jan 8', 'Jan 15', 'Jan 22', 'Jan 29', 'Feb 5', 'Feb 12'],
+                datasets: [{
+                    label: 'Health Index',
+                    data: [78, 82, 85, 80, 83, 81, 82],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 70,
+                        max: 90
+                    }
+                }
+            }
+        });
+        
+        // Add animation to chart when it comes into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    healthChart.update();
+                }
+            });
+        });
+        
+        observer.observe(document.getElementById('health-trend-chart'));
+    }
+    
+    // Add hover effects to crop cards
+    const cropCards = document.querySelectorAll('.crop-card');
+    cropCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.boxShadow = '';
+        });
+    });
+    
+    // Time filter buttons
+    const timeButtons = document.querySelectorAll('.time-btn');
+    timeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            timeButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            // In a real app, this would filter the chart data
+        });
+    });
+    
+    // Add crop button
+    document.getElementById('add-crop-btn').addEventListener('click', function() {
+        alert('Add new crop functionality would open a form in a real application');
+    });
+});
+</script>
+                
+                <!-- Irrigation Section -->
+                <div id="irrigation" class="content-section">
+                    <h1 class="dashboard-title">
+                        <i class="fas fa-tint"></i> Irrigation Management
+                    </h1>
+                    
+                    <div class="dashboard-grid">
+                        <div class="grid-item">
+                            <h2 class="section-title">
+                                <i class="fas fa-tint"></i> Irrigation Status
+                            </h2>
+                            
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Field A1 (Wheat)</span>
+                                    <span>Irrigating</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 65%; background: #20b2aa;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Field B2 (Paddy)</span>
+                                    <span>Scheduled</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-container">
+                                <div class="progress-header">
+                                    <span>Field C3 (Maize)</span>
+                                    <span>Completed</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 100%; background: #008b8b;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid-item">
+                            <h2 class="section-title">
+                                <i class="fas fa-water"></i> Water Usage
+                            </h2>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="stat-value">12,500 L</div>
+                                <div class="stat-label">Water Used Today</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <div class="stat-value">78%</div>
+                                <div class="stat-label">Efficiency Rating</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-content">
+                        <h3>Irrigation Schedule</h3>
+                        <div style="height: 300px; background: #f8fafa; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--primary);"></i>
+                                <h3 style="margin-top: 15px; color: var(--dark);">Irrigation Calendar</h3>
+                                <p style="color: #666;">View and manage irrigation schedules</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weather Section -->
+<div id="weather" class="content-section">
+    <h1 class="dashboard-title animate-fade-in">
+        <i class="fas fa-cloud-sun"></i> Weather Forecast & Advisory
+    </h1>
+    
+    <div class="dashboard-grid">
+        <!-- Current Weather Card -->
+        <div class="grid-item animate-slide-in-left">
+            <h2 class="section-title">
+                <i class="fas fa-map-marker-alt"></i> Current Weather <span id="location" class="location-text">Bhubaneswar, Odisha</span>
+            </h2>
+            
+            <div class="weather-info animate-pop">
+                <div class="weather-main">
+                    <div class="weather-temp-container">
+                        <div id="current-temp" class="weather-temp">32°C</div>
+                        <div class="weather-feelslike">Feels like 34°C</div>
+                    </div>
+                    <div id="weather-condition" class="weather-condition">Partly Cloudy</div>
+                </div>
+                <div id="weather-icon" class="weather-icon">
+                    <i class="fas fa-cloud-sun fa-3x weather-icon-sunny"></i>
+                </div>
+            </div>
+            
+            <div class="weather-details">
+                <div class="weather-detail animate-grow" style="animation-delay: 0.1s;">
+                    <div class="detail-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="detail-content">
+                        <div class="detail-value"><span id="wind-speed">12</span> km/h</div>
+                        <div class="detail-label">Wind</div>
+                    </div>
+                </div>
+                
+                <div class="weather-detail animate-grow" style="animation-delay: 0.2s;">
+                    <div class="detail-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="detail-content">
+                        <div class="detail-value"><span id="humidity">65</span>%</div>
+                        <div class="detail-label">Humidity</div>
+                    </div>
+                </div>
+                
+                <div class="weather-detail animate-grow" style="animation-delay: 0.3s;">
+                    <div class="detail-icon">
+                        <i class="fas fa-cloud-rain"></i>
+                    </div>
+                    <div class="detail-content">
+                        <div class="detail-value"><span id="rain-chance">10</span>%</div>
+                        <div class="detail-label">Rain</div>
+                    </div>
+                </div>
+                
+                <div class="weather-detail animate-grow" style="animation-delay: 0.4s;">
+                    <div class="detail-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="detail-content">
+                        <div class="detail-value"><span id="uv-index">7</span></div>
+                        <div class="detail-label">UV Index</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="weather-update-time animate-fade-in">
+                Last updated: <span id="update-time">Just now</span>
+            </div>
+        </div>
+        
+        <!-- 7-Day Forecast Card -->
+        <div class="grid-item animate-slide-in-right">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-alt"></i> 7-Day Forecast
+            </h2>
+            
+            <div class="forecast-container">
+                <div class="forecast-scroll">
+                    <div class="forecast-day animate-pop" style="animation-delay: 0.1s;">
+                        <div class="day-name">Today</div>
+                        <div class="day-icon"><i class="fas fa-cloud-sun"></i></div>
+                        <div class="day-temp">32°<span class="temp-low">24°</span></div>
+                        <div class="day-condition">Partly Cloudy</div>
+                    </div>
+                    
+                    <div class="forecast-day animate-pop" style="animation-delay: 0.2s;">
+                        <div class="day-name">Tue</div>
+                        <div class="day-icon"><i class="fas fa-cloud-rain"></i></div>
+                        <div class="day-temp">31°<span class="temp-low">23°</span></div>
+                        <div class="day-condition">Scattered Showers</div>
+                    </div>
+                    
+                    <div class="forecast-day animate-pop" style="animation-delay: 0.3s;">
+                        <div class="day-name">Wed</div>
+                        <div class="day-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
+                        <div class="day-temp">30°<span class="temp-low">22°</span></div>
+                        <div class="day-condition">Rain</div>
+                    </div>
+                    
+                    <div class="forecast-day animate-pop" style="animation-delay: 0.4s;">
+                        <div class="day-name">Thu</div>
+                        <div class="day-icon"><i class="fas fa-cloud-showers-heavy"></i></div>
+                        <div class="day-temp">29°<span class="temp-low">22°</span></div>
+                        <div class="day-condition">Rain</div>
+                    </div>
+                    
+                    <div class="forecast-day animate-pop" style="animation-delay: 0.5s;">
+                        <div class="day-name">Fri</div>
+                        <div class="day-icon"><i class="fas fa-cloud-sun"></i></div>
+                        <div class="day-temp">31°<span class="temp-low">23°</span></div>
+                        <div class="day-condition">Partly Cloudy</div>
+                    </div>
+                    
+                    <div class="forecast-day animate-pop" style="animation-delay: 0.6s;">
+                        <div class="day-name">Sat</div>
+                        <div class="day-icon"><i class="fas fa-sun"></i></div>
+                        <div class="day-temp">33°<span class="temp-low">24°</span></div>
+                        <div class="day-condition">Sunny</div>
+                    </div>
+                    
+                    <div class="forecast-day animate-pop" style="animation-delay: 0.7s;">
+                        <div class="day-name">Sun</div>
+                        <div class="day-icon"><i class="fas fa-cloud-sun"></i></div>
+                        <div class="day-temp">32°<span class="temp-low">24°</span></div>
+                        <div class="day-condition">Partly Cloudy</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="forecast-note animate-fade-in">
+                <i class="fas fa-info-circle"></i> Rain expected mid-week - plan field work accordingly
+            </div>
+        </div>
+    </div>
+    
+    <!-- Weather Impact Section -->
+    <div class="section-content animate-fade-in" style="animation-delay: 0.3s;">
+        <h3><i class="fas fa-seedling"></i> Weather Impact Analysis</h3>
+        
+        <div class="weather-impact-container">
+            <div class="impact-card animate-slide-in-left" style="animation-delay: 0.4s;">
+                <div class="impact-icon temp-impact">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="impact-content">
+                    <h4>Temperature Advisory</h4>
+                    <p>Current temperatures are optimal for rice cultivation. Maximum temperature approaching 34°C may require additional irrigation.</p>
+                </div>
+            </div>
+            
+            <div class="impact-card animate-slide-in-left" style="animation-delay: 0.5s;">
+                <div class="impact-icon rain-impact">
+                    <i class="fas fa-cloud-rain"></i>
+                </div>
+                <div class="impact-content">
+                    <h4>Rainfall Forecast</h4>
+                    <p>Expected 20mm rainfall on Wednesday. Postpone fertilizer application to avoid runoff. Ideal for upcoming paddy transplantation.</p>
+                </div>
+            </div>
+            
+            <div class="impact-card animate-slide-in-left" style="animation-delay: 0.6s;">
+                <div class="impact-icon wind-impact">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <div class="impact-content">
+                    <h4>Wind Conditions</h4>
+                    <p>Moderate winds (12-15 km/h) may affect pesticide spraying. Schedule spraying for early morning when winds are calmer.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Real-time Weather API Integration -->
+<script>
+// This would be replaced with actual API calls in production
+document.addEventListener('DOMContentLoaded', function() {
+    // Simulate loading real-time data
+    setTimeout(function() {
+        // Update current weather
+        document.getElementById('current-temp').textContent = '33°C';
+        document.getElementById('weather-condition').textContent = 'Mostly Sunny';
+        document.getElementById('wind-speed').textContent = '14';
+        document.getElementById('humidity').textContent = '62';
+        document.getElementById('rain-chance').textContent = '5';
+        document.getElementById('uv-index').textContent = '8';
+        document.getElementById('update-time').textContent = new Date().toLocaleTimeString();
+        
+        // Change weather icon
+        const weatherIcon = document.getElementById('weather-icon');
+        weatherIcon.innerHTML = '<i class="fas fa-sun fa-3x weather-icon-sunny"></i>';
+        
+        // Add pulse animation to show update
+        weatherIcon.classList.add('animate-pulse');
+        setTimeout(() => weatherIcon.classList.remove('animate-pulse'), 1000);
+        
+    }, 1500);
+    
+    // Simulate geolocation
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                // In a real app, we'd reverse geocode to get location name
+                document.getElementById('location').textContent = 'Your Current Location';
+            },
+            function(error) {
+                console.log('Geolocation error:', error);
+            }
+        );
+    }
+});
+</script>
+
+<!-- <style>
+/* Animation Styles */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.animate-pop {
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.animate-grow {
+    animation: growIn 0.4s ease-out forwards;
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.animate-pulse {
+    animation: pulse 1s ease;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes popIn {
+    0% { 
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    80% {
+        transform: scale(1.02);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes growIn {
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Current Weather Styles */
+.weather-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+    border-radius: 12px;
+}
+
+.weather-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.weather-temp-container {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.weather-temp {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--dark);
+}
+
+.weather-feelslike {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.weather-condition {
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin-top: 5px;
+}
+
+.weather-icon {
+    font-size: 3rem;
+    color: #ffb347;
+}
+
+.weather-icon-sunny {
+    color: #ffb347;
+}
+
+.weather-icon-rain {
+    color: #6bb9f0;
+}
+
+.weather-icon-cloudy {
+    color: #a4b0be;
+}
+
+/* Weather Details Styles */
+.weather-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.weather-detail {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.detail-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    background: rgba(70, 130, 180, 0.1);
+    color: var(--primary);
+}
+
+.detail-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+.weather-update-time {
+    font-size: 0.8rem;
+    color: #666;
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* 7-Day Forecast Styles */
+.forecast-container {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-top: 15px;
+}
+
+.forecast-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.forecast-day {
+    min-width: 90px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    flex-shrink: 0;
+}
+
+.day-name {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.day-icon {
+    font-size: 1.5rem;
+    margin: 8px 0;
+    color: var(--primary);
+}
+
+.day-temp {
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+.temp-low {
+    color: #666;
+    margin-left: 4px;
+}
+
+.day-condition {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.forecast-note {
+    background: #e3f2fd;
+    color: #0d47a1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Weather Impact Styles */
+.weather-impact-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.impact-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.impact-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.impact-icon.temp-impact {
+    background: rgba(239, 83, 80, 0.1);
+    color: #ef5350;
+}
+
+.impact-icon.rain-impact {
+    background: rgba(66, 165, 245, 0.1);
+    color: #42a5f5;
+}
+
+.impact-icon.wind-impact {
+    background: rgba(121, 134, 203, 0.1);
+    color: #7986cb;
+}
+
+.impact-content h4 {
+    margin: 0 0 8px 0;
+    color: var(--dark);
+}
+
+.impact-content p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .weather-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .weather-temp {
+        font-size: 2.5rem;
+    }
+    
+    .weather-impact-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style> -->
+                <!-- Market Prices Section -->
+                <div id="market-prices" class="content-section">
+                    <h1 class="dashboard-title">
+                        <i class="fas fa-chart-line"></i> Market Prices
+                    </h1>
+                    
+                    <div class="section-content">
+                        <h3>Current Commodity Prices (₹/Quintal)</h3>
+                        <table class="market-table">
+                            <thead>
+                                <tr>
+                                    <th>Crop</th>
+                                    <th>Current</th>
+                                    <th>Yesterday</th>
+                                    <th>Change</th>
+                                    <th>Trend (7d)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Wheat</td>
+                                    <td>2,100</td>
+                                    <td>2,048</td>
+                                    <td class="trend-up">+52</td>
+                                    <td class="trend-up">↑ 2.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Paddy</td>
+                                    <td>1,860</td>
+                                    <td>1,826</td>
+                                    <td class="trend-up">+34</td>
+                                    <td class="trend-up">↑ 1.8%</td>
+                                </tr>
+                                <tr>
+                                    <td>Maize</td>
+                                    <td>1,950</td>
+                                    <td>1,968</td>
+                                    <td class="trend-down">-18</td>
+                                    <td class="trend-down">↓ 0.9%</td>
+                                </tr>
+                                <tr>
+                                    <td>Sugarcane</td>
+                                    <td>310</td>
+                                    <td>300</td>
+                                    <td class="trend-up">+10</td>
+                                    <td class="trend-up">↑ 3.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>Potato</td>
+                                    <td>1,200</td>
+                                    <td>1,218</td>
+                                    <td class="trend-down">-18</td>
+                                    <td class="trend-down">↓ 1.5%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section-content">
+    <h3>Price Trends</h3>
+
+    <!-- Data Table -->
+    <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <thead style="background-color: #007bff; color: white;">
+            <tr>
+                <th style="padding: 10px;">APMC</th>
+                <th>Commodity</th>
+                <th>Min Price (₹)</th>
+                <th>Modal Price (₹)</th>
+                <th>Max Price (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>ANANDAPUR</td><td>PUMPKIN</td><td>900</td><td>900</td><td>900</td></tr>
+            <tr><td>ANANDAPUR</td><td>BRINJAL</td><td>300</td><td>3000</td><td>3000</td></tr>
+            <tr><td>ATHMALLIK</td><td>MANGO RAW</td><td>1650</td><td>1650</td><td>1650</td></tr>
+            <tr><td>BAHADAJHOLA</td><td>BRINJAL</td><td>3480</td><td>3500</td><td>3500</td></tr>
+            <tr><td>BAHADAJHOLA</td><td>CUCUMBER</td><td>3200</td><td>3200</td><td>3500</td></tr>
+            <tr><td>BAHADAJHOLA</td><td>BITTER GOURD</td><td>3850</td><td>4000</td><td>4000</td></tr>
+            <tr><td>BAHADAJHOLA</td><td>CAULIFLOWER</td><td>3875</td><td>3875</td><td>4000</td></tr>
+            <tr><td>BAHADAJHOLA</td><td>TOMATO</td><td>2355</td><td>2355</td><td>2400</td></tr>
+            <tr><td>BALUGAON</td><td>PUMPKIN</td><td>1400</td><td>1400</td><td>1400</td></tr>
+            <tr><td>BALUGAON</td><td>TOMATO</td><td>2100</td><td>2100</td><td>2100</td></tr>
+            <tr><td>BALUGAON</td><td>BANANA</td><td>1650</td><td>1650</td><td>1650</td></tr>
+        </tbody>
+    </table>
+
+    <!-- Generate Button -->
+    <button onclick="generateChart(event)" id="generateBtn">Generate Graph</button>
+
+    <!-- Graph Container -->
+    <div id="graphContainer" style="display: none; height: 350px; background: #f8fafa; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <canvas id="priceTrendChart"></canvas>
+    </div>
+</div>
+
+<script>
+    let chartInstance = null;
+
+    function generateChart(event) {
+        const graphContainer = document.getElementById('graphContainer');
+        const button = event.target;
+
+        // Toggle display
+        if (graphContainer.style.display === 'none' || graphContainer.style.display === '') {
+            graphContainer.style.display = 'block';
+            button.innerText = "Hide Graph";
+
+            const ctx = document.getElementById('priceTrendChart').getContext('2d');
+
+            // Destroy previous instance if it exists
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'ANANDAPUR - Pumpkin', 'ANANDAPUR - Brinjal', 'ATHMALLIK - Mango Raw',
+                        'BAHADAJHOLA - Brinjal', 'BAHADAJHOLA - Cucumber', 'BAHADAJHOLA - Bitter Gourd',
+                        'BAHADAJHOLA - Cauliflower', 'BAHADAJHOLA - Tomato',
+                        'BALUGAON - Pumpkin', 'BALUGAON - Tomato', 'BALUGAON - Banana'
+                    ],
+                    datasets: [
+                        {
+                            label: 'Min Price',
+                            data: [900, 300, 1650, 3480, 3200, 3850, 3875, 2355, 1400, 2100, 1650],
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                        },
+                        {
+                            label: 'Modal Price',
+                            data: [900, 3000, 1650, 3500, 3200, 4000, 3875, 2355, 1400, 2100, 1650],
+                            backgroundColor: 'rgba(255, 206, 86, 0.6)'
+                        },
+                        {
+                            label: 'Max Price',
+                            data: [900, 3000, 1650, 3500, 3500, 4000, 4000, 2400, 1400, 2100, 1650],
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Live APMC Commodity Prices (in ₹)',
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            }
+                        },
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.dataset.label}: ₹${context.parsed.y}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Price (₹)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                callback: function (value) {
+                                    return this.getLabelForValue(value).split(' - ')[1];
+                                },
+                                maxRotation: 45,
+                                minRotation: 0,
+                                autoSkip: false
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            // Hide chart and destroy instance
+            graphContainer.style.display = 'none';
+            button.innerText = "Generate Graph";
+
+            if (chartInstance) {
+                chartInstance.destroy();
+                chartInstance = null;
+            }
+        }
+    }
+</script>
+                </div>
+                
+                <!-- Equipment Section -->
+                <div id="equipment" class="content-section">
+                    <h1 class="dashboard-title">
+                        <i class="fas fa-tractor"></i> Farm Equipment
+                    </h1>
+                    
+                    <div class="equipment-cards">
+    <!-- <h2 class="section-title"><i class="fas fa-box"></i> Available Equipment</h2> -->
+    <div class="card-grid">
+
+        <!-- Tractor Card -->
+        <div class="equipment-card">
+            <img src="https://cdn.tractorsdekho.com/in/mahindra/yuvraj-215-nxt/mahindra-yuvraj-215-nxt-21206.jpg?impolicy=resize&imwidth=480" alt="Tractor" class="equipment-img">
+            <h3>Tractor #1</h3>
+            <p>Type: 4WD Utility Tractor</p>
+            <p>Company: Mahindra</p>
+            <p>Price: ₹7,00,000</p>
+            <button onclick="viewDetails('Tractor #1')">View Details</button>
+            <button onclick="compareEquipment('Tractor #1')">Compare</button>
+        </div>
+
+        <!-- Harvester Card -->
+        <div class="equipment-card">
+            <img src="https://www.deere.com/assets/images/region-4/products/harvesting/x-series/x91000-r4x000619_rrd.jpg" alt="Harvester" class="equipment-img">
+            <h3>Harvester #3</h3>
+            <p>Type: Combine Harvester</p>
+            <p>Company: John Deere</p>
+            <p>Price: ₹22,00,000</p>
+            <button onclick="viewDetails('Harvester #3')">View Details</button>
+            <button onclick="compareEquipment('Harvester #3')">Compare</button>
+        </div>
+
+        <!-- Irrigation Pump Card -->
+        <div class="equipment-card">
+            <img src="https://images-cdn.ubuy.co.in/66222a2b238a0443d61eb375-high-pressure-3inch-4kw-7-5hp-gasoline.jpg" alt="Irrigation Pump" class="equipment-img">
+            <h3>Irrigation Pump #2</h3>
+            <p>Type: Submersible Pump</p>
+            <p>Company: Kirloskar</p>
+            <p>Price: ₹35,000</p>
+            <button onclick="viewDetails('Irrigation Pump #2')">View Details</button>
+            <button onclick="compareEquipment('Irrigation Pump #2')">Compare</button>
+        </div>
+
+        <!-- Power Tiller Card -->
+        <div class="equipment-card">
+            <img src="https://raidco.in/agro/wp-content/uploads/2023/10/power-tiller.png" alt="Power Tiller" class="equipment-img">
+            <h3>Power Tiller #4</h3>
+            <p>Type: Diesel Power Tiller</p>
+            <p>Company: VST Shakti</p>
+            <p>Price: ₹1,85,000</p>
+            <button onclick="viewDetails('Power Tiller #4')">View Details</button>
+            <button onclick="compareEquipment('Power Tiller #4')">Compare</button>
+        </div>
+
+        <!-- Seed Drill Card -->
+        <div class="equipment-card">
+            <img src="https://m.media-amazon.com/images/I/411mkRAwyYL.jpg" alt="Seed Drill" class="equipment-img">
+            <h3>Seed Drill #5</h3>
+            <p>Type: Tractor Mounted Seed Drill</p>
+            <p>Company: Fieldking</p>
+            <p>Price: ₹1,20,000</p>
+            <button onclick="viewDetails('Seed Drill #5')">View Details</button>
+            <button onclick="compareEquipment('Seed Drill #5')">Compare</button>
+        </div>
+
+        <!-- Rotavator Card -->
+        <div class="equipment-card">
+            <img src="https://international.sonalika.com/wp-content/uploads/2020/09/smart-series-img.jpg" alt="Rotavator" class="equipment-img">
+            <h3>Rotavator #6</h3>
+            <p>Type: Heavy Duty Rotavator</p>
+            <p>Company: Landforce</p>
+            <p>Price: ₹95,000</p>
+            <button onclick="viewDetails('Rotavator #6')">View Details</button>
+            <button onclick="compareEquipment('Rotavator #6')">Compare</button>
+        </div>
+
+        <!-- Solar Pump Card -->
+        <div class="equipment-card">
+            <img src="https://icdn.tradew.com/file/201606/1569558/png/7868164.png?x-oss-process=image/quality,Q_90" alt="Solar Pump" class="equipment-img">
+            <h3>Solar Pump #7</h3>
+            <p>Type: 5HP Solar Water Pump</p>
+            <p>Company: Shakti Pumps</p>
+            <p>Price: ₹1,50,000</p>
+            <button onclick="viewDetails('Solar Pump #7')">View Details</button>
+            <button onclick="compareEquipment('Solar Pump #7')">Compare</button>
+        </div>
+
+        <!-- Thresher Card -->
+        <div class="equipment-card">
+            <img src="https://5.imimg.com/data5/SELLER/Default/2021/6/YU/LB/LT/21073859/1-500x500.jpg" alt="Thresher" class="equipment-img">
+            <h3>Thresher #8</h3>
+            <p>Type: Multi-Crop Thresher</p>
+            <p>Company: Dasmesh</p>
+            <p>Price: ₹1,75,000</p>
+            <button onclick="viewDetails('Thresher #8')">View Details</button>
+            <button onclick="compareEquipment('Thresher #8')">Compare</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal for Equipment Details -->
+<div id="detailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 id="modalTitle">Equipment Details</h3>
+        <div id="equipmentDetails"></div>
+        <div id="aiRecommendation" style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;"></div>
+    </div>
+</div>
+                </div>
+                
+                <!-- Resources Section -->
+<div id="resources" class="content-section">
+    <h1 class="dashboard-title animate-fade-in">
+        <i class="fas fa-book"></i> Farming Resources & Schemes
+    </h1>
+    
+    <!-- Language Selector -->
+    <div class="language-selector animate-slide-in-left">
+        <label for="language-select"><i class="fas fa-language"></i> Select Language:</label>
+        <select id="language-select" onchange="changeResourceLanguage()">
+            <option value="english">English</option>
+            <option value="hindi">हिंदी (Hindi)</option>
+            <option value="odia">ଓଡ଼ିଆ (Odia)</option>
+        </select>
+    </div>
+    
+    <!-- Educational Materials -->
+    <div class="section-content animate-fade-in" style="animation-delay: 0.2s;">
+        <h3><i class="fas fa-graduation-cap"></i> Educational Materials</h3>
+        
+        <div class="resource-list">
+            <!-- Organic Farming Guide (Multilingual) -->
+            <div class="resource-card animate-pop" style="animation-delay: 0.3s;">
+                <div class="resource-header">
+                    <i class="fas fa-file-pdf pdf-icon"></i>
+                    <h4 class="resource-title" data-english="Organic Farming Guide" 
+                        data-hindi="जैविक खेती गाइड" 
+                        data-odia="ଜୈବିକ ଚାଷ ଗାଇଡ୍">
+                        Organic Farming Guide
+                    </h4>
+                </div>
+                <p class="resource-desc" data-english="Comprehensive guide to organic farming practices" 
+                   data-hindi="जैविक खेती पद्धतियों की व्यापक गाइड" 
+                   data-odia="ଜୈବିକ ଚାଷ ପ୍ରଥାଗୁଡ଼ିକର ଏକ ସମ୍ପୂର୍ଣ୍ଣ ଗାଇଡ୍">
+                    Comprehensive guide to organic farming practices
+                </p>
+                <div class="resource-meta">
+                    <span><strong data-english="Updated:" data-hindi="अपडेटेड:" data-odia="ଅଦ୍ୟତନ:">Updated:</strong> 15 Jan 2025</span>
+                    <div class="language-buttons">
+                        <a href="/pdfs/organic_farming_en.pdf" target="_blank" class="lang-btn english-btn">English</a>
+                        <a href="/pdfs/organic_farming_hi.pdf" target="_blank" class="lang-btn hindi-btn">हिंदी</a>
+                        <a href="/pdfs/organic_farming_or.pdf" target="_blank" class="lang-btn odia-btn">ଓଡ଼ିଆ</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pest Management -->
+            <div class="resource-card animate-pop" style="animation-delay: 0.4s;">
+                <div class="resource-header">
+                    <i class="fas fa-video video-icon"></i>
+                    <h4 class="resource-title" data-english="Pest Management" 
+                        data-hindi="कीट प्रबंधन" 
+                        data-odia="କୀଟ ପରିଚାଳନା">
+                        Pest Management
+                    </h4>
+                </div>
+                <p class="resource-desc" data-english="Video series on integrated pest management" 
+                   data-hindi="एकीकृत कीट प्रबंधन पर वीडियो श्रृंखला" 
+                   data-odia="ଏକୀକୃତ କୀଟ ପରିଚାଳନା ଉପରେ ଭିଡିଓ ସିରିଜ୍">
+                    Video series on integrated pest management
+                </p>
+                <div class="resource-meta">
+                    <span><strong data-english="Duration:" data-hindi="अवधि:" data-odia="ଅବଧି:">Duration:</strong> 45 min</span>
+                    <button onclick="showVideoModal('pest-management')" class="view-btn">
+                        <span data-english="Watch" data-hindi="देखें" data-odia="ଦେଖନ୍ତୁ">Watch</span> <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Soil Health Handbook -->
+            <div class="resource-card animate-pop" style="animation-delay: 0.5s;">
+                <div class="resource-header">
+                    <i class="fas fa-file-alt doc-icon"></i>
+                    <h4 class="resource-title" data-english="Soil Health Handbook" 
+                        data-hindi="मृदा स्वास्थ्य हैंडबुक" 
+                        data-odia="ମୃତ୍ତିକା ସ୍ୱାସ୍ଥ୍ୟ ହ୍ୟାଣ୍ଡବୁକ୍">
+                        Soil Health Handbook
+                    </h4>
+                </div>
+                <p class="resource-desc" data-english="Improving and maintaining soil fertility" 
+                   data-hindi="मृदा उर्वरता में सुधार और रखरखाव" 
+                   data-odia="ମୃତ୍ତିକା ଉର୍ବରତା ଉନ୍ନୟନ ଏବଂ ରକ୍ଷଣାବେକ୍ଷଣ">
+                    Improving and maintaining soil fertility
+                </p>
+                <div class="resource-meta">
+                    <span><strong data-english="Pages:" data-hindi="पृष्ठ:" data-odia="ପୃଷ୍ଠା:">Pages:</strong> 42</span>
+                    <div class="language-buttons">
+                        <a href="/pdfs/soil_health_en.pdf" target="_blank" class="lang-btn english-btn">English</a>
+                        <a href="/pdfs/soil_health_hi.pdf" target="_blank" class="lang-btn hindi-btn">हिंदी</a>
+                        <a href="/pdfs/soil_health_or.pdf" target="_blank" class="lang-btn odia-btn">ଓଡ଼ିଆ</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profit Calculator Section -->
+<div class="resource-card animate-pop" style="animation-delay: 0.6s;">
+    <div class="resource-header">
+        <i class="fas fa-calculator calc-icon"></i>
+        <h4 class="resource-title" data-english="Profit Calculator" 
+            data-hindi="लाभ कैलकुलेटर" 
+            data-odia="ଲାଭ କାଲକୁଲେଟର୍">
+            Profit Calculator
+        </h4>
+    </div>
+    <p class="resource-desc" data-english="Tool to calculate crop profitability" 
+       data-hindi="फसल लाभप्रदता की गणना करने का उपकरण" 
+       data-odia="ଫସଲ ଲାଭଦାୟକତା ଗଣନା କରିବାକୁ ସାଧନ">
+        Tool to calculate crop profitability
+    </p>
+    <div class="resource-meta">
+        <span><strong data-english="Version:" data-hindi="संस्करण:" data-odia="ସଂସ୍କରଣ:">Version:</strong> 2.1</span>
+        <button onclick="openCalculatorModal()" class="view-btn">
+            <span data-english="Open" data-hindi="खोलें" data-odia="ଖୋଲନ୍ତୁ">Open</span> <i class="fas fa-external-link-alt"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Calculator Modal -->
+<div id="calculatorModal" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); width:90%; max-width:500px; background:#fff; box-shadow:0 0 10px rgba(0,0,0,0.3); padding:20px; border-radius:10px; z-index:1000;">
+    <h3 style="margin-bottom:15px;" data-english="Crop Profit Calculator" data-hindi="फसल लाभ कैलकुलेटर" data-odia="ଫସଲ ଲାଭ କାଲକୁଲେଟର୍">Crop Profit Calculator</h3>
+
+    <label data-english="Cost of Cultivation (₹):" data-hindi="खेती की लागत (₹):" data-odia="ଚାଷ ଖର୍ଚ୍ଚ (₹):">Cost of Cultivation (₹):</label>
+    <input type="number" id="cost" style="width:100%; margin-bottom:10px; padding:6px;">
+
+    <label data-english="Total Revenue (₹):" data-hindi="कुल राजस्व (₹):" data-odia="ମୋଟ ଆୟ (₹):">Total Revenue (₹):</label>
+    <input type="number" id="revenue" style="width:100%; margin-bottom:10px; padding:6px;">
+
+    <button onclick="calculateProfit()" style="width:100%; padding:10px; background:#28a745; color:#fff; border:none; border-radius:5px; margin-bottom:10px;">
+        <span data-english="Calculate Profit" data-hindi="लाभ की गणना करें" data-odia="ଲାଭ ଗଣନା କରନ୍ତୁ">Calculate Profit</span>
+    </button>
+
+    <div id="profitResult" style="font-weight:bold;"></div>
+
+    <button onclick="closeCalculatorModal()" style="margin-top:15px; width:100%; padding:10px; background:#dc3545; color:#fff; border:none; border-radius:5px;">
+        <span data-english="Close" data-hindi="बंद करें" data-odia="ବନ୍ଦ କରନ୍ତୁ">Close</span>
+    </button>
+</div>
+
+<!-- JavaScript -->
+<script>
+function openCalculatorModal() {
+    document.getElementById('calculatorModal').style.display = 'block';
+}
+
+function closeCalculatorModal() {
+    document.getElementById('calculatorModal').style.display = 'none';
+    document.getElementById('cost').value = '';
+    document.getElementById('revenue').value = '';
+    document.getElementById('profitResult').textContent = '';
+}
+
+function calculateProfit() {
+    const cost = parseFloat(document.getElementById('cost').value);
+    const revenue = parseFloat(document.getElementById('revenue').value);
+    const resultEl = document.getElementById('profitResult');
+
+    if (isNaN(cost) || isNaN(revenue)) {
+        resultEl.textContent = "Please enter valid numbers for both fields.";
+        resultEl.style.color = "red";
+        return;
+    }
+
+    const profit = revenue - cost;
+    resultEl.style.color = profit >= 0 ? 'green' : 'red';
+    resultEl.textContent = `Net Profit: ₹${profit.toFixed(2)}`;
+}
+</script>
+
+        </div>
+    </div>
+    
+    <!-- Government Schemes -->
+    <div class="section-content animate-fade-in" style="animation-delay: 0.3s;">
+        <h3><i class="fas fa-landmark"></i> Government Schemes</h3>
+        
+        <div class="schemes-container">
+            <!-- PM Kisan Samman Nidhi -->
+            <div class="scheme-card animate-slide-in-left" style="animation-delay: 0.4s;">
+                <div class="scheme-image" style=" height: 200px; background-image: url('https://images.bhaskarassets.com/web2images/521/2024/12/28/orig_1763725-pm-kisan-samman-nidhi-yojana1696066951_1735329821.png');background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%; height: 250px;"></div>
+                <div class="scheme-content">
+                    <h4 class="scheme-title" data-english="PM Kisan Samman Nidhi" 
+                        data-hindi="पीएम किसान सम्मान निधि" 
+                        data-odia="ପିଏମ କିସାନ ସମ୍ମାନ ନିଧି">
+                        PM Kisan Samman Nidhi
+                    </h4>
+                    <p class="scheme-desc" data-english="₹6,000 annual income support to farmers" 
+                       data-hindi="किसानों को ₹6,000 वार्षिक आय सहायता" 
+                       data-odia="କୃଷକଙ୍କୁ ବାର୍ଷିକ ₹6,000 ଆୟ ସହାୟତା">
+                        ₹6,000 annual income support to farmers
+                    </p>
+                    <div class="scheme-details">
+                        <span class="scheme-status active-badge" data-english="Active" data-hindi="सक्रिय" data-odia="ସକ୍ରିୟ">Active</span>
+                        <span class="scheme-deadline" data-english="Deadline:" data-hindi="अंतिम तिथि:" data-odia="ଶେଷ ତାରିଖ:">Deadline:</span> 31 Mar 2026
+                    </div>
+                    <div class="scheme-actions">
+                        <button onclick="showSchemeDetails('pm-kisan')" class="details-btn">
+                            <span data-english="Details" data-hindi="विवरण" data-odia="ବିବରଣୀ">Details</span> <i class="fas fa-info-circle"></i>
+                        </button>
+                        <a href="https://pmkisan.gov.in" target="_blank" class="apply-btn">
+                            <span data-english="Apply" data-hindi="आवेदन" data-odia="ଆବେଦନ">Apply</span> <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soil Health Card Scheme -->
+            <div class="scheme-card animate-slide-in-left" style="animation-delay: 0.5s;">
+                <div class="scheme-image" style="height: 200px; background-image: url('https://blogmedia.testbook.com/blog/wp-content/uploads/2023/10/shc-8839abe0.jpg');background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%; height: 250px;"></div>
+                <div class="scheme-content">
+                    <h4 class="scheme-title" data-english="Soil Health Card Scheme" 
+                        data-hindi="मृदा स्वास्थ्य कार्ड योजना" 
+                        data-odia="ମୃତ୍ତିକା ସ୍ୱାସ୍ଥ୍ୟ କାର୍ଡ ଯୋଜନା">
+                        Soil Health Card Scheme
+                    </h4>
+                    <p class="scheme-desc" data-english="Free soil testing for farmers every 3 years" 
+                       data-hindi="किसानों के लिए हर 3 साल में मुफ्त मृदा परीक्षण" 
+                       data-odia="ପ୍ରତ୍ୟେକ 3 ବର୍ଷରେ କୃଷକଙ୍କ ପାଇଁ ମାଗଣା ମୃତ୍ତିକା ପରୀକ୍ଷା">
+                        Free soil testing for farmers every 3 years
+                    </p>
+                    <div class="scheme-details">
+                        <span class="scheme-status active-badge" data-english="Active" data-hindi="सक्रिय" data-odia="ସକ୍ରିୟ">Active</span>
+                        <span class="scheme-deadline" data-english="Testing Cycle:" data-hindi="परीक्षण चक्र:" data-odia="ପରୀକ୍ଷା ଚକ୍ର:">Testing Cycle:</span> 3 Years
+                    </div>
+                    <div class="scheme-actions">
+                        <button onclick="showSchemeDetails('soil-health')" class="details-btn">
+                            <span data-english="Details" data-hindi="विवरण" data-odia="ବିବରଣୀ">Details</span> <i class="fas fa-info-circle"></i>
+                        </button>
+                        <a href="https://soilhealth.dac.gov.in" target="_blank" class="apply-btn">
+                            <span data-english="Apply" data-hindi="आवेदन" data-odia="ଆବେଦନ">Apply</span> <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- KALIA Scheme (Odisha) -->
+            <div class="scheme-card animate-slide-in-left" style="animation-delay: 0.6s;">
+                <div class="scheme-image" style="background-image: url('https://www.reporterstoday.com/wp-content/uploads/2024/02/x4-6.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%; height: 250px;"></div>
+                <div class="scheme-content">
+                    <h4 class="scheme-title" data-english="KALIA Scheme" 
+                        data-hindi="कालिया योजना" 
+                        data-odia="କାଳିଆ ଯୋଜନା">
+                        KALIA Scheme
+                    </h4>
+                    <p class="scheme-desc" data-english="Financial assistance to Odisha farmers" 
+                       data-hindi="ओडिशा के किसानों को वित्तीय सहायता" 
+                       data-odia="ଓଡିଶାର କୃଷକଙ୍କୁ ଆର୍ଥିକ ସହାୟତା">
+                        Financial assistance to Odisha farmers
+                    </p>
+                    <div class="scheme-details">
+                        <span class="scheme-status active-badge" data-english="Active" data-hindi="सक्रिय" data-odia="ସକ୍ରିୟ">Active</span>
+                        <span class="scheme-deadline" data-english="Next Cycle:" data-hindi="अगला चक्र:" data-odia="ପରବର୍ତ୍ତୀ ଚକ୍ର:">Next Cycle:</span> Jul 2025
+                    </div>
+                    <div class="scheme-actions">
+                        <button onclick="showSchemeDetails('kalia')" class="details-btn">
+                            <span data-english="Details" data-hindi="विवरण" data-odia="ବିବରଣୀ">Details</span> <i class="fas fa-info-circle"></i>
+                        </button>
+                        <a href="https://kalia.co.in" target="_blank" class="apply-btn">
+                            <span data-english="Apply" data-hindi="आवेदन" data-odia="ଆବେଦନ">Apply</span> <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Private Schemes -->
+    <div class="section-content animate-fade-in" style="animation-delay: 0.4s;">
+        <h3><i class="fas fa-building"></i> Private Sector Schemes</h3>
+        
+        <div class="schemes-container">
+            <!-- Tata Kisan Sansar -->
+            <div class="scheme-card animate-slide-in-right" style="animation-delay: 0.5s;">
+                <div class="scheme-image" style="background-image: url('https://s3images.coroflot.com/user_files/individual_files/771702_9vlcwirzsw9ifjacxmy5oii5u.jpg');background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%; height: 250px;"></div>
+                <div class="scheme-content">
+                    <h4 class="scheme-title">Tata Kisan Sansar</h4>
+                    <p class="scheme-desc" data-english="End-to-end farming solutions by Tata Chemicals" 
+                       data-hindi="टाटा केमिकल्स द्वारा एंड-टू-एंड कृषि समाधान" 
+                       data-odia="ଟାଟା କେମିକାଲ୍ସ ଦ୍ୱାରା ଏଣ୍ଡ-ଟୁ-ଏଣ୍ଡ କୃଷି ସମାଧାନ">
+                        End-to-end farming solutions by Tata Chemicals
+                    </p>
+                    <div class="scheme-details">
+                        <span class="scheme-status active-badge" data-english="Active" data-hindi="सक्रिय" data-odia="ସକ୍ରିୟ">Active</span>
+                        <span class="scheme-type" data-english="Type:" data-hindi="प्रकार:" data-odia="ପ୍ରକାର:">Type:</span> <span data-english="Agri Services" data-hindi="कृषि सेवाएं" data-odia="କୃଷି ସେବା">Agri Services</span>
+                    </div>
+                    <div class="scheme-actions">
+                        <button onclick="showSchemeDetails('tata-kisan')" class="details-btn">
+                            <span data-english="Details" data-hindi="विवरण" data-odia="ବିବରଣୀ">Details</span> <i class="fas fa-info-circle"></i>
+                        </button>
+                        <a href="https://www.tatachemicals.com/kisansansar" target="_blank" class="apply-btn">
+                            <span data-english="Visit" data-hindi="विजिट" data-odia="ପରିଦର୍ଶନ">Visit</span> <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mahindra Samriddhi -->
+            <div class="scheme-card animate-slide-in-right" style="animation-delay: 0.6s;">
+                <div class="scheme-image" style="background-image: url('https://i.ytimg.com/vi/uSW_zEUFn0E/maxresdefault.jpg');background-size: cover; background-position: center; background-repeat: no-repeat; width: 100%; height: 250px;"></div>
+                <div class="scheme-content">
+                    <h4 class="scheme-title">Mahindra Samriddhi</h4>
+                    <p class="scheme-desc" data-english="Dealer network for farm equipment and services" 
+                       data-hindi="कृषि उपकरण और सेवाओं के लिए डीलर नेटवर्क" 
+                       data-odia="କୃଷି ଉପକରଣ ଏବଂ ସେବା ପାଇଁ ଡିଲର ନେଟୱର୍କ">
+                        Dealer network for farm equipment and services
+                    </p>
+                    <div class="scheme-details">
+                        <span class="scheme-status active-badge" data-english="Active" data-hindi="सक्रिय" data-odia="ସକ୍ରିୟ">Active</span>
+                        <span class="scheme-type" data-english="Type:" data-hindi="प्रकार:" data-odia="ପ୍ରକାର:">Type:</span> <span data-english="Equipment Support" data-hindi="उपकरण समर्थन" data-odia="ଉପକରଣ ସମର୍ଥନ">Equipment Support</span>
+                    </div>
+                    <div class="scheme-actions">
+                        <button onclick="showSchemeDetails('mahindra-samriddhi')" class="details-btn">
+                            <span data-english="Details" data-hindi="विवरण" data-odia="ବିବରଣୀ">Details</span> <i class="fas fa-info-circle"></i>
+                        </button>
+                        <a href="https://www.mahindrasamriddhi.com" target="_blank" class="apply-btn">
+                            <span data-english="Visit" data-hindi="विजिट" data-odia="ପରିଦର୍ଶନ">Visit</span> <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Video Modal -->
+<div id="videoModal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="close-btn" onclick="closeVideoModal()">&times;</span>
+        <div id="videoPlayerContainer">
+            <!-- YouTube embed will be inserted here -->
+        </div>
+    </div>
+</div>
+
+<!-- Scheme Details Modal -->
+<div id="schemeModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeSchemeModal()">&times;</span>
+        <div id="schemeDetailsContent"></div>
+    </div>
+</div>
+
+<script>
+// Language change function
+function changeResourceLanguage() {
+    const lang = document.getElementById('language-select').value;
+    
+    // Update all elements with data attributes
+    document.querySelectorAll('[data-english], [data-hindi], [data-odia]').forEach(el => {
+        if (el.hasAttribute(`data-${lang}`)) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.value = el.getAttribute(`data-${lang}`);
+            } else {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            }
+        }
+    });
+}
+
+// Video modal functions
+function showVideoModal(videoType) {
+    let videoId = '';
+    let videoTitle = '';
+    
+    switch(videoType) {
+        case 'pest-management':
+            videoId = 'YOUTUBE_VIDEO_ID_FOR_PEST_MANAGEMENT'; // Replace with actual YouTube ID
+            videoTitle = 'Integrated Pest Management';
+            break;
+        // Add more cases as needed
+    }
+    
+    const videoEmbed = `
+        <iframe width="100%" height="450" src="https://www.youtube.com/embed/${videoId}" 
+        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen></iframe>
+        <h3 style="margin-top: 15px;">${videoTitle}</h3>
+    `;
+    
+    document.getElementById('videoPlayerContainer').innerHTML = videoEmbed;
+    document.getElementById('videoModal').style.display = 'block';
+}
+
+function closeVideoModal() {
+    document.getElementById('videoPlayerContainer').innerHTML = '';
+    document.getElementById('videoModal').style.display = 'none';
+}
+
+// Scheme details functions
+function showSchemeDetails(schemeId) {
+    // This would fetch details from an API in a real app
+    const schemes = {
+        'pm-kisan': {
+            title: "PM Kisan Samman Nidhi",
+            description: "Provides income support of ₹6,000 per year in three equal installments to all landholding farmer families.",
+            eligibility: "All farmer families holding cultivable land (subject to exclusion criteria)",
+            benefits: "₹6,000 per year (₹2,000 every 4 months)",
+            documents: "Aadhaar Card, Land Records, Bank Account Details",
+            link: "https://pmkisan.gov.in",
+            image: "https://example.com/images/pm-kisan-scheme.jpg"
+        },
+        'soil-health': {
+            title: "Soil Health Card Scheme",
+            description: "Provides farmers with soil health cards containing crop-wise recommendations for nutrients and fertilizers.",
+            eligibility: "All farmers across India",
+            benefits: "Free soil testing every 3 years with personalized recommendations",
+            documents: "Aadhaar Card, Land Records",
+            link: "https://soilhealth.dac.gov.in",
+            image: "https://example.com/images/soil-health-card.jpg"
+        },
+        'kalia': {
+            title: "KALIA Scheme (Odisha)",
+            description: "Krushak Assistance for Livelihood and Income Augmentation scheme provides financial assistance to farmers and landless agricultural laborers.",
+            eligibility: "Small/marginal farmers, sharecroppers, and landless agricultural households in Odisha",
+            benefits: "₹10,000-25,000 financial assistance per year",
+            documents: "Aadhaar Card, Land Records (if applicable), Bank Account Details",
+            link: "https://kalia.co.in",
+            image: "https://example.com/images/kalia-scheme.jpg"
+        },
+        'tata-kisan': {
+            title: "Tata Kisan Sansar",
+            description: "One-stop solution for farmers offering agri-inputs, advisory services, and output linkages.",
+            eligibility: "All farmers in operational areas",
+            benefits: "Quality agri-inputs, expert advice, market linkages",
+            documents: "None required for basic services",
+            link: "https://www.tatachemicals.com/kisansansar",
+            image: "https://example.com/images/tata-kisan.jpg"
+        },
+        'mahindra-samriddhi': {
+            title: "Mahindra Samriddhi",
+            description: "Dealer network providing farm equipment, services, and financing options to farmers.",
+            eligibility: "All farmers",
+            benefits: "Equipment sales, service centers, financing options",
+            documents: "Varies by service",
+            link: "https://www.mahindrasamriddhi.com",
+            image: "https://example.com/images/mahindra-samriddhi.jpg"
+        }
+    };
+    
+    const scheme = schemes[schemeId];
+    let content = `
+        <div class="scheme-detail-header" style="display: flex; gap: 20px; margin-bottom: 20px;">
+            <div style="flex: 1;">
+                <h3>${scheme.title}</h3>
+                <p style="color: #666; margin-top: 5px;">${scheme.description}</p>
+            </div>
+            <div style="width: 150px; height: 100px; background-image: url('${scheme.image}'); background-size: cover; background-position: center; border-radius: 8px;"></div>
+        </div>
+        <div class="scheme-detail-item">
+            <h4>Eligibility</h4>
+            <p>${scheme.eligibility}</p>
+        </div>
+        <div class="scheme-detail-item">
+            <h4>Benefits</h4>
+            <p>${scheme.benefits}</p>
+        </div>
+        <div class="scheme-detail-item">
+            <h4>Required Documents</h4>
+            <p>${scheme.documents}</p>
+        </div>
+        <div class="scheme-modal-actions">
+            <a href="${scheme.link}" target="_blank" class="apply-btn">
+                Apply Now <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    `;
+    
+    document.getElementById('schemeDetailsContent').innerHTML = content;
+    document.getElementById('schemeModal').style.display = 'block';
+}
+
+function closeSchemeModal() {
+    document.getElementById('schemeModal').style.display = 'none';
+}
+
+// Initialize with English
+document.addEventListener('DOMContentLoaded', function() {
+    changeResourceLanguage();
+});
+</script>
+
+<!-- <style>
+
+</style> -->
+                
+                <!-- Settings Section -->
+                <div id="settings" class="content-section">
+                    <h1 class="dashboard-title">
+                        <i class="fas fa-cog"></i> System Settings
+                    </h1>
+                    
+                    <div class="section-content">
+                        <h3>Account Settings</h3>
+                        <div class="settings-grid">
+                            <div class="setting-group">
+                                <h4><i class="fas fa-user"></i> Profile</h4>
+                                <div class="setting-item">
+                                    <span>Name</span>
+                                    <span>Farmer Rajesh</span>
+                                </div>
+                                <div class="setting-item">
+                                    <span>Email</span>
+                                    <span>rajesh@agritech.com</span>
+                                </div>
+                                <div class="setting-item">
+                                    <span>Phone</span>
+                                    <span>+91 9876543210</span>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-group">
+                                <h4><i class="fas fa-map-marker-alt"></i> Farm Locations</h4>
+                                <div class="setting-item">
+                                    <span>Main Farm</span>
+                                    <span>Bhubaneswar, Odisha</span>
+                                </div>
+                                <div class="setting-item">
+                                    <span>Secondary Farm</span>
+                                    <span>Cuttack, Odisha</span>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-group">
+                                <h4><i class="fas fa-bell"></i> Notifications</h4>
+                                <div class="setting-item">
+                                    <span>Weather Alerts</span>
+                                    <span><i class="fas fa-toggle-on" style="color: var(--primary);"></i></span>
+                                </div>
+                                <div class="setting-item">
+                                    <span>Price Updates</span>
+                                    <span><i class="fas fa-toggle-on" style="color: var(--primary);"></i></span>
+                                </div>
+                                <div class="setting-item">
+                                    <span>Irrigation Reminders</span>
+                                    <span><i class="fas fa-toggle-off"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+const equipmentData = {
+    "Tractor #1": {
+        image: "https://cdn.tractorsdekho.com/in/mahindra/yuvraj-215-nxt/mahindra-yuvraj-215-nxt-21206.jpg?impolicy=resize&imwidth=480",
+        company: "Mahindra",
+        type: "4WD Utility Tractor",
+        power: "45 HP",
+        fuelType: "Diesel",
+        price: "₹7,00,000",
+        warranty: "5 years",
+        fuelEfficiency: "8 hours per liter",
+        maintenanceCost: "₹15,000/year",
+        suitability: "Medium to large farms (5-20 acres)"
+    },
+    "Harvester #3": {
+        image: "https://www.deere.com/assets/images/region-4/products/harvesting/x-series/x91000-r4x000619_rrd.jpg",
+        company: "John Deere",
+        type: "Combine Harvester",
+        power: "105 HP",
+        fuelType: "Diesel",
+        price: "₹22,00,000",
+        warranty: "3 years",
+        fuelEfficiency: "4 hours per liter",
+        maintenanceCost: "₹50,000/year",
+        suitability: "Large farms (20+ acres)"
+    },
+    "Irrigation Pump #2": {
+        image: "https://images-cdn.ubuy.co.in/66222a2b238a0443d61eb375-high-pressure-3inch-4kw-7-5hp-gasoline.jpg",
+        company: "Kirloskar",
+        type: "Submersible Pump",
+        power: "5 HP",
+        fuelType: "Electric",
+        price: "₹35,000",
+        warranty: "2 years",
+        fuelEfficiency: "NA",
+        maintenanceCost: "₹3,000/year",
+        suitability: "Small to medium farms (1-10 acres)"
+    },
+    "Power Tiller #4": {
+        image: "https://raidco.in/agro/wp-content/uploads/2023/10/power-tiller.png",
+        company: "VST Shakti",
+        type: "Diesel Power Tiller",
+        power: "8 HP",
+        fuelType: "Diesel",
+        price: "₹1,85,000",
+        warranty: "3 years",
+        fuelEfficiency: "10 hours per liter",
+        maintenanceCost: "₹8,000/year",
+        suitability: "Small farms (1-5 acres)"
+    },
+    "Seed Drill #5": {
+        image: "https://m.media-amazon.com/images/I/411mkRAwyYL.jpg",
+        company: "Fieldking",
+        type: "Tractor Mounted Seed Drill",
+        power: "Requires 35+ HP tractor",
+        fuelType: "NA",
+        price: "₹1,20,000",
+        warranty: "2 years",
+        fuelEfficiency: "NA",
+        maintenanceCost: "₹5,000/year",
+        suitability: "All farm sizes"
+    },
+    "Rotavator #6": {
+        image: "https://international.sonalika.com/wp-content/uploads/2020/09/smart-series-img.jpg",
+        company: "Landforce",
+        type: "Heavy Duty Rotavator",
+        power: "Requires 45+ HP tractor",
+        fuelType: "NA",
+        price: "₹95,000",
+        warranty: "2 years",
+        fuelEfficiency: "NA",
+        maintenanceCost: "₹7,000/year",
+        suitability: "Medium to large farms"
+    },
+    "Solar Pump #7": {
+        image: "https://icdn.tradew.com/file/201606/1569558/png/7868164.png?x-oss-process=image/quality,Q_90",
+        company: "Shakti Pumps",
+        type: "5HP Solar Water Pump",
+        power: "5 HP",
+        fuelType: "Solar",
+        price: "₹1,50,000",
+        warranty: "5 years",
+        fuelEfficiency: "Free energy after installation",
+        maintenanceCost: "₹2,000/year",
+        suitability: "All farm sizes, sunny regions"
+    },
+    "Thresher #8": {
+        image: "https://5.imimg.com/data5/SELLER/Default/2021/6/YU/LB/LT/21073859/1-500x500.jpg",
+        company: "Dasmesh",
+        type: "Multi-Crop Thresher",
+        power: "7.5 HP",
+        fuelType: "Diesel/Electric",
+        price: "₹1,75,000",
+        warranty: "2 years",
+        fuelEfficiency: "6 hours per liter (diesel)",
+        maintenanceCost: "₹10,000/year",
+        suitability: "Medium to large farms"
+    }
+};
+
+function viewDetails(name) {
+    const details = equipmentData[name];
+    let content = `<img src="${details.image}" alt="${name}" style="width: 100%; border-radius: 10px; margin-bottom: 10px;">
+    <ul>
+        <li><strong>Equipment:</strong> ${name}</li>
+        <li><strong>Company:</strong> ${details.company}</li>
+        <li><strong>Type:</strong> ${details.type}</li>
+        <li><strong>Power:</strong> ${details.power}</li>
+        <li><strong>Fuel Type:</strong> ${details.fuelType}</li>
+        <li><strong>Price:</strong> ${details.price}</li>
+        <li><strong>Warranty:</strong> ${details.warranty}</li>
+        <li><strong>Fuel Efficiency:</strong> ${details.fuelEfficiency}</li>
+        <li><strong>Maintenance Cost:</strong> ${details.maintenanceCost}</li>
+        <li><strong>Suitability:</strong> ${details.suitability}</li>
+    </ul>`;
+    
+    document.getElementById('modalTitle').innerText = name + ' Details';
+    document.getElementById('equipmentDetails').innerHTML = content;
+    document.getElementById('detailsModal').style.display = 'block';
+    
+    // Generate AI recommendation
+    generateAIRecommendation(name);
+}
+
+function compareEquipment(name) {
+    let compareHTML = "<table border='1' cellpadding='10' style='width:100%; border-collapse: collapse;'><tr><th>Feature</th><th>Selected Equipment</th><th>Alternatives</th></tr>";
+    
+    const similarEquipment = {
+        "Tractor #1": [
+            { company: "Swaraj", model: "735 FE", price: "₹6,80,000", power: "45 HP", warranty: "5 years" },
+            { company: "John Deere", model: "5050 D", price: "₹7,50,000", power: "50 HP", warranty: "4 years" },
+            { company: "TAFE", model: "DI 4540", price: "₹6,90,000", power: "45 HP", warranty: "5 years" }
+        ],
+        "Harvester #3": [
+            { company: "Preet", model: "987", price: "₹21,50,000", power: "100 HP", warranty: "3 years" },
+            { company: "Kubota", model: "PRO 100", price: "₹23,00,000", power: "110 HP", warranty: "3 years" },
+            { company: "Kartar", model: "4000", price: "₹20,00,000", power: "95 HP", warranty: "2 years" }
+        ],
+        "Irrigation Pump #2": [
+            { company: "Crompton", model: "SP Aquagold", price: "₹32,000", power: "5 HP", warranty: "2 years" },
+            { company: "Texmo", model: "Taro 5HP", price: "₹33,500", power: "5 HP", warranty: "2 years" },
+            { company: "KSB", model: "Pumpset 5HP", price: "₹38,000", power: "5 HP", warranty: "3 years" }
+        ],
+        "Power Tiller #4": [
+            { company: "Kubota", model: "FX-450", price: "₹2,10,000", power: "8 HP", warranty: "3 years" },
+            { company: "Sonalika", model: "GT 250", price: "₹1,75,000", power: "7.5 HP", warranty: "2 years" },
+            { company: "Captain", model: "350 DI", price: "₹1,90,000", power: "8 HP", warranty: "3 years" }
+        ],
+        "Seed Drill #5": [
+            { company: "Shaktiman", model: "SD-9", price: "₹1,15,000", power: "35+ HP", warranty: "2 years" },
+            { company: "Landforce", model: "LSD-9", price: "₹1,25,000", power: "35+ HP", warranty: "3 years" },
+            { company: "Dasmesh", model: "DD-9", price: "₹1,30,000", power: "35+ HP", warranty: "2 years" }
+        ],
+        "Rotavator #6": [
+            { company: "Fieldking", model: "Roto Master", price: "₹90,000", power: "45+ HP", warranty: "2 years" },
+            { company: "Shaktiman", model: "Roto-6", price: "₹1,00,000", power: "45+ HP", warranty: "2 years" },
+            { company: "Sonalika", model: "SR-6", price: "₹92,000", power: "45+ HP", warranty: "2 years" }
+        ],
+        "Solar Pump #7": [
+            { company: "Crompton", model: "Solar SP", price: "₹1,45,000", power: "5 HP", warranty: "5 years" },
+            { company: "Lorentz", model: "PS 5000", price: "₹1,60,000", power: "5 HP", warranty: "7 years" },
+            { company: "Tata Power", model: "Solar 5HP", price: "₹1,55,000", power: "5 HP", warranty: "5 years" }
+        ],
+        "Thresher #8": [
+            { company: "Shaktiman", model: "Super-750", price: "₹1,70,000", power: "7.5 HP", warranty: "2 years" },
+            { company: "Kartar", model: "K-750", price: "₹1,80,000", power: "7.5 HP", warranty: "2 years" },
+            { company: "Shriram", model: "ST-750", price: "₹1,65,000", power: "7.5 HP", warranty: "2 years" }
+        ]
+    };
+
+    const currentEquipment = equipmentData[name];
+    
+    // Add basic comparison
+    compareHTML += `<tr>
+        <td><strong>Price</strong></td>
+        <td>${currentEquipment.price}</td>
+        <td>${similarEquipment[name].map(e => e.price).join('<br>')}</td>
+    </tr>`;
+    
+    compareHTML += `<tr>
+        <td><strong>Company</strong></td>
+        <td>${currentEquipment.company}</td>
+        <td>${similarEquipment[name].map(e => e.company).join('<br>')}</td>
+    </tr>`;
+    
+    compareHTML += `<tr>
+        <td><strong>Power</strong></td>
+        <td>${currentEquipment.power}</td>
+        <td>${similarEquipment[name].map(e => e.power).join('<br>')}</td>
+    </tr>`;
+    
+    compareHTML += `<tr>
+        <td><strong>Warranty</strong></td>
+        <td>${currentEquipment.warranty}</td>
+        <td>${similarEquipment[name].map(e => e.warranty).join('<br>')}</td>
+    </tr>`;
+    
+    compareHTML += "</table>";
+
+    document.getElementById('modalTitle').innerText = `Comparison - ${name}`;
+    document.getElementById('equipmentDetails').innerHTML = compareHTML;
+    document.getElementById('detailsModal').style.display = 'block';
+    
+    // Generate AI recommendation for comparison
+    generateComparisonRecommendation(name, similarEquipment[name]);
+}
+
+function generateAIRecommendation(name) {
+    const equipment = equipmentData[name];
+    let recommendation = "<h4><i class='fas fa-robot'></i> AI Recommendation</h4>";
+    
+    // Simple AI logic based on equipment features
+    if (name.includes("Tractor")) {
+        if (parseInt(equipment.power) >= 45) {
+            recommendation += "<p>This tractor is suitable for medium to large farms. The 5-year warranty from Mahindra provides good long-term value.</p>";
+        } else {
+            recommendation += "<p>This tractor might be underpowered for large farms but is cost-effective for small to medium operations.</p>";
+        }
+    }
+    else if (name.includes("Harvester")) {
+        recommendation += "<p>This high-capacity harvester is ideal for large farms but may not be cost-effective for small holdings. Consider renting for occasional use.</p>";
+    }
+    else if (name.includes("Pump")) {
+        if (equipment.fuelType === "Solar") {
+            recommendation += "<p>Excellent long-term investment with zero fuel costs. Government subsidies may be available for solar pumps.</p>";
+        } else {
+            recommendation += "<p>Reliable electric pump with moderate operating costs. Consider solar if you have high daytime water needs.</p>";
+        }
+    }
+    else if (name.includes("Power Tiller")) {
+        recommendation += "<p>Perfect for small farms where a full tractor isn't needed. Lower maintenance than tractors but limited to lighter work.</p>";
+    }
+    else if (name.includes("Seed Drill")) {
+        recommendation += "<p>Essential for precision planting. Saves seeds and improves yields. Make sure your tractor has sufficient power.</p>";
+    }
+    else if (name.includes("Rotavator")) {
+        recommendation += "<p>Excellent for soil preparation. Reduces multiple passes needed with regular implements.</p>";
+    }
+    else if (name.includes("Thresher")) {
+        recommendation += "<p>Good for farmers growing multiple crops. Saves labor costs during harvest season.</p>";
+    }
+    
+    // Add value-for-money analysis
+    const priceNum = parseInt(equipment.price.replace(/[^0-9]/g, ''));
+    const powerNum = parseInt(equipment.power);
+    
+    if (powerNum > 0) {
+        const pricePerHP = priceNum / powerNum;
+        recommendation += `<p>Value metric: ₹${Math.round(pricePerHP).toLocaleString()} per HP`;
+        
+        if (pricePerHP < 15000) {
+            recommendation += " (Excellent value)";
+        } else if (pricePerHP < 20000) {
+            recommendation += " (Good value)";
+        } else {
+            recommendation += " (Premium pricing)";
+        }
+        recommendation += "</p>";
+    }
+    
+    document.getElementById('aiRecommendation').innerHTML = recommendation;
+}
+
+function generateComparisonRecommendation(name, alternatives) {
+    const current = equipmentData[name];
+    let recommendation = "<h4><i class='fas fa-robot'></i> AI Comparison Analysis</h4>";
+    
+    const currentPrice = parseInt(current.price.replace(/[^0-9]/g, ''));
+    const altPrices = alternatives.map(a => parseInt(a.price.replace(/[^0-9]/g, '')));
+    const minPrice = Math.min(...altPrices);
+    const maxPrice = Math.max(...altPrices);
+    
+    if (currentPrice < minPrice) {
+        recommendation += `<p>Our ${name} is the most affordable option (₹${(minPrice - currentPrice).toLocaleString()} cheaper than competitors).</p>`;
+    } else if (currentPrice > maxPrice) {
+        recommendation += `<p>Our ${name} is priced higher than alternatives (₹${(currentPrice - minPrice).toLocaleString()} more than the cheapest option). Consider if brand reputation and features justify the premium.</p>`;
+    } else {
+        recommendation += `<p>Our ${name} is competitively priced within the market range.</p>`;
+    }
+    
+    // Warranty comparison
+    const currentWarranty = parseInt(current.warranty);
+    const altWarranties = alternatives.map(a => parseInt(a.warranty));
+    const maxWarranty = Math.max(...altWarranties);
+    
+    if (currentWarranty >= maxWarranty) {
+        recommendation += `<p>Excellent warranty coverage (${currentWarranty} years) compared to alternatives.</p>`;
+    } else {
+        recommendation += `<p>Consider that ${alternatives[altWarranties.indexOf(maxWarranty)].company} offers a longer warranty (${maxWarranty} years).</p>`;
+    }
+    
+    // Best value recommendation
+    const valueScores = alternatives.map((alt, index) => {
+        const price = altPrices[index];
+        const warranty = altWarranties[index];
+        return (warranty * 100000) / price; // Higher score is better
+    });
+    
+    const bestValueIndex = valueScores.indexOf(Math.max(...valueScores));
+    
+    if (bestValueIndex >= 0) {
+        const bestAlt = alternatives[bestValueIndex];
+        recommendation += `<p>For best value, consider ${bestAlt.company} ${bestAlt.model} which offers good warranty coverage (${bestAlt.warranty}) at competitive price (${bestAlt.price}).</p>`;
+    }
+    
+    // Final recommendation
+    if (currentPrice <= minPrice && currentWarranty >= maxWarranty) {
+        recommendation += `<p><strong>Our ${name} is the best overall value among these options.</strong></p>`;
+    }
+    
+    document.getElementById('aiRecommendation').innerHTML = recommendation;
+}
+
+function closeModal() {
+    document.getElementById('detailsModal').style.display = 'none';
+}
+</script>
+                
+                <!-- Support Section -->
+                <div id="support" class="content-section">
+                    <h1 class="dashboard-title">
+                        <i class="fas fa-question-circle"></i> Support Center
+                    </h1>
+                    
+                    <div class="section-content">
+                        <h3>Get Help</h3>
+                        <div class="support-cards">
+                            <div class="support-card">
+                                <i class="fas fa-phone-alt"></i>
+                                <h4>Call Support</h4>
+                                <p>+91 1800 123 4567</p>
+                                <p>Available 24/7</p>
+                            </div>
+                            <div class="support-card">
+                                <i class="fas fa-envelope"></i>
+                                <h4>Email Support</h4>
+                                <p>support@agritech.com</p>
+                                <p>Response within 24 hours</p>
+                            </div>
+                            <div class="support-card">
+                                <i class="fas fa-comments"></i>
+                                <h4>Live Chat</h4>
+                                <p>Available Mon-Fri, 9AM-6PM</p>
+                                <p>Instant assistance</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-content">
+                        <h3>Frequently Asked Questions</h3>
+                        <div style="height: 300px; background: #f8fafa; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <i class="fas fa-question-circle" style="font-size: 3rem; color: var(--primary);"></i>
+                                <h3 style="margin-top: 15px; color: var(--dark);">Knowledge Base</h3>
+                                <p style="color: #666;">Answers to common questions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Toggle sidebar on hamburger click
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Toggle search on mobile
+        const searchContainer = document.getElementById('searchContainer');
+        const searchIcon = searchContainer.querySelector('i');
+        
+        if (window.innerWidth < 576) {
+            searchIcon.addEventListener('click', function() {
+                searchContainer.classList.toggle('active');
+            });
+        }
+
+        // Section switching functionality
+        const menuItems = document.querySelectorAll('.menu-item');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Update active menu item
+                menuItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Get target section
+                const targetSection = this.getAttribute('data-section');
+                
+                // Show target section and hide others
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetSection) {
+                        setTimeout(() => {
+                            section.classList.add('active');
+                        }, 10);
+                    }
+                });
+                
+                // Close sidebar on mobile after selection
+                if (window.innerWidth < 992) {
+                    document.querySelector('.sidebar').classList.remove('active');
+                }
+            });
+        });
+
+        // Simulate loading
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress bars
+            const progressValues = document.querySelectorAll('.progress-value');
+            progressValues.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                    bar.style.transition = 'width 1.5s ease';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
