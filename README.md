@@ -18,6 +18,9 @@ This is the **Frontend and Database** part of the HacknoTricks HackOrbit project
 
 ## 📄 Files & Folders Structure 
 
+## 📂 Project Structure
+
+```plaintext
 frontend
 ├── index.html
 ├── index.css
@@ -25,12 +28,12 @@ frontend
 ├── signup.html
 ├── dashboard.html
 ├── dashboard.css
-├── finance\ — Finance department folder 
-├── agriculture\ — Agriculture department folder 
-├── education\ — Education department folder 
-├── health\ — Health department folder 
-└── JavaScript File\
- 
+├── finance\            (Finance department folder)
+├── AgriCulture Department\        (Agriculture department folder)
+├── education\          (Education department folder)
+├── health\             (Health department folder)
+└── JavaScript File\                 (JavaScript files)
+
 backend
 └── DB Backend
     └── db_connect.php
@@ -41,10 +44,8 @@ Database
 ├── schemes.sql
 ├── applications.sql
 └── complaints.sql
+```
 
-
-
----
 
 ## 💡 Usage
 
