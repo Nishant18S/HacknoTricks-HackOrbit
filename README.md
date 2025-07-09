@@ -18,8 +18,6 @@ This is the **Frontend and Database** part of the HacknoTricks HackOrbit project
 
 ## 📄 Files & Folders Structure 
 
-## 📂 Project Structure
-
 ```plaintext
 frontend
 ├── index.html
