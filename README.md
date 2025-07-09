@@ -1,8 +1,10 @@
 # 🌟 HacknoTricks HackOrbit
 
-This is the **Frontend and Database** part of the HacknoTricks HackOrbit project. It includes all user interface pages, department-specific modules (as folders), chatbot functionality and Complete Database Structure.
+This is the **Full Project** of the HacknoTricks HackOrbit project. It includes all user interface pages, department-specific modules (as folders), chatbot functionality, Complete Database Structure and Backend.
 
 ---
+
+## 🚀 Features
 
 ## 🚀 Features
 
@@ -10,9 +12,12 @@ This is the **Frontend and Database** part of the HacknoTricks HackOrbit project
 - ✅ User registration (signup) page
 - ✅ User login page
 - ✅ User dashboard page
-- ✅ Department modules: Education & Finance (structured as folders)
+- ✅ Department modules: Education, Finance, Agriculture, and Health (structured as folders)
 - ✅ Integrated chatbot for departments
 - ✅ Separate stylesheet for easy customization
+- ✅ Complete database structure (admins, users, schemes, applications, complaints)
+- ✅ Backend systems for database connectivity and data operations (using python flask)
+
 
 ---
 
@@ -33,8 +38,10 @@ frontend
 └── JavaScript File\                 (JavaScript files)
 
 backend
-└── DB Backend
-    └── db_connect.php
+└── admin    (Admin Panel)
+└── models    
+└── Python Backend    (Backebd Files to handle data)
+└── routes    (Routing)
 
 Database
 ├── admins.sql
