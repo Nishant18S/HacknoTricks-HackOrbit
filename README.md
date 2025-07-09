@@ -11,9 +11,10 @@
 
 ---
 
-<div align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3dqeTV5cWFpazlraHRkZXAwMGV6b2dtZmpkdTBnbDJxMnptazdpdiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oKIPwoeGErMmaI43C/giphy.gif" alt="HackOrbit Demo" width="80%">
-</div>
+![jan](https://github.com/user-attachments/assets/4ceeb547-15d6-4370-a56f-38f35d457171)
+
+
+>
 
 ---
 
