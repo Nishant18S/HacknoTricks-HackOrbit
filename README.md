@@ -1,6 +1,6 @@
-# 🌟 Frontend - HacknoTricks HackOrbit
+# 🌟 HacknoTricks HackOrbit
 
-This is the **Frontend** part of the HacknoTricks HackOrbit project. It includes all user interface pages, department-specific modules (as folders), and chatbot functionality.
+This is the **Frontend and Database** part of the HacknoTricks HackOrbit project. It includes all user interface pages, department-specific modules (as folders), chatbot functionality and Complete Database Structure.
 
 ---
 
@@ -16,21 +16,33 @@ This is the **Frontend** part of the HacknoTricks HackOrbit project. It includes
 
 ---
 
-## 📄 Files & Folders
+## 📄 Files & Folders Structure 
 
-- `index.html` — Main landing page
-- `index.css` — Stylesheet for all pages
-- `login.html` — Login page for existing users
-- `signup.html` — Registration page for new users
-- `dashboard.html` — User dashboard page after login
-- `dashboard.css` — Stylesheet for all dashboard page
-- `education/` — Education department folder 
-- `finance/` — Finance department folder
-<<<<<<< HEAD
-=======
-- `health/` — Health department folder
+frontend
+├── index.html
+├── index.css
+├── login.html
+├── signup.html
+├── dashboard.html
+├── dashboard.css
+├── finance\ — Finance department folder 
+├── agriculture\ — Agriculture department folder 
+├── education\ — Education department folder 
+├── health\ — Health department folder 
+└── JavaScript File\
+ 
+backend
+└── DB Backend
+    └── db_connect.php
 
->>>>>>> 335623b049c551e3452347d922f3cd07a0e39c73
+Database
+├── admins.sql
+├── users.sql
+├── schemes.sql
+├── applications.sql
+└── complaints.sql
+
+
 
 ---
 
