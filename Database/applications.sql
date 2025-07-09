@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2025 at 10:19 AM
+-- Generation Time: Jul 09, 2025 at 05:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,10 +42,11 @@ CREATE TABLE `applications` (
 --
 
 INSERT INTO `applications` (`id`, `application_id`, `user_id`, `scheme_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'APP_001', 'USR_001', 'USR_001', 'Pending', '2025-07-09 06:46:18', '2025-07-09 06:46:18'),
-(2, 'APP_002', 'USR_002', 'USR_002', 'Approved', '2025-07-09 06:46:18', '2025-07-09 06:46:18'),
-(3, 'APP_003', 'USR_003', 'USR_003', 'Rejected', '2025-07-09 06:46:18', '2025-07-09 06:46:18'),
-(4, 'APP_004', 'USR_004', 'USR_004', 'Pending', '2025-07-09 06:46:18', '2025-07-09 06:46:18');
+(1, 'A001', NULL, 'S003', 'Approved', '2025-07-09 15:14:03', '2025-07-09 15:57:58'),
+(2, 'A002', 'U002', 'S004', 'Pending', '2025-07-09 15:14:03', '2025-07-09 15:14:03'),
+(3, 'A003', 'U003', 'S001', 'Approved', '2025-07-09 15:14:03', '2025-07-09 15:14:03'),
+(4, 'A004', 'U004', 'S002', 'Rejected', '2025-07-09 15:14:03', '2025-07-09 15:14:03'),
+(5, 'A005', 'U005', 'S005', 'In Review', '2025-07-09 15:14:03', '2025-07-09 15:14:03');
 
 --
 -- Indexes for dumped tables
@@ -68,7 +69,7 @@ ALTER TABLE `applications`
 -- AUTO_INCREMENT for table `applications`
 --
 ALTER TABLE `applications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -79,7 +80,7 @@ ALTER TABLE `applications`
 --
 ALTER TABLE `applications`
   ADD CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`scheme_id`) REFERENCES `schemes` (`user_id`);
+  ADD CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`scheme_id`) REFERENCES `schemes` (`scheme_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

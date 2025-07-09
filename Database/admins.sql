@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2025 at 10:19 AM
+-- Generation Time: Jul 09, 2025 at 05:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,21 +29,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admins` (
   `id` int(11) NOT NULL,
-  `admin_id` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `full_name` varchar(255) DEFAULT NULL,
-  `password_hash` varchar(255) NOT NULL
+  `username` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`id`, `admin_id`, `username`, `full_name`, `password_hash`) VALUES
-(1, 'ADM_001', 'admin1', 'Education Department Admin', 'pass1'),
-(2, 'ADM_002', 'admin2', 'Health Department Admin', 'pass2'),
-(3, 'ADM_003', 'admin3', 'Agriculture Department Admin', 'pass3'),
-(4, 'ADM_004', 'super_admin', 'System Super Admin', 'pass4');
+INSERT INTO `admins` (`id`, `username`, `password`) VALUES
+(1, 'ravi', 'Ravi@123'),
+(2, 'ananya', 'Ananya@123'),
+(3, 'vikram', 'Vikram@123'),
+(4, 'meena', 'Meena@123'),
+(5, 'suresh', 'Suresh@123');
 
 --
 -- Indexes for dumped tables
@@ -54,7 +53,6 @@ INSERT INTO `admins` (`id`, `admin_id`, `username`, `full_name`, `password_hash`
 --
 ALTER TABLE `admins`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `admin_id` (`admin_id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
@@ -65,7 +63,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

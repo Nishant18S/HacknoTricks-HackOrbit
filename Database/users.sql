@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2025 at 10:18 AM
+-- Generation Time: Jul 09, 2025 at 05:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,10 +46,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `username`, `email`, `name`, `phone_number`, `dob`, `address`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'USR_001', 'rahul_sharma', 'rahul.sharma@example.com', 'Rahul Sharma', '919876543210', '1985-05-15', '24, Green Park, New Delhi', 'hashed_password_1', '2025-07-09 06:42:19', '2025-07-09 06:42:19'),
-(2, 'USR_002', 'priya_patel', 'priya.patel@example.com', 'Priya Patel', '919876543211', '1990-08-22', '45, MG Road, Mumbai', 'hashed_password_2', '2025-07-09 06:42:19', '2025-07-09 06:42:19'),
-(3, 'USR_003', 'amit_kumar', 'amit.kumar@example.com', 'Amit Kumar', '919876543212', '1988-11-30', '12, Sector 15, Noida', 'hashed_password_3', '2025-07-09 06:42:19', '2025-07-09 06:42:19'),
-(4, 'USR_004', 'neha_verma', 'neha.verma@example.com', 'Neha Verma', '919876543213', '1992-03-10', '8, Richmond Road, Bangalore', 'hashed_password_4', '2025-07-09 06:42:19', '2025-07-09 06:42:19');
+(2, 'U002', 'sneha98', 'sneha@gmail.com', 'Sneha Rani', '9123456780', '1998-09-23', 'Mumbai, India', 'hashed_pw2', '2025-07-09 15:13:06', '2025-07-09 15:13:06'),
+(3, 'U003', 'arjun_s', 'arjun@gmail.com', 'Arjun Singh', '9012345678', '1992-11-05', 'Lucknow, India', 'hashed_pw3', '2025-07-09 15:13:06', '2025-07-09 15:13:06'),
+(4, 'U004', 'meera99', 'meera@gmail.com', 'Meera Joshi', '7890123456', '1999-01-17', 'Chennai, India', 'hashed_pw4', '2025-07-09 15:13:06', '2025-07-09 15:13:06'),
+(5, 'U005', 'vikas01', 'vikas@gmail.com', 'Vikas Patel', '8800123456', '1990-07-30', 'Bengaluru, India', 'hashed_pw5', '2025-07-09 15:13:06', '2025-07-09 15:13:06');
 
 --
 -- Indexes for dumped tables
@@ -71,7 +71,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

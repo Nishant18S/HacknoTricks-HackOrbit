@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2025 at 10:18 AM
+-- Generation Time: Jul 09, 2025 at 05:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,11 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `complaints` (
   `id` int(11) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `complaint_id` varchar(255) NOT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  `grievance_name` varchar(255) DEFAULT NULL,
   `description` text NOT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `dept_name` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT 'Pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -43,12 +44,12 @@ CREATE TABLE `complaints` (
 -- Dumping data for table `complaints`
 --
 
-INSERT INTO `complaints` (`id`, `user_id`, `username`, `description`, `location`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'USR_001', 'rahul_sharma', 'PM-KISAN installment for June 2025 not credited to my bank account despite eligibility confirmation SMS received', 'Green Park, New Delhi', 'kisan_complaint.jpg', 'Pending', '2025-07-09 06:59:48', '2025-07-09 06:59:48'),
-(2, 'USR_002', 'priya_patel', 'Ayushman Bharat card rejected at Mumbai General Hospital citing invalid registration, though I have approval message', 'MG Road, Mumbai', 'ayushman_rejection.pdf', 'In Progress', '2025-07-09 06:59:48', '2025-07-09 06:59:48'),
-(3, 'USR_003', 'amit_kumar', 'PM-SVANidhi loan application pending for over 8 weeks, no update from local Udyam Mitra office', 'Sector 15, Noida', NULL, 'Pending', '2025-07-09 06:59:48', '2025-07-09 06:59:48'),
-(4, 'USR_004', 'neha_verma', 'PM-SHRI school admission portal not accepting documents upload for past 3 days, technical error persists', 'Richmond Road, Bangalore', 'portal_error.png', 'Escalated', '2025-07-09 06:59:48', '2025-07-09 06:59:48'),
-(5, 'USR_002', 'priya_patel', 'Second complaint: CSC center charging ₹200 extra for PM-JAY registration which should be free as per guidelines', 'Andheri East, Mumbai', 'csc_receipt.jpg', 'Pending', '2025-07-09 06:59:48', '2025-07-09 06:59:48');
+INSERT INTO `complaints` (`id`, `complaint_id`, `user_id`, `grievance_name`, `description`, `address`, `dept_name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'C001', NULL, 'Scholarship Delay', 'Scholarship not credited even after approval.', 'Delhi, India', 'education', 'Done', '2025-07-09 15:13:26', '2025-07-09 15:57:58'),
+(2, 'C002', 'U002', 'Pension Issue', 'Pension payment not received for last 2 months.', 'Mumbai, India', 'finance', 'Pending', '2025-07-09 15:13:26', '2025-07-09 15:13:26'),
+(3, 'C003', 'U003', 'Fertilizer Shortage', 'Fertilizer not available in local stores.', 'Lucknow, India', 'agriculture', 'Resolved', '2025-07-09 15:13:26', '2025-07-09 15:13:26'),
+(4, 'C004', 'U004', 'Hospital Staff Issue', 'Negligence by staff at government hospital.', 'Chennai, India', 'health', 'In Progress', '2025-07-09 15:13:26', '2025-07-09 15:13:26'),
+(5, 'C005', 'U005', 'Loan Subsidy Delay', 'Subsidy on agriculture loan not processed.', 'Bengaluru, India', 'finance', 'Pending', '2025-07-09 15:13:26', '2025-07-09 15:13:26');
 
 --
 -- Indexes for dumped tables
@@ -59,8 +60,8 @@ INSERT INTO `complaints` (`id`, `user_id`, `username`, `description`, `location`
 --
 ALTER TABLE `complaints`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `username` (`username`);
+  ADD UNIQUE KEY `complaint_id` (`complaint_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -80,8 +81,7 @@ ALTER TABLE `complaints`
 -- Constraints for table `complaints`
 --
 ALTER TABLE `complaints`
-  ADD CONSTRAINT `complaints_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `complaints_ibfk_2` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
+  ADD CONSTRAINT `complaints_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2025 at 10:18 AM
+-- Generation Time: Jul 09, 2025 at 05:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,14 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `schemes` (
   `id` int(11) NOT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
+  `scheme_id` varchar(255) NOT NULL,
   `scheme_name` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `dept_name` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
   `eligibility_desc` text DEFAULT NULL,
   `benefits_desc` text DEFAULT NULL,
+  `dept_name` varchar(255) DEFAULT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -46,11 +44,12 @@ CREATE TABLE `schemes` (
 -- Dumping data for table `schemes`
 --
 
-INSERT INTO `schemes` (`id`, `user_id`, `scheme_name`, `description`, `address`, `dept_name`, `status`, `eligibility_desc`, `benefits_desc`, `amount`, `created_at`, `updated_at`) VALUES
-(1, 'USR_001', 'PM-SHRI Schools', 'Upgradation of schools to model schools with modern infrastructure', 'Ministry of Education, New Delhi', 'Education', 'Active', 'Government and aided schools meeting criteria', 'Modern infrastructure, smart classrooms, vocational education', 5000000.00, '2025-07-09 06:42:20', '2025-07-09 06:42:20'),
-(2, 'USR_002', 'Ayushman Bharat', 'National health protection scheme for poor families', 'Ministry of Health, New Delhi', 'Health', 'Active', 'Families in SEC categories as per SECC data', 'Health cover of ₹5 lakh per family per year', 500000.00, '2025-07-09 06:42:20', '2025-07-09 06:42:20'),
-(3, 'USR_003', 'PM-KISAN', 'Income support scheme for farmers', 'Ministry of Agriculture, New Delhi', 'Agriculture', 'Active', 'Landholding farmer families', '₹6,000 per year in 3 equal installments', 6000.00, '2025-07-09 06:42:20', '2025-07-09 06:42:20'),
-(4, 'USR_004', 'PM-SVANidhi', 'Micro credit scheme for street vendors', 'Ministry of Finance, New Delhi', 'Finance', 'Active', 'Street vendors operating before March 24, 2020', 'Working capital loan up to ₹10,000', 10000.00, '2025-07-09 06:42:20', '2025-07-09 06:42:20');
+INSERT INTO `schemes` (`id`, `scheme_id`, `scheme_name`, `description`, `eligibility_desc`, `benefits_desc`, `dept_name`, `amount`, `created_at`, `updated_at`) VALUES
+(1, 'S001', 'Pradhan Mantri Kisan Samman Nidhi', 'Income support scheme for farmers.', 'Small and marginal farmers.', '₹6000 per year support.', 'agriculture', 6000.00, '2025-07-09 15:13:47', '2025-07-09 15:13:47'),
+(2, 'S002', 'Ayushman Bharat', 'Health insurance scheme.', 'Low-income families.', 'Up to ₹5 lakh medical coverage.', 'health', 500000.00, '2025-07-09 15:13:47', '2025-07-09 15:13:47'),
+(3, 'S003', 'National Scholarship', 'Scholarship for meritorious students.', 'Students with annual family income below ₹8 lakh.', 'Tuition fee waiver and stipend.', 'education', 50000.00, '2025-07-09 15:13:47', '2025-07-09 15:13:47'),
+(4, 'S004', 'PM Jan Dhan Yojana', 'Financial inclusion scheme.', 'All Indian citizens.', 'Zero balance savings account.', 'finance', 0.00, '2025-07-09 15:13:47', '2025-07-09 15:13:47'),
+(5, 'S005', 'Stand Up India', 'Loans for SC/ST and women entrepreneurs.', 'SC/ST or women above 18 years.', 'Loans from ₹10 lakh to ₹1 crore.', 'finance', 1000000.00, '2025-07-09 15:13:47', '2025-07-09 15:13:47');
 
 --
 -- Indexes for dumped tables
@@ -61,7 +60,7 @@ INSERT INTO `schemes` (`id`, `user_id`, `scheme_name`, `description`, `address`,
 --
 ALTER TABLE `schemes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD UNIQUE KEY `scheme_id` (`scheme_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -71,17 +70,7 @@ ALTER TABLE `schemes`
 -- AUTO_INCREMENT for table `schemes`
 --
 ALTER TABLE `schemes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `schemes`
---
-ALTER TABLE `schemes`
-  ADD CONSTRAINT `schemes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
