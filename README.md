@@ -11,7 +11,8 @@
 
 ---
 
-![jan](https://github.com/user-attachments/assets/4ceeb547-15d6-4370-a56f-38f35d457171)
+[![jan](https://github.com/user-attachments/assets/178889fd-b963-4d63-ae87-258f0a4721d6)](https://jan-aimitra.netlify.app/digitaltech.html)
+
 
 
 >
@@ -98,9 +99,11 @@ flask run
 
 ## 📸 Screenshots
 
+
 | 🏠 Index Page | 🧭 Dashboard | 🤖 Chatbot |
+
 |---------------|--------------|------------|
-| ![Index](https://user-images.githubusercontent.com/0000000/index-page.png) | ![Dashboard](https://user-images.githubusercontent.com/0000000/dashboard.png) | ![Chatbot](https://user-images.githubusercontent.com/0000000/chatbot.png) |
+| ![inde](https://github.com/user-attachments/assets/f07a7eac-e325-4ce6-bfca-de41278a4841)  ![dash](https://github.com/user-attachments/assets/781c4439-3b1f-4cb7-b836-24102af87f17)  ![jan](https://github.com/user-attachments/assets/670c704e-efe2-4c77-9346-1d789e5b5a50) 
 
 ---
 
