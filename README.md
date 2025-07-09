@@ -6,8 +6,6 @@ This is the **Full Project** of the HacknoTricks HackOrbit project. It includes 
 
 ## 🚀 Features
 
-## 🚀 Features
-
 - ✅ Clean and responsive index page
 - ✅ User registration (signup) page
 - ✅ User login page
