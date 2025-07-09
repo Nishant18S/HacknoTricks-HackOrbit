@@ -11,7 +11,7 @@
 
 ---
 
-[![jan](https://github.com/user-attachments/assets/178889fd-b963-4d63-ae87-258f0a4721d6)](https://jan-aimitra.netlify.app/digitaltech.html)
+[![jan](https://github.com/user-attachments/assets/178889fd-b963-4d63-ae87-258f0a4721d6)](https://janai-mitra-hacknotrics.vercel.app/)
 
 
 
